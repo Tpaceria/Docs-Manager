@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Docs_Manager.View.PersonalPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Личные данные">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <Label Text="Основная информация"
+                   FontSize="20"
+                   FontAttributes="Bold"/>
+
+            <Border StrokeShape="RoundRectangle 12"
+                    Stroke="#2E2E2E"
+                    Padding="16">
+
+                <VerticalStackLayout Spacing="12">
+
+                    <Entry x:Name="FirstNameEntry"
+                           Placeholder="Имя" />
+
+                    <Entry x:Name="LastNameEntry"
+                           Placeholder="Фамилия" />
+
+                    <Entry x:Name="EmailEntry"
+                           Placeholder="Email"
+                           Keyboard="Email" />
+
+                    <DatePicker x:Name="BirthDatePicker"/>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <Button Text="Сохранить"
+                    HeightRequest="50"
+                    Clicked="OnSaveClicked"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

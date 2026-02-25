@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Docs_Manager.View.EditCertificatePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Редактирование">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Entry x:Name="NameEntry"
+                   Placeholder="Название сертификата" />
+
+            <Entry x:Name="NumberEntry"
+                   Placeholder="Номер" />
+
+            <DatePicker x:Name="IssueDatePicker" />
+
+            <DatePicker x:Name="ExpiryDatePicker" />
+
+            <HorizontalStackLayout Spacing="10">
+                <Label Text="Бессрочный"
+                       VerticalOptions="Center"/>
+                <Switch x:Name="LifetimeSwitch"/>
+            </HorizontalStackLayout>
+
+            <Button Text="Сохранить"
+                    Clicked="OnSaveClicked"/>
+
+            <Button Text="Удалить"
+                    BackgroundColor="#F44336"
+                    Clicked="OnDeleteClicked"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

@@ -1,0 +1,27 @@
+<Shell
+    x:Class="Docs_Manager.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Docs_Manager.View"
+    Shell.FlyoutBehavior="Flyout">
+
+    <FlyoutItem Title="Профиль">
+        <ShellContent Title="Личные данные"
+                      ContentTemplate="{DataTemplate views:PersonalPage}" />
+        <ShellContent Title="О себе"
+                      ContentTemplate="{DataTemplate views:AboutPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Карьера">
+        <ShellContent Title="Опыт работы"
+                      ContentTemplate="{DataTemplate views:ExperiencePage}" />
+        <ShellContent Title="Сертификаты"
+                      ContentTemplate="{DataTemplate views:CertificatesPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Документы">
+        <ShellContent Title="Документы"
+                      ContentTemplate="{DataTemplate views:DocumentsPage}" />
+    </FlyoutItem>
+
+</Shell>
