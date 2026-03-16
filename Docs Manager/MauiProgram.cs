@@ -1,4 +1,6 @@
-﻿using Docs_Manager.Data;
+﻿using Docs_Manager;
+using Docs_Manager.Data;
+using Docs_Manager.Services;
 using Docs_Manager.View;
 using Microsoft.Extensions.Logging;
 
@@ -22,18 +24,14 @@ public static class MauiProgram
         builder.Logging.AddDebug();
 #endif
 
-        // -----------------------------
         // Services
-        // -----------------------------
-
         builder.Services.AddSingleton<DatabaseService>();
+        builder.Services.AddSingleton<FileStorageService>();
+        builder.Services.AddSingleton<FileShareService>();
 
-        // Регистрируем страницы
+        // Pages
         builder.Services.AddTransient<PersonalPage>();
-        builder.Services.AddTransient<AboutPage>();
-        builder.Services.AddTransient<ExperiencePage>();
-        builder.Services.AddTransient<CertificatesPage>();
-        builder.Services.AddTransient<DocumentsPage>();
+        builder.Services.AddTransient<FilesPage>();
 
         return builder.Build();
     }

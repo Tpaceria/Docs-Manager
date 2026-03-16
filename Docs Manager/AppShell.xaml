@@ -5,23 +5,14 @@
     xmlns:views="clr-namespace:Docs_Manager.View"
     Shell.FlyoutBehavior="Flyout">
 
-    <FlyoutItem Title="Профиль">
-        <ShellContent Title="Личные данные"
+    <FlyoutItem Title="Profile">
+        <ShellContent Title="Personal Data"
                       ContentTemplate="{DataTemplate views:PersonalPage}" />
-        <ShellContent Title="О себе"
-                      ContentTemplate="{DataTemplate views:AboutPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Карьера">
-        <ShellContent Title="Опыт работы"
-                      ContentTemplate="{DataTemplate views:ExperiencePage}" />
-        <ShellContent Title="Сертификаты"
-                      ContentTemplate="{DataTemplate views:CertificatesPage}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="Документы">
-        <ShellContent Title="Документы"
-                      ContentTemplate="{DataTemplate views:DocumentsPage}" />
+    <FlyoutItem Title="Files">
+        <ShellContent Title="My Files"
+                      ContentTemplate="{DataTemplate views:FilesPage}" />
     </FlyoutItem>
 
 </Shell>
