@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="Docs_Manager.View.FilesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Files Manager">
+
+    <Grid RowDefinitions="Auto, *">
+
+        <Button
+            Text="+ Add File"
+            Clicked="OnAddFileClicked"
+            Margin="10"
+            HorizontalOptions="End"
+            BackgroundColor="#007AFF"/>
+
+        <CollectionView
+            Grid.Row="1"
+            Margin="10"
+            ItemsSource="{Binding Files}">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout Padding="10" Spacing="10">
+
+                        <Frame 
+                            BorderColor="#E0E0E0"
+                            CornerRadius="12"
+                            HasShadow="True"
+                            Padding="15">
+
+                            <Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="*, Auto" ColumnSpacing="10" RowSpacing="8">
+
+                                <Label 
+                                    Grid.Column="0"
+                                    Grid.Row="0"
+                                    Text="{Binding FileName}"
+                                    FontSize="16"
+                                    FontAttributes="Bold"
+                                    LineBreakMode="TailTruncation"/>
+
+                                <Label 
+                                    Grid.Column="1"
+                                    Grid.Row="0"
+                                    Text="{Binding FileType, StringFormat='{0}'}"
+                                    BackgroundColor="#007AFF"
+                                    TextColor="White"
+                                    Padding="8,4"
+                                    FontSize="12"
+                                    FontAttributes="Bold"
+                                    HorizontalTextAlignment="Center"/>
+
+                                <Label 
+                                    Grid.Column="0"
+                                    Grid.Row="1"
+                                    Text="{Binding FileSizeDisplay}"
+                                    FontSize="13"
+                                    TextColor="#666666"/>
+
+                                <Label 
+                                    Grid.Column="0"
+                                    Grid.Row="2"
+                                    Text="{Binding UploadDate, StringFormat='Uploaded: {0:dd.MM.yyyy HH:mm}'}"
+                                    FontSize="12"
+                                    TextColor="#999999"/>
+
+                                <HorizontalStackLayout 
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    Grid.RowSpan="2"
+                                    Spacing="8"
+                                    VerticalOptions="End">
+
+                                    <Button
+                                        Text="Share"
+                                        Clicked="OnShareClicked"
+                                        CommandParameter="{Binding .}"
+                                        Padding="10,8"
+                                        FontSize="12"
+                                        BackgroundColor="#34C759"/>
+
+                                    <Button
+                                        Text="Delete"
+                                        Clicked="OnDeleteClicked"
+                                        CommandParameter="{Binding .}"
+                                        Padding="10,8"
+                                        FontSize="12"
+                                        BackgroundColor="#FF3B30"/>
+
+                                </HorizontalStackLayout>
+
+                            </Grid>
+
+                        </Frame>
+
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </Grid>
+
+</ContentPage>

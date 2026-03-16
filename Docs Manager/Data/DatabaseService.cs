@@ -18,8 +18,10 @@ namespace Docs_Manager.Data
             // Создаём таблицы
             _database.CreateTableAsync<Document>().Wait();
             _database.CreateTableAsync<UserProfile>().Wait();
-            _database.CreateTableAsync<Certificate>().Wait();   // ← ВОТ ЭТОГО НЕ ХВАТАЛО
+            _database.CreateTableAsync<Certificate>().Wait();
+            _database.CreateTableAsync<StoredFile>().Wait();
         }
+
         // -------------------------
         // DOCUMENTS
         // -------------------------
@@ -85,5 +87,33 @@ namespace Docs_Manager.Data
             return _database.DeleteAsync(certificate);
         }
 
+        // -------------------------
+        // STORED FILES
+        // -------------------------
+
+        public Task<List<StoredFile>> GetStoredFilesAsync()
+        {
+            return _database.Table<StoredFile>().ToListAsync();
+        }
+
+        public async Task<StoredFile?> GetStoredFileAsync(int fileId)
+        {
+            return await _database.Table<StoredFile>()
+                                  .Where(x => x.Id == fileId)
+                                  .FirstOrDefaultAsync();
+        }
+
+        public Task<int> SaveStoredFileAsync(StoredFile file)
+        {
+            if (file.Id != 0)
+                return _database.UpdateAsync(file);
+            else
+                return _database.InsertAsync(file);
+        }
+
+        public Task<int> DeleteStoredFileAsync(StoredFile file)
+        {
+            return _database.DeleteAsync(file);
+        }
     }
 }
