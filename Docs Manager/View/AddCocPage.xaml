@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Docs_Manager.View.AddCocPage"
+             Title="Add COC &amp; Endorsement">
+
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+        <!-- Header -->
+        <StackLayout Orientation="Horizontal" Spacing="10">
+            <Label Text="📋" FontSize="28"/>
+            <Label Text="ADD COC &amp; ENDORSEMENT" FontSize="20" FontAttributes="Bold" TextColor="#FF6B35"/>
+        </StackLayout>
+
+        <ScrollView>
+            <VerticalStackLayout Spacing="15">
+
+                <!-- File Name -->
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="COC Name:" FontSize="12" FontAttributes="Bold"/>
+                    <Entry x:Name="CocNameEntry" 
+                           Placeholder="e.g., COC Class A"
+                           BackgroundColor="#F5F5F5"/>
+                </VerticalStackLayout>
+
+                <!-- Description -->
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Description:" FontSize="12" FontAttributes="Bold"/>
+                    <Editor x:Name="DescriptionEditor" 
+                            Placeholder="Add notes about this COC"
+                            BackgroundColor="#F5F5F5"
+                            HeightRequest="100"/>
+                </VerticalStackLayout>
+
+                <!-- Pick File -->
+                <Button x:Name="PickFileButton"
+                        Text="📁 Choose File"
+                        BackgroundColor="#17A2B8"
+                        TextColor="White"
+                        Clicked="OnPickFileClicked"
+                        Padding="15,10"/>
+
+                <!-- Selected File Info -->
+                <StackLayout x:Name="FileInfoStack" IsVisible="False" Spacing="5">
+                    <Label Text="Selected File:" FontSize="12" FontAttributes="Bold" TextColor="#333333"/>
+                    <Label x:Name="FileNameLabel" FontSize="14" TextColor="#0099CC"/>
+                    <Label x:Name="FileSizeLabel" FontSize="12" TextColor="#666666"/>
+                </StackLayout>
+
+                <!-- Expiration Date (Optional) -->
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Expiration Date (Optional):" FontSize="12" FontAttributes="Bold"/>
+                    <DatePicker x:Name="ExpirationDatePicker"
+                               BackgroundColor="#F5F5F5"/>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Buttons -->
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,20,0,0">
+            <Button Text="Save" 
+                    BackgroundColor="#28A745"
+                    TextColor="White"
+                    Clicked="OnSaveClicked"
+                    Grid.Column="0"/>
+
+            <Button Text="Cancel" 
+                    BackgroundColor="#E0E0E0"
+                    TextColor="#333333"
+                    Clicked="OnCancelClicked"
+                    Grid.Column="1"/>
+        </Grid>
+
+    </VerticalStackLayout>
+
+</ContentPage>

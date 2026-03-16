@@ -20,6 +20,8 @@ namespace Docs_Manager.Data
             _database.CreateTableAsync<UserProfile>().Wait();
             _database.CreateTableAsync<Certificate>().Wait();
             _database.CreateTableAsync<StoredFile>().Wait();
+            _database.CreateTableAsync<Experience>().Wait();
+            _database.CreateTableAsync<StoredFile>().Wait();
         }
 
         // -------------------------
@@ -115,6 +117,58 @@ namespace Docs_Manager.Data
         {
             return _database.DeleteAsync(file);
         }
+
+        // -------------------------
+        // EXPERIENCE
+        // -------------------------
+
+        public Task<List<Experience>> GetExperiencesAsync()
+        {
+            return _database.Table<Experience>().ToListAsync();
+        }
+
+        public Task<int> SaveExperienceAsync(Experience experience)
+        {
+            if (experience.Id != 0)
+                return _database.UpdateAsync(experience);
+            else
+                return _database.InsertAsync(experience);
+        }
+
+        public Task<int> DeleteExperienceAsync(Experience experience)
+        {
+            return _database.DeleteAsync(experience);
+        }
+
+        // -------------------------
+        // FILES
+        // -------------------------
+
+        public Task<List<StoredFile>> GetFilesByCategoryAsync(string category)
+        {
+            return _database.Table<StoredFile>()
+                .Where(f => f.Category == category)
+                .ToListAsync();
+        }
+
+        public Task<List<StoredFile>> GetAllFilesAsync()
+        {
+            return _database.Table<StoredFile>().ToListAsync();
+        }
+
+        public Task<int> SaveFileAsync(StoredFile file)
+        {
+            if (file.Id != 0)
+                return _database.UpdateAsync(file);
+            else
+                return _database.InsertAsync(file);
+        }
+
+        public Task<int> DeleteFileAsync(StoredFile file)
+        {
+            return _database.DeleteAsync(file);
+        }
+    
     }
 
 
