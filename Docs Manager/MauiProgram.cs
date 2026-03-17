@@ -33,6 +33,9 @@ public static class MauiProgram
         builder.Services.AddTransient<PersonalPage>();
         builder.Services.AddTransient<FilesPage>();
 
+        //EXPERIENCE
+        builder.Services.AddTransient<ExperiencePage>();
+
         return builder.Build();
     }
 }

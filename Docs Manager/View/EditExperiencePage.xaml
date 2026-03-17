@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Docs_Manager.View.EditExperiencePage"
+             Title="Add Trip">
+
+    <VerticalStackLayout Padding="20" Spacing="10">
+
+        <!-- Copy from last Trip -->
+        <StackLayout Orientation="Horizontal" Spacing="10">
+            <Label Text="📋" FontSize="16"/>
+            <Label Text="Copy from the last Trip" TextColor="#0099CC" FontSize="14"/>
+        </StackLayout>
+
+        <ScrollView>
+            <VerticalStackLayout Spacing="15">
+
+                <!-- Vessel / Shore Toggle -->
+                <StackLayout Orientation="Horizontal" Spacing="20">
+                    <StackLayout Orientation="Horizontal" Spacing="5">
+                        <RadioButton x:Name="VesselRadio" 
+                                   IsChecked="True"
+                                   GroupName="VesselGroup"/>
+                        <Label Text="⚓ Vessel" VerticalOptions="Center"/>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" Spacing="5">
+                        <RadioButton x:Name="ShoreRadio" 
+                                   GroupName="VesselGroup"/>
+                        <Label Text="🏢 Shore" VerticalOptions="Center"/>
+                    </StackLayout>
+                </StackLayout>
+
+                <!-- Row 1: Vessel Name & DWT -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <VerticalStackLayout Spacing="5" Grid.Column="0">
+                        <Label Text="Vessel Name:" FontSize="12" FontAttributes="Bold"/>
+                        <Entry x:Name="VesselNameEntry" 
+                               Placeholder="Yellow Submarine"
+                               BackgroundColor="#F5F5F5"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="5" Grid.Column="1">
+                        <Label Text="DWT, tonnes:" FontSize="12" FontAttributes="Bold"/>
+                        <Entry x:Name="DWTEntry" 
+                               Placeholder="0"
+                               Keyboard="Numeric"
+                               BackgroundColor="#F5F5F5"/>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!-- Row 2: Position & Vessel Type -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <VerticalStackLayout Spacing="5" Grid.Column="0">
+                        <Label Text="Your Position:" FontSize="12" FontAttributes="Bold"/>
+                        <Picker x:Name="PositionPicker"
+                                Title="Select"
+                                BackgroundColor="#F5F5F5">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Captain</x:String>
+                                    <x:String>Chief Officer</x:String>
+                                    <x:String>2nd Officer</x:String>
+                                    <x:String>3rd Officer</x:String>
+                                    <x:String>Chief Engineer</x:String>
+                                    <x:String>1st Engineer</x:String>
+                                    <x:String>2nd Engineer</x:String>
+                                    <x:String>3rd Engineer</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="5" Grid.Column="1">
+                        <Label Text="Vessel Type:" FontSize="12" FontAttributes="Bold"/>
+                        <Picker x:Name="VesselTypePicker"
+                                Title="Select"
+                                BackgroundColor="#F5F5F5">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Container Ship</x:String>
+                                    <x:String>Bulk Carrier</x:String>
+                                    <x:String>Tanker</x:String>
+                                    <x:String>General Cargo</x:String>
+                                    <x:String>RoRo Ship</x:String>
+                                    <x:String>Passenger Ship</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!-- Row 3: Flag & Year of Built -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <VerticalStackLayout Spacing="5" Grid.Column="0">
+                        <Label Text="Flag:" FontSize="12" FontAttributes="Bold"/>
+                        <Picker x:Name="FlagPicker"
+                                Title="Select"
+                                BackgroundColor="#F5F5F5">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Panama</x:String>
+                                    <x:String>Marshall Islands</x:String>
+                                    <x:String>Liberia</x:String>
+                                    <x:String>Hong Kong</x:String>
+                                    <x:String>Singapore</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="5" Grid.Column="1">
+                        <Label Text="Year of Built:" FontSize="12" FontAttributes="Bold"/>
+                        <Picker x:Name="YearPicker"
+                                Title="Select"
+                                BackgroundColor="#F5F5F5"/>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!-- Row 4: Sign On & Sign Off Dates -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <VerticalStackLayout Spacing="5" Grid.Column="0">
+                        <Label Text="Sign on date:" FontSize="12" FontAttributes="Bold"/>
+                        <DatePicker x:Name="SignOnDatePicker"
+                                   BackgroundColor="#F5F5F5"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="5" Grid.Column="1">
+                        <Label Text="Sign off date:" FontSize="12" FontAttributes="Bold"/>
+                        <DatePicker x:Name="SignOffDatePicker"
+                                   BackgroundColor="#F5F5F5"/>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!-- Row 5: Shipowner & Crewing Agency -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <VerticalStackLayout Spacing="5" Grid.Column="0">
+                        <Label Text="Shipowner:" FontSize="12" FontAttributes="Bold"/>
+                        <Entry x:Name="ShipownerEntry" 
+                               Placeholder="Yellow Submarine Corp."
+                               BackgroundColor="#F5F5F5"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="5" Grid.Column="1">
+                        <Label Text="Crewing Agency:" FontSize="12" FontAttributes="Bold"/>
+                        <Entry x:Name="CrewingAgencyEntry" 
+                               Placeholder="Yellow Agency"
+                               BackgroundColor="#F5F5F5"/>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!-- Row 6: Main Engine & ME Type -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <VerticalStackLayout Spacing="5" Grid.Column="0">
+                        <Label Text="Main Engine, kW:" FontSize="12" FontAttributes="Bold"/>
+                        <Entry x:Name="MainEngineEntry" 
+                               Placeholder="0"
+                               Keyboard="Numeric"
+                               BackgroundColor="#F5F5F5"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="5" Grid.Column="1">
+                        <Label Text="ME Type:" FontSize="12" FontAttributes="Bold"/>
+                        <Picker x:Name="METypePicker"
+                                Title="Select"
+                                BackgroundColor="#F5F5F5">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Diesel</x:String>
+                                    <x:String>Steam</x:String>
+                                    <x:String>Gas Turbine</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!-- IMO -->
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="IMO:" FontSize="12" FontAttributes="Bold"/>
+                    <Entry x:Name="IMOEntry" 
+                           Placeholder=""
+                           BackgroundColor="#F5F5F5"/>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Buttons -->
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,20,0,0">
+            <Button Text="Save" 
+                    BackgroundColor="#17A2B8"
+                    TextColor="White"
+                    Clicked="OnSaveClicked"
+                    Grid.Column="0"/>
+
+            <Button Text="Cancel" 
+                    BackgroundColor="#E0E0E0"
+                    TextColor="#333333"
+                    Clicked="OnCancelClicked"
+                    Grid.Column="1"/>
+        </Grid>
+
+    </VerticalStackLayout>
+
+</ContentPage>

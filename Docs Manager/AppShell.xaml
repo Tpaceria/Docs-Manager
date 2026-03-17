@@ -15,4 +15,9 @@
                       ContentTemplate="{DataTemplate views:FilesPage}" />
     </FlyoutItem>
 
+    <FlyoutItem Title="Experience">
+        <ShellContent Title="Experience Data"
+                      ContentTemplate="{DataTemplate views:ExperiencePage}" />
+    </FlyoutItem>
+
 </Shell>
