@@ -20,4 +20,19 @@
                       ContentTemplate="{DataTemplate views:ExperiencePage}" />
     </FlyoutItem>
 
+    <FlyoutItem Title="CV">
+        <ShellContent Title="My CV"
+                      ContentTemplate="{DataTemplate views:CvPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Send">
+        <ShellContent Title="Send Documents"
+                      ContentTemplate="{DataTemplate views:SendPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Notes">
+        <ShellContent Title="My Notes"
+                      ContentTemplate="{DataTemplate views:NotesPage}" />
+    </FlyoutItem>
+
 </Shell>

@@ -20,7 +20,7 @@ public partial class EditCertificatePage : ContentPage
 
         _certificate = certificate;
 
-        NameEntry.Text = certificate.Name;
+        NameEntry.Text = certificate.Document;
         NumberEntry.Text = certificate.Number;
         IssueDatePicker.Date = certificate.IssueDate;
         ExpiryDatePicker.Date = certificate.ExpiryDate;
@@ -29,7 +29,7 @@ public partial class EditCertificatePage : ContentPage
 
     private async void OnSaveClicked(object sender, EventArgs e)
     {
-        _certificate.Name = NameEntry.Text ?? "";
+        _certificate.Document = NameEntry.Text ?? "";
         _certificate.Number = NumberEntry.Text ?? "";
         _certificate.IssueDate = IssueDatePicker.Date ?? DateTime.Today;
         _certificate.ExpiryDate = ExpiryDatePicker.Date ?? DateTime.Today;
