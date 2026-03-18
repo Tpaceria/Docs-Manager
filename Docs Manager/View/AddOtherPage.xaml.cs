@@ -5,22 +5,47 @@ namespace Docs_Manager.View;
 
 public partial class AddOtherPage : ContentPage
 {
-    private readonly DatabaseService _database;
-    private string? _selectedFilePath;
-    private string? _selectedFileName;
+    readonly DatabaseService _database;
+    Certificate? _certificate;
+    string? _selectedFilePath;
 
     public AddOtherPage()
     {
         InitializeComponent();
-
-        _database = Application.Current!
-            .Handler!
-            .MauiContext!
-            .Services
-            .GetService<DatabaseService>()!;
+        _database = Application.Current!.Handler!.MauiContext!.Services.GetService<DatabaseService>()!;
     }
 
-    private async void OnPickFileClicked(object sender, EventArgs e)
+    public AddOtherPage(Certificate certificate) : this()
+    {
+        _certificate = certificate;
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (_certificate != null)
+        {
+            FileNameEntry.Text = _certificate.Document;
+            DescriptionEditor.Text = _certificate.Country;
+            ExpirationDatePicker.Date = _certificate.ExpiryDate;
+            _selectedFilePath = _certificate.FilePath;
+
+            if (!string.IsNullOrEmpty(_selectedFilePath))
+            {
+                FileInfoStack.IsVisible = true;
+                FileNameLabel.Text = Path.GetFileName(_selectedFilePath);
+            }
+
+            Title = "Edit Other";
+        }
+        else
+        {
+            ExpirationDatePicker.Date = DateTime.Today.AddYears(1);
+        }
+    }
+
+    async void OnPickFileClicked(object sender, EventArgs e)
     {
         try
         {
@@ -32,12 +57,10 @@ public partial class AddOtherPage : ContentPage
             if (result != null)
             {
                 _selectedFilePath = result.FullPath;
-                _selectedFileName = result.FileName;
-
                 var fileInfo = new FileInfo(_selectedFilePath);
                 long fileSize = fileInfo.Length;
 
-                FileNameLabel.Text = _selectedFileName;
+                FileNameLabel.Text = result.FileName;
                 FileSizeLabel.Text = $"Size: {FormatFileSize(fileSize)}";
                 FileInfoStack.IsVisible = true;
                 PickFileButton.Text = "✅ File Selected";
@@ -46,53 +69,49 @@ public partial class AddOtherPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlertAsync("Error", $"Failed to pick file: {ex.Message}", "OK", "");
+            await DisplayAlert("Error", $"Failed to pick file: {ex.Message}", "OK");
         }
     }
 
-    private async void OnSaveClicked(object sender, EventArgs e)
+    async void OnSaveClicked(object sender, EventArgs e)
     {
-        if (string.IsNullOrEmpty(_selectedFilePath))
-        {
-            await DisplayAlertAsync("Error", "Please select a file first", "OK", "");
-            return;
-        }
-
         if (string.IsNullOrEmpty(FileNameEntry.Text))
         {
-            await DisplayAlertAsync("Error", "Please enter a file name", "OK", "");
+            await DisplayAlert("Error", "Please enter a file name", "OK");
             return;
         }
 
         try
         {
-            var file = new StoredFile
+            var certificate = new Certificate
             {
-                FileName = FileNameEntry.Text,
-                Category = "other",
+                Id = _certificate?.Id ?? 0,
+                Document = FileNameEntry.Text,
+                Country = DescriptionEditor.Text ?? "",
+                Number = "",
+                IssueDate = DateTime.Today,
+                ExpiryDate = ExpirationDatePicker.Date ?? DateTime.Today,
+                IsLifetime = false,
                 FilePath = _selectedFilePath,
-                Description = DescriptionEditor.Text ?? "",
-                UploadDate = DateTime.Now,
-                FileType = Path.GetExtension(_selectedFileName ?? ""),
-                FileSizeBytes = new FileInfo(_selectedFilePath).Length
+                Category = "OTHER"
             };
 
-            await _database.SaveFileAsync(file);
-            await DisplayAlertAsync("Success", "File uploaded successfully!", "OK", "");
+            await _database.SaveCertificateAsync(certificate);
+            await DisplayAlert("Success", "File saved successfully!", "OK");
             await Navigation.PopAsync();
         }
         catch (Exception ex)
         {
-            await DisplayAlertAsync("Error", $"Failed to save: {ex.Message}", "OK", "");
+            await DisplayAlert("Error", $"Failed to save: {ex.Message}", "OK");
         }
     }
 
-    private async void OnCancelClicked(object sender, EventArgs e)
+    async void OnCancelClicked(object sender, EventArgs e)
     {
         await Navigation.PopAsync();
     }
 
-    private static string FormatFileSize(long bytes)
+    static string FormatFileSize(long bytes)
     {
         string[] sizes = { "B", "KB", "MB", "GB" };
         double len = bytes;

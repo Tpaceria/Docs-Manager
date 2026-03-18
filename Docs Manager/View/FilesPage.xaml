@@ -4,88 +4,73 @@
              x:Class="Docs_Manager.View.FilesPage"
              Title="Files">
 
-    <Grid RowDefinitions="Auto,Auto,*" Padding="0">
+    <VerticalStackLayout Padding="0" Spacing="0">
 
-        <!-- Add Button -->
-     
-        <Button Grid.Row="0"
-        x:Name="AddButton"
-        Text="+ Add Certificate"
-        BackgroundColor="Transparent"
-        TextColor="#0099CC"
-        FontSize="14"
-        Clicked="OnAddFileClicked"
-        Margin="10,10,0,10"
-        HorizontalOptions="Start"/>
+        <!-- Header -->
+        <VerticalStackLayout Padding="20" Spacing="10" BackgroundColor="#1a1a1a">
+            <StackLayout Orientation="Horizontal" Spacing="10">
+                <Label Text="📁" FontSize="28"/>
+                <Label Text="FILES &amp; CERTIFICATES" 
+                       FontSize="22" 
+                       FontAttributes="Bold"
+                       TextColor="#FF6B35"
+                       VerticalOptions="Center"/>
+            </StackLayout>
+            <Label Text="Select a category to manage your certificates"
+                   FontSize="13"
+                   TextColor="#AAAAAA"/>
+        </VerticalStackLayout>
 
-        <!-- Tabs/Categories Header -->
-        <HorizontalStackLayout Grid.Row="1" Padding="10,0" Spacing="0">
-            <Button Text="CERTIFICATES" 
-                    Clicked="OnCategoryButtonClicked"
-                    BackgroundColor="Transparent"
-                    TextColor="#0099CC"
+        <!-- Category Buttons -->
+        <VerticalStackLayout Padding="20" Spacing="12">
+
+            <Button Text="📄 CERTIFICATES"
+                    BackgroundColor="#FF6B35"
+                    TextColor="White"
+                    FontSize="14"
                     FontAttributes="Bold"
-                    Padding="15,10"
-                    HorizontalOptions="Start"/>
+                    Clicked="OnCertificatesClicked"
+                    HeightRequest="50"
+                    CornerRadius="8"/>
 
-            <Button Text="COC &amp; ENDORSEMENT" 
-                    Clicked="OnCategoryButtonClicked"
-                    BackgroundColor="Transparent"
-                    TextColor="#666666"
-                    Padding="15,10"
-                    HorizontalOptions="Start"/>
+            <Button Text="📜 COC &amp; ENDORSEMENT"
+                    BackgroundColor="#0099CC"
+                    TextColor="White"
+                    FontSize="14"
+                    FontAttributes="Bold"
+                    Clicked="OnCocClicked"
+                    HeightRequest="50"
+                    CornerRadius="8"/>
 
-            <Button Text="DOCUMENTS" 
-                    Clicked="OnCategoryButtonClicked"
-                    BackgroundColor="Transparent"
-                    TextColor="#666666"
-                    Padding="15,10"
-                    HorizontalOptions="Start"/>
+            <Button Text="📄 DOCUMENTS"
+                    BackgroundColor="#28A745"
+                    TextColor="White"
+                    FontSize="14"
+                    FontAttributes="Bold"
+                    Clicked="OnDocumentsClicked"
+                    HeightRequest="50"
+                    CornerRadius="8"/>
 
-            <Button Text="MEDICINE" 
-                    Clicked="OnCategoryButtonClicked"
-                    BackgroundColor="Transparent"
-                    TextColor="#666666"
-                    Padding="15,10"
-                    HorizontalOptions="Start"/>
+            <Button Text="🏥 MEDICINE"
+                    BackgroundColor="#DC3545"
+                    TextColor="White"
+                    FontSize="14"
+                    FontAttributes="Bold"
+                    Clicked="OnMedicineClicked"
+                    HeightRequest="50"
+                    CornerRadius="8"/>
 
-            <Button Text="OTHER" 
-                    Clicked="OnCategoryButtonClicked"
-                    BackgroundColor="Transparent"
-                    TextColor="#666666"
-                    Padding="15,10"
-                    HorizontalOptions="Start"/>
-        </HorizontalStackLayout>
+            <Button Text="📋 OTHER"
+                    BackgroundColor="#6C757D"
+                    TextColor="White"
+                    FontSize="14"
+                    FontAttributes="Bold"
+                    Clicked="OnOtherClicked"
+                    HeightRequest="50"
+                    CornerRadius="8"/>
 
-        <!-- Content Area -->
-        <CollectionView Grid.Row="2" x:Name="FilesCollection">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="10"/>
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Padding="20,10" Spacing="8" BackgroundColor="#F9F9F9" Margin="10,0">
-                        <Label Text="{Binding FileName}" FontSize="16" FontAttributes="Bold" TextColor="#333333"/>
-                        <Label Text="{Binding Category, StringFormat='Category: {0}'}" FontSize="12" TextColor="#666666"/>
-                        <Label Text="{Binding UploadDate, StringFormat='Uploaded: {0:dd.MM.yyyy}'}" FontSize="12" TextColor="#999999"/>
+        </VerticalStackLayout>
 
-                        <StackLayout Orientation="Horizontal" Spacing="10">
-                            <Label Text="Download" TextColor="#0066CC" FontSize="12">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer CommandParameter="{Binding .}" Tapped="OnDownloadFile"/>
-                                </Label.GestureRecognizers>
-                            </Label>
-                            <Label Text="Delete" TextColor="#CC0000" FontSize="12">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer CommandParameter="{Binding .}" Tapped="OnDeleteFile"/>
-                                </Label.GestureRecognizers>
-                            </Label>
-                        </StackLayout>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
-    </Grid>
+    </VerticalStackLayout>
 
 </ContentPage>

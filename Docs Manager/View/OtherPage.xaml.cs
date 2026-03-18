@@ -4,12 +4,12 @@ using System.Collections.ObjectModel;
 
 namespace Docs_Manager.View;
 
-public partial class DocumentsPage : ContentPage
+public partial class OtherPage : ContentPage
 {
     readonly DatabaseService _database;
     ObservableCollection<Certificate> _certificates;
 
-    public DocumentsPage()
+    public OtherPage()
     {
         InitializeComponent();
         _database = Application.Current!.Handler!.MauiContext!.Services.GetService<DatabaseService>()!;
@@ -28,19 +28,19 @@ public partial class DocumentsPage : ContentPage
         var all = await _database.GetCertificatesAsync();
         _certificates.Clear();
 
-        foreach (var cert in all.Where(c => c.Category == "DOCUMENTS"))
+        foreach (var cert in all.Where(c => c.Category == "OTHER"))
             _certificates.Add(cert);
     }
 
     async void OnAddCertificateClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new AddDocumentPage());
+        await Navigation.PushAsync(new AddOtherPage());
     }
 
     async void OnEditCertificateClicked(object sender, EventArgs e)
     {
         if (sender is Button button && button.CommandParameter is Certificate cert)
-            await Navigation.PushAsync(new AddDocumentPage(cert));
+            await Navigation.PushAsync(new AddOtherPage(cert));
     }
 
     async void OnDeleteCertificateClicked(object sender, EventArgs e)

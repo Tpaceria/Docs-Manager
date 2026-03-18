@@ -2,14 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Docs_Manager.View.AddOtherPage"
-             Title="Add File">
+             Title="Add Other">
 
     <VerticalStackLayout Padding="20" Spacing="15">
 
         <!-- Header -->
         <StackLayout Orientation="Horizontal" Spacing="10">
-            <Label Text="📎" FontSize="28"/>
-            <Label Text="ADD FILE" FontSize="20" FontAttributes="Bold" TextColor="#FF6B35"/>
+            <Label Text="📋" FontSize="28"/>
+            <Label Text="ADD OTHER" FontSize="20" FontAttributes="Bold" TextColor="#FF6B35"/>
         </StackLayout>
 
         <ScrollView>
@@ -19,7 +19,7 @@
                 <VerticalStackLayout Spacing="5">
                     <Label Text="File Name:" FontSize="12" FontAttributes="Bold"/>
                     <Entry x:Name="FileNameEntry" 
-                           Placeholder="e.g., My Document"
+                           Placeholder="e.g., Other Document"
                            BackgroundColor="#F5F5F5"/>
                 </VerticalStackLayout>
 
@@ -27,7 +27,7 @@
                 <VerticalStackLayout Spacing="5">
                     <Label Text="Description:" FontSize="12" FontAttributes="Bold"/>
                     <Editor x:Name="DescriptionEditor" 
-                            Placeholder="Add notes about this file"
+                            Placeholder="Add notes"
                             BackgroundColor="#F5F5F5"
                             HeightRequest="100"/>
                 </VerticalStackLayout>
@@ -47,9 +47,9 @@
                     <Label x:Name="FileSizeLabel" FontSize="12" TextColor="#666666"/>
                 </StackLayout>
 
-                <!-- Expiration Date (Optional) -->
+                <!-- Expiration Date -->
                 <VerticalStackLayout Spacing="5">
-                    <Label Text="Expiration Date (Optional):" FontSize="12" FontAttributes="Bold"/>
+                    <Label Text="Expiration Date:" FontSize="12" FontAttributes="Bold"/>
                     <DatePicker x:Name="ExpirationDatePicker"
                                BackgroundColor="#F5F5F5"/>
                 </VerticalStackLayout>

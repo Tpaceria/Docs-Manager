@@ -15,13 +15,12 @@ namespace Docs_Manager.Data
             var dbPath = Path.Combine(FileSystem.AppDataDirectory, "documents.db");
             _database = new SQLiteAsyncConnection(dbPath);
 
-            // Создаём таблицы
+            // Создаём таблицы (убрал дублирование StoredFile)
             _database.CreateTableAsync<Document>().Wait();
             _database.CreateTableAsync<UserProfile>().Wait();
             _database.CreateTableAsync<Certificate>().Wait();
             _database.CreateTableAsync<StoredFile>().Wait();
             _database.CreateTableAsync<Experience>().Wait();
-            _database.CreateTableAsync<StoredFile>().Wait();
         }
 
         // -------------------------
@@ -90,7 +89,7 @@ namespace Docs_Manager.Data
         }
 
         // -------------------------
-        // STORED FILES
+        // STORED FILES / FILES
         // -------------------------
 
         public Task<List<StoredFile>> GetStoredFilesAsync()
@@ -118,6 +117,29 @@ namespace Docs_Manager.Data
             return _database.DeleteAsync(file);
         }
 
+        // Alias методы для удобства
+        public Task<List<StoredFile>> GetFilesByCategoryAsync(string category)
+        {
+            return _database.Table<StoredFile>()
+                .Where(f => f.Category == category)
+                .ToListAsync();
+        }
+
+        public Task<List<StoredFile>> GetAllFilesAsync()
+        {
+            return _database.Table<StoredFile>().ToListAsync();
+        }
+
+        public Task<int> SaveFileAsync(StoredFile file)
+        {
+            return SaveStoredFileAsync(file);
+        }
+
+        public Task<int> DeleteFileAsync(StoredFile file)
+        {
+            return DeleteStoredFileAsync(file);
+        }
+
         // -------------------------
         // EXPERIENCE
         // -------------------------
@@ -140,36 +162,10 @@ namespace Docs_Manager.Data
             return _database.DeleteAsync(experience);
         }
 
-        // -------------------------
-        // FILES
-        // -------------------------
-
-        public Task<List<StoredFile>> GetFilesByCategoryAsync(string category)
+        public async Task UpdateExperienceAsync(Experience experience)
         {
-            return _database.Table<StoredFile>()
-                .Where(f => f.Category == category)
-                .ToListAsync();
+            await _database.UpdateAsync(experience);
         }
 
-        public Task<List<StoredFile>> GetAllFilesAsync()
-        {
-            return _database.Table<StoredFile>().ToListAsync();
-        }
-
-        public Task<int> SaveFileAsync(StoredFile file)
-        {
-            if (file.Id != 0)
-                return _database.UpdateAsync(file);
-            else
-                return _database.InsertAsync(file);
-        }
-
-        public Task<int> DeleteFileAsync(StoredFile file)
-        {
-            return _database.DeleteAsync(file);
-        }
-    
     }
-
-
 }

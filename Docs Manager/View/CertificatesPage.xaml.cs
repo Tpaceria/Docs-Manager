@@ -4,13 +4,13 @@ using System.Collections.ObjectModel;
 
 namespace Docs_Manager.View;
 
-public partial class CertificatesPage : ContentPage
+public partial class CertificatePage : ContentPage
 {
     private readonly DatabaseService _database;
 
     public ObservableCollection<Certificate> Certificates { get; set; } = new();
 
-    public CertificatesPage()
+    public CertificatePage()
     {
         InitializeComponent();
 
@@ -20,13 +20,14 @@ public partial class CertificatesPage : ContentPage
             .Services
             .GetService<DatabaseService>()!;
 
-        BindingContext = this;
+        CertificateCollectionView.ItemsSource = Certificates;
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
 
+        // ➕ ДОБАВЬ ЭТО - очищаем и перезагружаем
         Certificates.Clear();
         var list = await _database.GetCertificatesAsync();
 
@@ -34,28 +35,54 @@ public partial class CertificatesPage : ContentPage
             Certificates.Add(cert);
     }
 
-    private async void OnAddClicked(object? sender, EventArgs e)
+    private async void OnAddCertificateClicked(object? sender, EventArgs e)
     {
-        var cert = new Certificate
-        {
-            Name = "Новый сертификат",
-            Number = "",
-            IssueDate = DateTime.Today,
-            ExpiryDate = DateTime.Today.AddMonths(12),
-            IsLifetime = false
-        };
-
-        await _database.SaveCertificateAsync(cert);
-
-        await Navigation.PushAsync(new EditCertificatePage(cert));
+        await Navigation.PushAsync(new AddCertificatePage());
     }
 
-    private async void OnItemTapped(object? sender, EventArgs e)
+    private async void OnEditCertificateClicked(object? sender, EventArgs e)
     {
-        if (sender is TapGestureRecognizer tap &&
-            tap.CommandParameter is Certificate cert)
+        if (sender is Button button && button.CommandParameter is Certificate cert)
         {
-            await Navigation.PushAsync(new EditCertificatePage(cert));
+            await Navigation.PushAsync(new AddCertificatePage(cert));
+        }
+    }
+
+    private async void OnDeleteCertificateClicked(object? sender, EventArgs e)
+    {
+        if (sender is Button button && button.CommandParameter is Certificate cert)
+        {
+            bool answer = await DisplayAlert("Delete", "Delete this certificate?", "Yes", "No");
+            if (answer)
+            {
+                await _database.DeleteCertificateAsync(cert);
+                Certificates.Remove(cert);
+            }
+        }
+    }
+
+    private async void OnOpenCertificateClicked(object? sender, EventArgs e)
+    {
+        if (sender is Button button && button.CommandParameter is Certificate cert)
+        {
+            if (!string.IsNullOrEmpty(cert.FilePath) && File.Exists(cert.FilePath))
+            {
+                try
+                {
+                    await Launcher.OpenAsync(new OpenFileRequest
+                    {
+                        File = new ReadOnlyFile(cert.FilePath)
+                    });
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Error", $"Cannot open file: {ex.Message}", "OK");
+                }
+            }
+            else
+            {
+                await DisplayAlert("Error", "File not found", "OK");
+            }
         }
     }
 }

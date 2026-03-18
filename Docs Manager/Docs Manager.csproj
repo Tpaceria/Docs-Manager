@@ -76,11 +76,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="View\AboutPage.xaml.cs">
-	    <DependentUpon>AboutPage.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="View\ExperiencePage.xaml.cs">
-	    <DependentUpon>ExperiencePage.xaml</DependentUpon>
+	  <Compile Update="View\AddOtherPage.xaml.cs">
+	    <DependentUpon>AddOtherPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="View\CertificatesPage.xaml.cs">
 	    <DependentUpon>CertificatesPage.xaml</DependentUpon>
@@ -88,8 +85,14 @@
 	  <Compile Update="View\DocumentsPage.xaml.cs">
 	    <DependentUpon>DocumentsPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="View\AddOtherPage.xaml.cs">
-	    <DependentUpon>AddOtherPage.xaml</DependentUpon>
+	  <Compile Update="View\ExperiencePage.xaml.cs">
+	    <DependentUpon>ExperiencePage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="View\MedicinePage.xaml.cs">
+	    <DependentUpon>MedicinePage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="View\AboutPage.xaml.cs">
+	    <DependentUpon>AboutPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="View\PersonalPage.xaml.cs">
 	    <DependentUpon>PersonalPage.xaml</DependentUpon>
@@ -109,7 +112,10 @@
 	  <MauiXaml Update="View\AddMedicinePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="View\DocumentsPage.xaml">
+	  <MauiXaml Update="View\CocEndorsementPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\CvPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="View\EditCertificatePage.xaml">
@@ -124,16 +130,31 @@
 	  <MauiXaml Update="View\AddOtherPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="View\PersonalPage.xaml">
+	  <MauiXaml Update="View\CertificatesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\DocumentsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="View\ExperiencePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="View\CertificatesPage.xaml">
+	  <MauiXaml Update="View\MedicinePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="View\AboutPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\PersonalPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\NotesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\OtherPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\SendPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

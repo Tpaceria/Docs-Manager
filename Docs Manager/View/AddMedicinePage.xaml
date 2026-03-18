@@ -47,9 +47,9 @@
                     <Label x:Name="FileSizeLabel" FontSize="12" TextColor="#666666"/>
                 </StackLayout>
 
-                <!-- Expiration Date (Optional) -->
+                <!-- Expiration Date -->
                 <VerticalStackLayout Spacing="5">
-                    <Label Text="Expiration Date (Optional):" FontSize="12" FontAttributes="Bold"/>
+                    <Label Text="Expiration Date:" FontSize="12" FontAttributes="Bold"/>
                     <DatePicker x:Name="ExpirationDatePicker"
                                BackgroundColor="#F5F5F5"/>
                 </VerticalStackLayout>

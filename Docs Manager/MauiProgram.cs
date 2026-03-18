@@ -32,10 +32,18 @@ public static class MauiProgram
         // Pages
         builder.Services.AddTransient<PersonalPage>();
         builder.Services.AddTransient<FilesPage>();
-
-        //EXPERIENCE
+        builder.Services.AddTransient<CertificatePage>();
+        builder.Services.AddTransient<CocEndorsementPage>();
+        builder.Services.AddTransient<DocumentsPage>();
+        builder.Services.AddTransient<MedicinePage>();
+        builder.Services.AddTransient<OtherPage>();
         builder.Services.AddTransient<ExperiencePage>();
-
+        builder.Services.AddTransient<EditExperiencePage>();
+        builder.Services.AddTransient<AddCertificatePage>();
+        builder.Services.AddTransient<AddCocPage>();
+        builder.Services.AddTransient<AddDocumentPage>();
+        builder.Services.AddTransient<AddMedicinePage>();
+        builder.Services.AddTransient<AddOtherPage>();
         return builder.Build();
     }
 }

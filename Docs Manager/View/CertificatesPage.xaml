@@ -1,61 +1,152 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
-    x:Class="Docs_Manager.View.CertificatesPage"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Сертификаты">
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Docs_Manager.View.CertificatePage"
+             Title="Certificates">
 
-    <Grid RowDefinitions="Auto, *">
+    <Grid RowDefinitions="Auto,*,Auto" Padding="0" RowSpacing="0">
 
-        <Button
-            Text="+ Добавить сертификат"
-            Clicked="OnAddClicked"
-            Margin="10"
-            HorizontalOptions="End"/>
+        <!-- Header -->
+        <VerticalStackLayout Grid.Row="0" Padding="20" Spacing="10" BackgroundColor="#1a1a1a">
+            <StackLayout Orientation="Horizontal" Spacing="10">
+                <Label Text="📄" FontSize="28"/>
+                <Label Text="CERTIFICATES" 
+                       FontSize="22" 
+                       FontAttributes="Bold"
+                       TextColor="#FF6B35"
+                       VerticalOptions="Center"/>
+            </StackLayout>
+            <Label Text="Manage your certificates and documents."
+                   FontSize="13"
+                   TextColor="#AAAAAA"/>
+        </VerticalStackLayout>
 
-        <CollectionView
-            Grid.Row="1"
-            Margin="10"
-            ItemsSource="{Binding Certificates}">
+        <!-- List -->
+        <CollectionView x:Name="CertificateCollectionView"
+                        Grid.Row="1"
+                        SelectionMode="Single"
+                        Margin="12,12,12,0"
+                        EmptyView="No certificates added yet">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"
+                                 ItemSpacing="12"/>
+            </CollectionView.ItemsLayout>
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <Border StrokeShape="RoundRectangle 8"
+                            Stroke="#333333"
+                            StrokeThickness="1"
+                            Padding="0"
+                            BackgroundColor="#2a2a2a">
 
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer
-                                Tapped="OnItemTapped"
-                                CommandParameter="{Binding .}" />
-                        </Grid.GestureRecognizers>
+                        <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto,Auto,Auto,Auto" 
+                              ColumnSpacing="12" 
+                              Padding="16,12,16,12"
+                              VerticalOptions="Center">
 
-                        <Border Margin="6"
-                                StrokeThickness="0"
-                                StrokeShape="RoundRectangle 14"
-                                BackgroundColor="#1E1E1E">
-
-                            <VerticalStackLayout Padding="16" Spacing="6">
-
-                                <Label Text="{Binding Name}"
-                                       FontSize="18"
-                                       FontAttributes="Bold"/>
-
-                                <Label Text="{Binding Number}" />
-
-                                <Label Text="{Binding ExpiryDate, StringFormat='Истекает: {0:dd.MM.yyyy}'}" />
-
-                                <Label Text="{Binding StatusText}"
-                                       TextColor="{Binding StatusColor}"
-                                       FontAttributes="Bold"/>
-
+                            <!-- Document Name & Country -->
+                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                <Label Text="{Binding Document}"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#FFFFFF"
+                                       LineBreakMode="TailTruncation"/>
+                                <Label Text="{Binding Country}"
+                                       FontSize="11"
+                                       TextColor="#FF6B35"/>
                             </VerticalStackLayout>
 
-                        </Border>
+                            <!-- Document Number -->
+                            <VerticalStackLayout Grid.Column="1" Spacing="2" WidthRequest="100">
+                                <Label Text="Number:" FontSize="10" TextColor="#888888"/>
+                                <Label Text="{Binding Number}"
+                                       FontSize="11"
+                                       TextColor="#FFFFFF"
+                                       LineBreakMode="TailTruncation"/>
+                            </VerticalStackLayout>
 
-                    </Grid>
+                            <!-- Issue Date -->
+                            <VerticalStackLayout Grid.Column="2" Spacing="2" WidthRequest="100">
+                                <Label Text="Issued:" FontSize="10" TextColor="#888888"/>
+                                <Label Text="{Binding IssueDate, StringFormat='{0:dd.MM.yyyy}'}"
+                                       FontSize="11"
+                                       TextColor="#FFFFFF"/>
+                            </VerticalStackLayout>
+
+                            <!-- Expiry Date -->
+                            <VerticalStackLayout Grid.Column="3" Spacing="2" WidthRequest="110">
+                                <Label Text="Expires:" FontSize="10" TextColor="#888888"/>
+                                <Label Text="{Binding ExpiryDate, StringFormat='{0:dd.MM.yyyy}'}"
+                                       FontSize="11"
+                                       TextColor="#FFFFFF"/>
+                            </VerticalStackLayout>
+
+                            <!-- Lifetime indicator -->
+                            <Label Grid.Column="4"
+                                   Text="{Binding IsLifetime, StringFormat='{0:Lifetime}'}"
+                                   FontSize="10"
+                                   TextColor="#28A745"
+                                   IsVisible="{Binding IsLifetime}"
+                                   WidthRequest="70"
+                                   VerticalOptions="Center"/>
+
+                            <!-- Edit Button -->
+                            <Button Grid.Column="5"
+                                    Text="✏️"
+                                    BackgroundColor="#0099CC"
+                                    TextColor="White"
+                                    Padding="8"
+                                    FontSize="14"
+                                    Clicked="OnEditCertificateClicked"
+                                    CommandParameter="{Binding .}"
+                                    WidthRequest="40"
+                                    HeightRequest="40"/>
+
+                            <!-- Delete Button -->
+                            <Button Grid.Column="6"
+                                    Text="🗑️"
+                                    BackgroundColor="#DC3545"
+                                    TextColor="White"
+                                    Padding="8"
+                                    FontSize="14"
+                                    Clicked="OnDeleteCertificateClicked"
+                                    CommandParameter="{Binding .}"
+                                    WidthRequest="40"
+                                    HeightRequest="40"/>
+
+                            <!-- Open Button -->
+                            <Button Grid.Column="7"
+                                    Text="📂"
+                                    BackgroundColor="#6C757D"
+                                    TextColor="White"
+                                    Padding="8"
+                                    FontSize="14"
+                                    Clicked="OnOpenCertificateClicked"
+                                    CommandParameter="{Binding .}"
+                                    WidthRequest="40"
+                                    HeightRequest="40"/>
+
+                        </Grid>
+
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 
         </CollectionView>
 
+        <!-- Add Button -->
+        <Button Grid.Row="2"
+                Text="➕ Add Certificate"
+                HeightRequest="60"
+                BackgroundColor="#FF6B35"
+                TextColor="White"
+                FontSize="16"
+                FontAttributes="Bold"
+                Clicked="OnAddCertificateClicked"
+                CornerRadius="12"
+                Margin="20"/>
+
     </Grid>
+
 </ContentPage>

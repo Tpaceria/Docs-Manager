@@ -11,75 +11,92 @@ public partial class EditExperiencePage : ContentPage
     public EditExperiencePage()
     {
         InitializeComponent();
-
-        _database = Application.Current!
-            .Handler!
-            .MauiContext!
-            .Services
-            .GetService<DatabaseService>()!;
-
-        // Заполни года
-        var years = Enumerable.Range(1980, DateTime.Now.Year - 1980 + 1)
-                              .Select(y => y.ToString())
-                              .Reverse()
-                              .ToList();
-        YearPicker.ItemsSource = years;
-
-        SignOnDatePicker.Date = DateTime.Today;
-        SignOffDatePicker.Date = DateTime.Today.AddMonths(1);
+        _database = Application.Current!.Handler!.MauiContext!.Services.GetService<DatabaseService>()!;
     }
 
-    // Перегруженный конструктор для редактирования
     public EditExperiencePage(Experience experience) : this()
     {
         _experience = experience;
+    }
 
-        if (experience != null)
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (_experience != null)
         {
-            Title = "Edit Trip";
-            VesselNameEntry.Text = experience.VesselName;
-            DWTEntry.Text = experience.DWT.ToString();
-            PositionPicker.SelectedItem = experience.Position;
-            VesselTypePicker.SelectedItem = experience.VesselType;
-            FlagPicker.SelectedItem = experience.Flag;
-            YearPicker.SelectedItem = experience.YearOfBuilt.ToString();
-            SignOnDatePicker.Date = experience.SignOnDate;
-            SignOffDatePicker.Date = experience.SignOffDate;
-            ShipownerEntry.Text = experience.Shipowner;
-            CrewingAgencyEntry.Text = experience.CrewingAgency;
-            MainEngineEntry.Text = experience.MainEngineKW.ToString();
-            METypePicker.SelectedItem = experience.METype;
-            IMOEntry.Text = experience.IMO;
-            VesselRadio.IsChecked = experience.IsVessel;
+            VesselNameEntry.Text = _experience.VesselName;
+            DWTEntry.Text = _experience.DWT.ToString();
+            PositionPicker.SelectedItem = _experience.Position;
+            VesselTypePicker.SelectedItem = _experience.VesselType;
+            FlagPicker.SelectedItem = _experience.Flag;
+            YearEntry.Text = _experience.YearOfBuilt.ToString();
+            SignOnDatePicker.Date = _experience.SignOnDate;
+            SignOffDatePicker.Date = _experience.SignOffDate;
+            ShipownerEntry.Text = _experience.Shipowner;
+            CrewingAgencyEntry.Text = _experience.CrewingAgency;
+            MainEngineEntry.Text = _experience.MainEngineKW.ToString();
+            METypePicker.SelectedItem = _experience.METype;
+            IMOEntry.Text = _experience.IMO;
+
+            Title = "✏️ Edit Experience";
+        }
+        else
+        {
+            Title = "➕ Add Experience";
+            SignOnDatePicker.Date = DateTime.Today;
+            SignOffDatePicker.Date = DateTime.Today;
         }
     }
 
-    private async void OnSaveClicked(object? sender, EventArgs e)
+    private async void OnSaveClicked(object sender, EventArgs e)
     {
-        var exp = _experience ?? new Experience();
+        try
+        {
+            if (string.IsNullOrWhiteSpace(VesselNameEntry.Text))
+            {
+                await DisplayAlert("Error", "Enter vessel name", "OK");
+                return;
+            }
 
-        exp.VesselName = VesselNameEntry.Text ?? "";
-        exp.DWT = int.TryParse(DWTEntry.Text, out var dwt) ? dwt : 0;
-        exp.Position = PositionPicker.SelectedItem?.ToString() ?? "";
-        exp.VesselType = VesselTypePicker.SelectedItem?.ToString() ?? "";
-        exp.Flag = FlagPicker.SelectedItem?.ToString() ?? "";
-        exp.YearOfBuilt = int.TryParse(YearPicker.SelectedItem?.ToString(), out var year) ? year : 0;
+            int.TryParse(DWTEntry.Text, out int dwt);
+            int.TryParse(YearEntry.Text, out int year);
+            int.TryParse(MainEngineEntry.Text, out int mainEngine);
 
-        // ✅ ИСПРАВЛЕНО: Преобразование DateTime?
-        exp.SignOnDate = SignOnDatePicker.Date ?? DateTime.Today;
-        exp.SignOffDate = SignOffDatePicker.Date ?? DateTime.Today;
+            var experience = new Experience
+            {
+                Id = _experience?.Id ?? 0,
+                VesselName = VesselNameEntry.Text,
+                DWT = dwt,
+                Position = PositionPicker.SelectedItem?.ToString(),
+                VesselType = VesselTypePicker.SelectedItem?.ToString(),
+                Flag = FlagPicker.SelectedItem?.ToString(),
+                YearOfBuilt = year,
+                SignOnDate = SignOnDatePicker.Date ?? DateTime.Today,
+                SignOffDate = SignOffDatePicker.Date ?? DateTime.Today,
+                Shipowner = ShipownerEntry.Text,
+                CrewingAgency = CrewingAgencyEntry.Text,
+                MainEngineKW = mainEngine,
+                METype = METypePicker.SelectedItem?.ToString(),
+                IMO = IMOEntry.Text,
+                IsVessel = true
+            };
 
-        exp.Shipowner = ShipownerEntry.Text ?? "";
-        exp.CrewingAgency = CrewingAgencyEntry.Text ?? "";
-        exp.MainEngineKW = int.TryParse(MainEngineEntry.Text, out var kw) ? kw : 0;
-        exp.METype = METypePicker.SelectedItem?.ToString() ?? "";
-        exp.IMO = IMOEntry.Text ?? "";
-        exp.IsVessel = VesselRadio.IsChecked;
+            if (_experience == null)
+                await _database.SaveExperienceAsync(experience);
+            else
+                await _database.UpdateExperienceAsync(experience);
 
-        await _database.SaveExperienceAsync(exp);
-        await Navigation.PopAsync();
+            await DisplayAlert("Success", "Experience saved!", "OK");
+            await Navigation.PopAsync();
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", $"Error saving: {ex.Message}", "OK");
+        }
     }
-    private async void OnCancelClicked(object? sender, EventArgs e)
+
+    private async void OnCancelClicked(object sender, EventArgs e)
     {
         await Navigation.PopAsync();
     }
