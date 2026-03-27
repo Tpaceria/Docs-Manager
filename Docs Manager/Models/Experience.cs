@@ -1,51 +1,60 @@
 ﻿using SQLite;
-using System;
 
-namespace Docs_Manager.Models
+namespace Docs_Manager.Models;
+
+[Table("experiences")]
+public class Experience
 {
-    [Table("Experiences")]
-    public class Experience
+    [PrimaryKey, AutoIncrement]
+    public int Id { get; set; }
+
+    [Column("vessel_name")]
+    public string? VesselName { get; set; }
+
+    [Column("dwt")]
+    public int DWT { get; set; }
+
+    [Column("position")]
+    public string Position { get; set; } = string.Empty;
+
+    [Column("vessel_type")]
+    public string? VesselType { get; set; }
+
+    [Column("flag")]
+    public string? Flag { get; set; }
+
+    [Column("year_of_built")]
+    public int YearOfBuilt { get; set; }
+
+    [Column("sign_on_date")]
+    public DateTime SignOnDate { get; set; }
+
+    [Column("sign_off_date")]
+    public DateTime SignOffDate { get; set; }
+
+    [Column("main_engine_kw")]
+    public int MainEngineKW { get; set; }
+
+    [Column("me_type")]
+    public string? METype { get; set; }
+
+    [Column("shipowner")]
+    public string? Shipowner { get; set; }
+
+    [Column("crewing_agency")]
+    public string? CrewingAgency { get; set; }
+
+    [Column("imo")]
+    public string? IMO { get; set; }
+
+    // Вычисляемые свойства для отображения
+    public string Duration
     {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
-
-        [MaxLength(200)]
-        public string? VesselName { get; set; }
-
-        [MaxLength(100)]
-        public string? Position { get; set; }
-
-        [MaxLength(100)]
-        public string? VesselType { get; set; }
-
-        public int DWT { get; set; }
-
-        [MaxLength(100)]
-        public string? Flag { get; set; }
-
-        public int YearOfBuilt { get; set; }
-
-        public DateTime SignOnDate { get; set; }
-
-        public DateTime SignOffDate { get; set; }
-
-        [MaxLength(200)]
-        public string? Shipowner { get; set; }
-
-        [MaxLength(200)]
-        public string? CrewingAgency { get; set; }
-
-        public int MainEngineKW { get; set; }
-
-        [MaxLength(100)]
-        public string? METype { get; set; }
-
-        [MaxLength(100)]
-        public string? IMO { get; set; }
-
-        public bool IsVessel { get; set; } = true;
-
-        [Ignore]
-        public string DateRange => $"{VesselName} from {SignOnDate:dd.MM.yyyy} to {SignOffDate:dd.MM.yyyy}";
+        get
+        {
+            var span = SignOffDate - SignOnDate;
+            int months = span.Days / 30;
+            return months > 0 ? $"{months} мес." : "< 1 мес.";
+        }
     }
 }

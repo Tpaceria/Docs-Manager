@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Docs_Manager.View.CertificatePage"
-             Title="Certificates">
+             Title="Certificates"
+             BackgroundColor="#0a1628">
 
     <Grid RowDefinitions="Auto,*,Auto" Padding="0" RowSpacing="0">
 
@@ -16,37 +17,43 @@
                        TextColor="#FF6B35"
                        VerticalOptions="Center"/>
             </StackLayout>
-            <Label Text="Manage your certificates and documents."
-                   FontSize="13"
-                   TextColor="#AAAAAA"/>
         </VerticalStackLayout>
 
-        <!-- List -->
-        <CollectionView x:Name="CertificateCollectionView"
-                        Grid.Row="1"
-                        SelectionMode="Single"
-                        Margin="12,12,12,0"
-                        EmptyView="No certificates added yet">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical"
-                                 ItemSpacing="12"/>
-            </CollectionView.ItemsLayout>
+        <!-- Add Button -->
+        <Button Grid.Row="1"
+                Text="➕ Add Certificate"
+                HeightRequest="50"
+                BackgroundColor="#0099CC"
+                TextColor="White"
+                FontSize="14"
+                FontAttributes="Bold"
+                Clicked="OnAddCertificateClicked"
+                Margin="20,10,20,10"/>
 
+        <!-- List -->
+        <CollectionView Grid.Row="2"
+                        x:Name="CertificateCollectionView"
+                        SelectionMode="Single"
+                        Margin="0"
+                        EmptyView="No certificates">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
+            </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Border StrokeShape="RoundRectangle 8"
                             Stroke="#333333"
                             StrokeThickness="1"
                             Padding="0"
-                            BackgroundColor="#2a2a2a">
+                            BackgroundColor="#2a2a2a"
+                            Margin="12,6,12,6">
 
-                        <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto,Auto,Auto,Auto" 
+                        <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto" 
                               ColumnSpacing="12" 
                               Padding="16,12,16,12"
                               VerticalOptions="Center">
 
-                            <!-- Document Name & Country -->
-                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <VerticalStackLayout Grid.Column="0" Spacing="3">
                                 <Label Text="{Binding Document}"
                                        FontSize="14"
                                        FontAttributes="Bold"
@@ -54,98 +61,54 @@
                                        LineBreakMode="TailTruncation"/>
                                 <Label Text="{Binding Country}"
                                        FontSize="11"
-                                       TextColor="#FF6B35"/>
+                                       TextColor="#FF6B35"
+                                       FontAttributes="Bold"/>
                             </VerticalStackLayout>
 
-                            <!-- Document Number -->
-                            <VerticalStackLayout Grid.Column="1" Spacing="2" WidthRequest="100">
-                                <Label Text="Number:" FontSize="10" TextColor="#888888"/>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2" WidthRequest="85">
+                                <Label Text="Number:" FontSize="9" TextColor="#888888"/>
                                 <Label Text="{Binding Number}"
                                        FontSize="11"
                                        TextColor="#FFFFFF"
                                        LineBreakMode="TailTruncation"/>
                             </VerticalStackLayout>
 
-                            <!-- Issue Date -->
                             <VerticalStackLayout Grid.Column="2" Spacing="2" WidthRequest="100">
-                                <Label Text="Issued:" FontSize="10" TextColor="#888888"/>
-                                <Label Text="{Binding IssueDate, StringFormat='{0:dd.MM.yyyy}'}"
-                                       FontSize="11"
-                                       TextColor="#FFFFFF"/>
-                            </VerticalStackLayout>
-
-                            <!-- Expiry Date -->
-                            <VerticalStackLayout Grid.Column="3" Spacing="2" WidthRequest="110">
-                                <Label Text="Expires:" FontSize="10" TextColor="#888888"/>
+                                <Label Text="Expires:" FontSize="9" TextColor="#888888"/>
                                 <Label Text="{Binding ExpiryDate, StringFormat='{0:dd.MM.yyyy}'}"
                                        FontSize="11"
                                        TextColor="#FFFFFF"/>
                             </VerticalStackLayout>
 
-                            <!-- Lifetime indicator -->
-                            <Label Grid.Column="4"
-                                   Text="{Binding IsLifetime, StringFormat='{0:Lifetime}'}"
-                                   FontSize="10"
-                                   TextColor="#28A745"
-                                   IsVisible="{Binding IsLifetime}"
-                                   WidthRequest="70"
-                                   VerticalOptions="Center"/>
-
-                            <!-- Edit Button -->
-                            <Button Grid.Column="5"
+                            <Button Grid.Column="3"
                                     Text="✏️"
                                     BackgroundColor="#0099CC"
                                     TextColor="White"
                                     Padding="8"
-                                    FontSize="14"
+                                    FontSize="13"
                                     Clicked="OnEditCertificateClicked"
                                     CommandParameter="{Binding .}"
-                                    WidthRequest="40"
-                                    HeightRequest="40"/>
+                                    WidthRequest="38"
+                                    HeightRequest="38"
+                                    CornerRadius="6"/>
 
-                            <!-- Delete Button -->
-                            <Button Grid.Column="6"
+                            <Button Grid.Column="4"
                                     Text="🗑️"
                                     BackgroundColor="#DC3545"
                                     TextColor="White"
                                     Padding="8"
-                                    FontSize="14"
+                                    FontSize="13"
                                     Clicked="OnDeleteCertificateClicked"
                                     CommandParameter="{Binding .}"
-                                    WidthRequest="40"
-                                    HeightRequest="40"/>
-
-                            <!-- Open Button -->
-                            <Button Grid.Column="7"
-                                    Text="📂"
-                                    BackgroundColor="#6C757D"
-                                    TextColor="White"
-                                    Padding="8"
-                                    FontSize="14"
-                                    Clicked="OnOpenCertificateClicked"
-                                    CommandParameter="{Binding .}"
-                                    WidthRequest="40"
-                                    HeightRequest="40"/>
+                                    WidthRequest="38"
+                                    HeightRequest="38"
+                                    CornerRadius="6"/>
 
                         </Grid>
-
                     </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-
         </CollectionView>
-
-        <!-- Add Button -->
-        <Button Grid.Row="2"
-                Text="➕ Add Certificate"
-                HeightRequest="60"
-                BackgroundColor="#FF6B35"
-                TextColor="White"
-                FontSize="16"
-                FontAttributes="Bold"
-                Clicked="OnAddCertificateClicked"
-                CornerRadius="12"
-                Margin="20"/>
 
     </Grid>
 

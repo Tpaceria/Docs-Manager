@@ -4,10 +4,10 @@
              x:Class="Docs_Manager.View.FilesPage"
              Title="Files">
 
-    <VerticalStackLayout Padding="0" Spacing="0">
+    <Grid RowDefinitions="Auto,Auto,*" Padding="0" RowSpacing="0">
 
         <!-- Header -->
-        <VerticalStackLayout Padding="20" Spacing="10" BackgroundColor="#1a1a1a">
+        <VerticalStackLayout Grid.Row="0" Padding="20" Spacing="10" BackgroundColor="#1a1a1a">
             <StackLayout Orientation="Horizontal" Spacing="10">
                 <Label Text="📁" FontSize="28"/>
                 <Label Text="FILES &amp; CERTIFICATES" 
@@ -16,61 +16,68 @@
                        TextColor="#FF6B35"
                        VerticalOptions="Center"/>
             </StackLayout>
-            <Label Text="Select a category to manage your certificates"
-                   FontSize="13"
-                   TextColor="#AAAAAA"/>
         </VerticalStackLayout>
 
-        <!-- Category Buttons -->
-        <VerticalStackLayout Padding="20" Spacing="12">
-
-            <Button Text="📄 CERTIFICATES"
+        <!-- Category Buttons (Horizontal) -->
+        <HorizontalStackLayout Grid.Row="1" Padding="10" Spacing="5" BackgroundColor="#1a1a1a">
+            <Button Text="CERTIFICATES" 
                     BackgroundColor="#FF6B35"
                     TextColor="White"
-                    FontSize="14"
+                    FontSize="11"
                     FontAttributes="Bold"
                     Clicked="OnCertificatesClicked"
-                    HeightRequest="50"
-                    CornerRadius="8"/>
-
-            <Button Text="📜 COC &amp; ENDORSEMENT"
-                    BackgroundColor="#0099CC"
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="40"/>
+            <Button Text="COC" 
+                    BackgroundColor="#444444"
                     TextColor="White"
-                    FontSize="14"
+                    FontSize="11"
                     FontAttributes="Bold"
                     Clicked="OnCocClicked"
-                    HeightRequest="50"
-                    CornerRadius="8"/>
-
-            <Button Text="📄 DOCUMENTS"
-                    BackgroundColor="#28A745"
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="40"/>
+            <Button Text="DOCS" 
+                    BackgroundColor="#444444"
                     TextColor="White"
-                    FontSize="14"
+                    FontSize="11"
                     FontAttributes="Bold"
                     Clicked="OnDocumentsClicked"
-                    HeightRequest="50"
-                    CornerRadius="8"/>
-
-            <Button Text="🏥 MEDICINE"
-                    BackgroundColor="#DC3545"
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="40"/>
+            <Button Text="MEDICINE" 
+                    BackgroundColor="#444444"
                     TextColor="White"
-                    FontSize="14"
+                    FontSize="11"
                     FontAttributes="Bold"
                     Clicked="OnMedicineClicked"
-                    HeightRequest="50"
-                    CornerRadius="8"/>
-
-            <Button Text="📋 OTHER"
-                    BackgroundColor="#6C757D"
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="40"/>
+            <Button Text="OTHER" 
+                    BackgroundColor="#444444"
                     TextColor="White"
-                    FontSize="14"
+                    FontSize="11"
                     FontAttributes="Bold"
                     Clicked="OnOtherClicked"
-                    HeightRequest="50"
-                    CornerRadius="8"/>
+                    HorizontalOptions="FillAndExpand"
+                    HeightRequest="40"/>
+        </HorizontalStackLayout>
 
-        </VerticalStackLayout>
+        <!-- Content will show based on selection -->
+        <Frame x:Name="ContentFrame" 
+               Grid.Row="2"
+               Padding="0"
+               BorderColor="Transparent"
+               CornerRadius="0">
+            <VerticalStackLayout>
+                <Label x:Name="ContentLabel" 
+                       Text="Select a category" 
+                       FontSize="16" 
+                       TextColor="#AAAAAA"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+            </VerticalStackLayout>
+        </Frame>
 
-    </VerticalStackLayout>
+    </Grid>
 
 </ContentPage>

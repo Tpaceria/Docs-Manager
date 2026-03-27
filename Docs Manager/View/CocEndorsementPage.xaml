@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Docs_Manager.View.CocEndorsementPage"
-             Title="COC &amp; Endorsement">
+             Title="COC &amp; Endorsement"
+             BackgroundColor="#0a1628">
 
     <Grid RowDefinitions="Auto,Auto,*" Padding="0" RowSpacing="0">
 
@@ -20,7 +21,7 @@
 
         <!-- Add Button -->
         <Button Grid.Row="1"
-                Text="➕ Add Certificate"
+                Text="➕ Add COC"
                 HeightRequest="50"
                 BackgroundColor="#0099CC"
                 TextColor="White"
@@ -34,7 +35,7 @@
                         x:Name="CertificateCollectionView"
                         SelectionMode="Single"
                         Margin="0"
-                        EmptyView="No certificates in this category">
+                        EmptyView="No COCs">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
             </CollectionView.ItemsLayout>
@@ -47,56 +48,33 @@
                             BackgroundColor="#2a2a2a"
                             Margin="12,6,12,6">
 
-                        <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto" 
+                        <Grid ColumnDefinitions="*,Auto,Auto,Auto" 
                               ColumnSpacing="12" 
                               Padding="16,12,16,12"
                               VerticalOptions="Center">
 
-                            <VerticalStackLayout Grid.Column="0" Spacing="3">
-                                <Label Text="{Binding Document}"
-                                       FontSize="14"
-                                       FontAttributes="Bold"
-                                       TextColor="#FFFFFF"
-                                       LineBreakMode="TailTruncation"/>
-                                <Label Text="{Binding Country}"
-                                       FontSize="11"
-                                       TextColor="#FF6B35"
-                                       FontAttributes="Bold"/>
-                            </VerticalStackLayout>
+                            <Label Grid.Column="0"
+                                   Text="{Binding Document}"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#FFFFFF"/>
 
-                            <VerticalStackLayout Grid.Column="1" Spacing="2" WidthRequest="85">
-                                <Label Text="Number:" FontSize="9" TextColor="#888888"/>
-                                <Label Text="{Binding Number}"
-                                       FontSize="11"
-                                       TextColor="#FFFFFF"
-                                       LineBreakMode="TailTruncation"/>
-                            </VerticalStackLayout>
-
-                            <VerticalStackLayout Grid.Column="2" Spacing="2" WidthRequest="100">
-                                <Label Text="Expires:" FontSize="9" TextColor="#888888"/>
-                                <Label Text="{Binding ExpiryDate, StringFormat='{0:dd.MM.yyyy}'}"
-                                       FontSize="11"
-                                       TextColor="#FFFFFF"/>
-                            </VerticalStackLayout>
-
-                            <Button Grid.Column="3"
+                            <Button Grid.Column="1"
                                     Text="✏️"
                                     BackgroundColor="#0099CC"
                                     TextColor="White"
                                     Padding="8"
-                                    FontSize="13"
                                     Clicked="OnEditCertificateClicked"
                                     CommandParameter="{Binding .}"
                                     WidthRequest="38"
                                     HeightRequest="38"
                                     CornerRadius="6"/>
 
-                            <Button Grid.Column="4"
+                            <Button Grid.Column="2"
                                     Text="🗑️"
                                     BackgroundColor="#DC3545"
                                     TextColor="White"
                                     Padding="8"
-                                    FontSize="13"
                                     Clicked="OnDeleteCertificateClicked"
                                     CommandParameter="{Binding .}"
                                     WidthRequest="38"

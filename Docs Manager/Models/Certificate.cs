@@ -2,20 +2,36 @@
 
 namespace Docs_Manager.Models;
 
-[Table("Certificates")]
+[Table("certificates")]
 public class Certificate
 {
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
 
-    public string? Document { get; set; }      // Название документа
-    public string? Country { get; set; }       // Страна выдачи
-    public string? Number { get; set; }        // Номер документа
-    public DateTime IssueDate { get; set; }
-    public DateTime ExpiryDate { get; set; }
-    public bool IsLifetime { get; set; }
-    public string? FilePath { get; set; }      // Путь к файлу
+    [Column("document")]
+    public string Document { get; set; } = string.Empty;
 
-    // ➕ НОВОЕ ПОЛЕ
-    public string Category { get; set; } = "CERTIFICATES";  // Категория: CERTIFICATES, COC & ENDORSEMENT, DOCUMENTS, MEDICINE, OTHER
+    [Column("country")]
+    public string? Country { get; set; }
+
+    [Column("number")]
+    public string Number { get; set; } = string.Empty;
+
+    [Column("issue_date")]
+    public DateTime IssueDate { get; set; }
+
+    [Column("expiry_date")]
+    public DateTime ExpiryDate { get; set; }
+
+    [Column("is_lifetime")]
+    public bool IsLifetime { get; set; }
+
+    [Column("file_path")]
+    public string? FilePath { get; set; }
+
+    [Column("category")]
+    public string Category { get; set; } = "CERTIFICATES";
+
+    [Column("description")]
+    public string? Description { get; set; }
 }

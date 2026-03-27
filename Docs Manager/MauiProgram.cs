@@ -1,6 +1,4 @@
-﻿using Docs_Manager;
-using Docs_Manager.Data;
-using Docs_Manager.Services;
+﻿using Docs_Manager.Data;
 using Docs_Manager.View;
 using Microsoft.Extensions.Logging;
 
@@ -17,21 +15,18 @@ public static class MauiProgram
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
 
-        // Services
+        // ✅ СЕРВИСЫ - ОБЯЗАТЕЛЬНО ДОБАВИТЬ
         builder.Services.AddSingleton<DatabaseService>();
-        builder.Services.AddSingleton<FileStorageService>();
-        builder.Services.AddSingleton<FileShareService>();
 
-        // Pages
+        // ✅ СТРАНИЦЫ
+        builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<PersonalPage>();
-        builder.Services.AddTransient<FilesPage>();
         builder.Services.AddTransient<CertificatePage>();
         builder.Services.AddTransient<CocEndorsementPage>();
         builder.Services.AddTransient<DocumentsPage>();
@@ -44,6 +39,7 @@ public static class MauiProgram
         builder.Services.AddTransient<AddDocumentPage>();
         builder.Services.AddTransient<AddMedicinePage>();
         builder.Services.AddTransient<AddOtherPage>();
+
         return builder.Build();
     }
 }
