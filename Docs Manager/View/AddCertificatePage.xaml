@@ -2,49 +2,86 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Docs_Manager.View.AddCertificatePage"
-             Title="Add Certificate">
+             Title="Add Certificate"
+             BackgroundColor="#0a1628">
 
     <VerticalStackLayout Padding="20" Spacing="15">
         <Label Text="Add New Certificate" FontSize="20" FontAttributes="Bold" TextColor="#FF6B35"/>
 
-        <Entry x:Name="DocumentEntry" Placeholder="Document Name" BackgroundColor="#2a2a2a" TextColor="#FFFFFF"/>
-        <Entry x:Name="CountryEntry" Placeholder="Country" BackgroundColor="#2a2a2a" TextColor="#FFFFFF"/>
-        <Entry x:Name="NumberEntry" Placeholder="Number" BackgroundColor="#2a2a2a" TextColor="#FFFFFF"/>
+        <ScrollView>
+            <VerticalStackLayout Spacing="15">
 
-        <Label Text="Issue Date" FontSize="12" FontAttributes="Bold"/>
-        <DatePicker x:Name="IssueDatePicker" BackgroundColor="#2a2a2a" TextColor="#FFFFFF"/>
+                <Entry x:Name="DocumentEntry" 
+                       Placeholder="Document Name" 
+                       BackgroundColor="#2a2a2a" 
+                       TextColor="#FFFFFF"/>
+
+                <Entry x:Name="CountryEntry" 
+                       Placeholder="Country" 
+                       BackgroundColor="#2a2a2a" 
+                       TextColor="#FFFFFF"/>
+
+                <Entry x:Name="NumberEntry" 
+                       Placeholder="Number" 
+                       BackgroundColor="#2a2a2a" 
+                       TextColor="#FFFFFF"/>
+
+                <Label Text="Issue Date" FontSize="12" FontAttributes="Bold"/>
+                <DatePicker x:Name="IssueDatePicker" 
+                           BackgroundColor="#2a2a2a" 
+                           TextColor="#FFFFFF"/>
+
+                <StackLayout Orientation="Horizontal" Spacing="10">
+                    <Switch x:Name="LifetimeSwitch" Toggled="OnLifetimeToggled"/>
+                    <Label Text="Lifetime" VerticalOptions="Center" TextColor="#FFFFFF"/>
+                </StackLayout>
+
+                <Label x:Name="ExpiryLabel" Text="Expiry Date" FontSize="12" FontAttributes="Bold"/>
+                <DatePicker x:Name="ExpiryDatePicker" 
+                           BackgroundColor="#2a2a2a" 
+                           TextColor="#FFFFFF"/>
+
+                <Label Text="Category" FontSize="12" FontAttributes="Bold"/>
+                <Picker x:Name="CategoryPicker" 
+                        Title="Select category" 
+                        BackgroundColor="#2a2a2a" 
+                        TextColor="#FFFFFF">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>CERTIFICATES</x:String>
+                            <x:String>COC &amp; ENDORSEMENT</x:String>
+                            <x:String>DOCUMENTS</x:String>
+                            <x:String>MEDICINE</x:String>
+                            <x:String>OTHER</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+
+                <Button x:Name="PickFileButton" 
+                        Text="Choose File" 
+                        BackgroundColor="#0099CC" 
+                        TextColor="White" 
+                        Clicked="OnPickFileClicked"/>
+
+                <StackLayout x:Name="FileInfoStack" IsVisible="False" Spacing="5">
+                    <Label Text="File Selected:" FontSize="12" TextColor="#FF6B35"/>
+                    <Label x:Name="FileNameLabel" TextColor="#FFFFFF"/>
+                </StackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
 
         <StackLayout Orientation="Horizontal" Spacing="10">
-            <Switch x:Name="LifetimeSwitch" Toggled="OnLifetimeToggled"/>
-            <Label Text="Lifetime" VerticalOptions="Center" TextColor="#FFFFFF"/>
-        </StackLayout>
-
-        <Label x:Name="ExpiryLabel" Text="Expiry Date" FontSize="12" FontAttributes="Bold"/>
-        <DatePicker x:Name="ExpiryDatePicker" BackgroundColor="#2a2a2a" TextColor="#FFFFFF"/>
-
-        <Label Text="Category" FontSize="12" FontAttributes="Bold"/>
-        <Picker x:Name="CategoryPicker" Title="Select category" BackgroundColor="#2a2a2a" TextColor="#FFFFFF">
-            <Picker.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>CERTIFICATES</x:String>
-                    <x:String>COC &amp; ENDORSEMENT</x:String>
-                    <x:String>DOCUMENTS</x:String>
-                    <x:String>MEDICINE</x:String>
-                    <x:String>OTHER</x:String>
-                </x:Array>
-            </Picker.ItemsSource>
-        </Picker>
-
-        <Button x:Name="PickFileButton" Text="Choose File" BackgroundColor="#0099CC" TextColor="White" Clicked="OnPickFileClicked"/>
-
-        <StackLayout x:Name="FileInfoStack" IsVisible="False" Spacing="5">
-            <Label Text="File Selected:" FontSize="12" TextColor="#FF6B35"/>
-            <Label x:Name="FileNameLabel" TextColor="#FFFFFF"/>
-        </StackLayout>
-
-        <StackLayout Orientation="Horizontal" Spacing="10">
-            <Button Text="Save" BackgroundColor="#28A745" TextColor="White" Clicked="OnSaveClicked" HorizontalOptions="FillAndExpand"/>
-            <Button Text="Cancel" BackgroundColor="#DC3545" TextColor="White" Clicked="OnCancelClicked" HorizontalOptions="FillAndExpand"/>
+            <Button Text="Save" 
+                    BackgroundColor="#28A745" 
+                    TextColor="White" 
+                    Clicked="OnSaveClicked" 
+                    HorizontalOptions="FillAndExpand"/>
+            <Button Text="Cancel" 
+                    BackgroundColor="#DC3545" 
+                    TextColor="White" 
+                    Clicked="OnCancelClicked" 
+                    HorizontalOptions="FillAndExpand"/>
         </StackLayout>
     </VerticalStackLayout>
 

@@ -131,10 +131,9 @@
                         Clicked="OnSaveClicked"
                         HorizontalOptions="FillAndExpand"/>
                 <Button Text="Отмена"
-                        HeightRequest="50"
-                        BackgroundColor="#DC3545"
-                        Clicked="OnCancelClicked"
-                        HorizontalOptions="FillAndExpand"/>
+        HeightRequest="50"
+        BackgroundColor="#DC3545"
+        HorizontalOptions="FillAndExpand"/>
             </StackLayout>
 
         </VerticalStackLayout>

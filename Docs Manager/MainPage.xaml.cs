@@ -1,51 +1,128 @@
-﻿using Docs_Manager.Data;
-using Docs_Manager.Models;
-using System.Collections.ObjectModel;
+﻿using Docs_Manager.View;
 
 namespace Docs_Manager;
 
 public partial class MainPage : ContentPage
 {
-    private readonly DatabaseService _database = null!;
+    private ContentPage _currentPage;
 
-    public ObservableCollection<Document> Documents { get; set; } = new();
-
-    public MainPage(DatabaseService database)
+    public MainPage()
     {
         InitializeComponent();
-
-        _database = database;
-
-        // Устанавливаем BindingContext
-        BindingContext = this;
+        ShowPersonal();
     }
 
-    protected override async void OnAppearing()
+    private void ShowPersonal()
     {
-        base.OnAppearing();
-
-        Documents.Clear();
-
-        var docs = await _database.GetDocumentsAsync();
-
-        foreach (var doc in docs)
-            Documents.Add(doc);
+        ResetButtons();
+        PersonalBtn.BackgroundColor = Color.FromArgb("#1a3a52");
+        PersonalBtn.TextColor = Color.FromArgb("#00d4ff");
+        SetPage(new PersonalPage());
     }
 
-    private async void OnAddDocumentClicked(object? sender, EventArgs e)
+    private void ShowCertificates()
     {
-        var newDoc = new Document
+        ResetButtons();
+        CertificatesBtn.BackgroundColor = Color.FromArgb("#1a3a52");
+        CertificatesBtn.TextColor = Color.FromArgb("#00d4ff");
+        SetPage(new CertificatePage());
+    }
+
+    private void ShowCoc()
+    {
+        ResetButtons();
+        CocBtn.BackgroundColor = Color.FromArgb("#1a3a52");
+        CocBtn.TextColor = Color.FromArgb("#00d4ff");
+        SetPage(new CocEndorsementPage());
+    }
+
+    private void ShowDocuments()
+    {
+        ResetButtons();
+        DocumentsBtn.BackgroundColor = Color.FromArgb("#1a3a52");
+        DocumentsBtn.TextColor = Color.FromArgb("#00d4ff");
+        SetPage(new DocumentsPage());
+    }
+
+    private void ShowMedicine()
+    {
+        ResetButtons();
+        MedicineBtn.BackgroundColor = Color.FromArgb("#1a3a52");
+        MedicineBtn.TextColor = Color.FromArgb("#00d4ff");
+        SetPage(new MedicinePage());
+    }
+
+    private void ShowOther()
+    {
+        ResetButtons();
+        OtherBtn.BackgroundColor = Color.FromArgb("#1a3a52");
+        OtherBtn.TextColor = Color.FromArgb("#00d4ff");
+        SetPage(new OtherPage());
+    }
+
+    private void ShowExperience()
+    {
+        ResetButtons();
+        ExperienceBtn.BackgroundColor = Color.FromArgb("#1a3a52");
+        ExperienceBtn.TextColor = Color.FromArgb("#00d4ff");
+        SetPage(new ExperiencePage());
+    }
+
+    private void SetPage(ContentPage page)
+    {
+        _currentPage = page;
+        ContentArea.Clear();
+
+        if (page.Content != null)
         {
-            Title = "Test Certificate",
-            Type = "STCW",
-            Number = "123456",
-            IssueDate = DateTime.Today,
-            ExpiryDate = DateTime.Today.AddMonths(6),
-            FilePath = ""
-        };
+            ContentArea.Add(page.Content);
+        }
 
-        await _database.SaveDocumentAsync(newDoc);
-
-        Documents.Add(newDoc);
+        page.SendAppearing();
     }
+
+    private void ResetButtons()
+    {
+        PersonalBtn.BackgroundColor = Colors.Transparent;
+        PersonalBtn.TextColor = Color.FromArgb("#a8b8cc");
+
+        CertificatesBtn.BackgroundColor = Colors.Transparent;
+        CertificatesBtn.TextColor = Color.FromArgb("#a8b8cc");
+
+        CocBtn.BackgroundColor = Colors.Transparent;
+        CocBtn.TextColor = Color.FromArgb("#a8b8cc");
+
+        DocumentsBtn.BackgroundColor = Colors.Transparent;
+        DocumentsBtn.TextColor = Color.FromArgb("#a8b8cc");
+
+        MedicineBtn.BackgroundColor = Colors.Transparent;
+        MedicineBtn.TextColor = Color.FromArgb("#a8b8cc");
+
+        OtherBtn.BackgroundColor = Colors.Transparent;
+        OtherBtn.TextColor = Color.FromArgb("#a8b8cc");
+
+        ExperienceBtn.BackgroundColor = Colors.Transparent;
+        ExperienceBtn.TextColor = Color.FromArgb("#a8b8cc");
+    }
+
+    private void OnPersonalClicked(object sender, EventArgs e)
+        => ShowPersonal();
+
+    private void OnCertificatesClicked(object sender, EventArgs e)
+        => ShowCertificates();
+
+    private void OnCocClicked(object sender, EventArgs e)
+        => ShowCoc();
+
+    private void OnDocumentsClicked(object sender, EventArgs e)
+        => ShowDocuments();
+
+    private void OnMedicineClicked(object sender, EventArgs e)
+        => ShowMedicine();
+
+    private void OnOtherClicked(object sender, EventArgs e)
+        => ShowOther();
+
+    private void OnExperienceClicked(object sender, EventArgs e)
+        => ShowExperience();
 }

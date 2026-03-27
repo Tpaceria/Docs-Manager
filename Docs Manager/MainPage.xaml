@@ -1,50 +1,106 @@
-﻿<ContentPage
-    x:Class="Docs_Manager.MainPage"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Documents">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Docs_Manager.MainPage"
+             BackgroundColor="#0a1628">
 
-    <Grid RowDefinitions="Auto, *">
+    <Grid RowDefinitions="*" ColumnDefinitions="280,*">
 
-        <Button 
-            Text="+ Add Document"
-            Clicked="OnAddDocumentClicked"
-            Margin="10"
-            HorizontalOptions="End" />
+        <!-- LEFT SIDEBAR MENU -->
+        <VerticalStackLayout Grid.Row="0" Grid.Column="0" BackgroundColor="#0a1628" Padding="0" Spacing="0">
 
-        <CollectionView 
-            Grid.Row="1"
-            Margin="10"
-            ItemsSource="{Binding Documents}">
+            <!-- LOGO/BRAND -->
+            <VerticalStackLayout Padding="20,30,20,40" Spacing="5" BackgroundColor="#0f1f2e">
+                <Label Text="📋 Docs Manager" 
+                       FontSize="18" 
+                       FontAttributes="Bold" 
+                       TextColor="#00d4ff"/>
+                <Label Text="Seafarer Profile" 
+                       FontSize="12" 
+                       TextColor="#7a8999"/>
+            </VerticalStackLayout>
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Border 
-                        Padding="10" 
-                        Margin="5"
-                        Stroke="#444"
-                        StrokeThickness="1"
-                        StrokeShape="RoundRectangle 8">
+            <!-- MENU ITEMS -->
+            <ScrollView>
+                <VerticalStackLayout Padding="0" Spacing="8" Margin="10,0,10,0">
 
-                        <VerticalStackLayout Spacing="4">
+                    <Button x:Name="PersonalBtn"
+                            Text="👤 Personal"
+                            BackgroundColor="#1a3a52"
+                            TextColor="#00d4ff"
+                            FontSize="14"
+                            FontAttributes="Bold"
+                            Padding="20,15"
+                            CornerRadius="8"
+                            Clicked="OnPersonalClicked"/>
 
-                            <Label Text="{Binding Title}"
-                                   FontAttributes="Bold"
-                                   FontSize="18"/>
+                    <Button x:Name="CertificatesBtn"
+                            Text="📄 Certificates"
+                            BackgroundColor="Transparent"
+                            TextColor="#a8b8cc"
+                            FontSize="14"
+                            Padding="20,15"
+                            CornerRadius="8"
+                            Clicked="OnCertificatesClicked"/>
 
-                            <Label Text="{Binding Type}" />
+                    <Button x:Name="CocBtn"
+                            Text="📜 COC &amp; Endorsement"
+                            BackgroundColor="Transparent"
+                            TextColor="#a8b8cc"
+                            FontSize="14"
+                            Padding="20,15"
+                            CornerRadius="8"
+                            Clicked="OnCocClicked"/>
 
-                            <Label Text="{Binding ExpiryDate, StringFormat='Expiry: {0:dd.MM.yyyy}'}" />
+                    <Button x:Name="DocumentsBtn"
+                            Text="📑 Documents"
+                            BackgroundColor="Transparent"
+                            TextColor="#a8b8cc"
+                            FontSize="14"
+                            Padding="20,15"
+                            CornerRadius="8"
+                            Clicked="OnDocumentsClicked"/>
 
-                            <Label Text="{Binding DaysLeft, StringFormat='Days left: {0}'}"
-                                   TextColor="Orange"/>
+                    <Button x:Name="MedicineBtn"
+                            Text="💊 Medicine"
+                            BackgroundColor="Transparent"
+                            TextColor="#a8b8cc"
+                            FontSize="14"
+                            Padding="20,15"
+                            CornerRadius="8"
+                            Clicked="OnMedicineClicked"/>
 
-                        </VerticalStackLayout>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
+                    <Button x:Name="OtherBtn"
+                            Text="📋 Other"
+                            BackgroundColor="Transparent"
+                            TextColor="#a8b8cc"
+                            FontSize="14"
+                            Padding="20,15"
+                            CornerRadius="8"
+                            Clicked="OnOtherClicked"/>
 
-        </CollectionView>
+                    <Button x:Name="ExperienceBtn"
+                            Text="⚓ Experience"
+                            BackgroundColor="Transparent"
+                            TextColor="#a8b8cc"
+                            FontSize="14"
+                            Padding="20,15"
+                            CornerRadius="8"
+                            Clicked="OnExperienceClicked"/>
+
+                </VerticalStackLayout>
+            </ScrollView>
+
+        </VerticalStackLayout>
+
+        <!-- RIGHT CONTENT AREA -->
+        <VerticalStackLayout Grid.Row="0" 
+                             Grid.Column="1"
+                             x:Name="ContentArea"
+                             BackgroundColor="#0a1628"
+                             Padding="0"
+                             Spacing="0"/>
 
     </Grid>
+
 </ContentPage>

@@ -21,6 +21,7 @@ namespace Docs_Manager.Data
             _database.CreateTableAsync<Certificate>().Wait();
             _database.CreateTableAsync<StoredFile>().Wait();
             _database.CreateTableAsync<Experience>().Wait();
+            _database.CreateTableAsync<Experience>().Wait();  // ← ДОБАВЬ ЭТУ СТРОКУ
         }
 
         // -------------------------
@@ -144,28 +145,29 @@ namespace Docs_Manager.Data
         // EXPERIENCE
         // -------------------------
 
-        public Task<List<Experience>> GetExperiencesAsync()
+        public async Task<List<Experience>> GetExperiencesAsync()
         {
-            return _database.Table<Experience>().ToListAsync();
+            return await _database.Table<Experience>().ToListAsync();
         }
 
-        public Task<int> SaveExperienceAsync(Experience experience)
+        public async Task<Experience?> GetExperienceAsync(int id)
         {
-            if (experience.Id != 0)
-                return _database.UpdateAsync(experience);
+            return await _database.Table<Experience>()
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<int> SaveExperienceAsync(Experience experience)
+        {
+            if (experience.Id == 0)
+                return await _database.InsertAsync(experience);
             else
-                return _database.InsertAsync(experience);
+                return await _database.UpdateAsync(experience);
         }
 
-        public Task<int> DeleteExperienceAsync(Experience experience)
+        public async Task<int> DeleteExperienceAsync(Experience experience)
         {
-            return _database.DeleteAsync(experience);
+            return await _database.DeleteAsync(experience);
         }
-
-        public async Task UpdateExperienceAsync(Experience experience)
-        {
-            await _database.UpdateAsync(experience);
-        }
-
     }
 }

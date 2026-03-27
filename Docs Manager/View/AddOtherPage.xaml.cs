@@ -5,14 +5,15 @@ namespace Docs_Manager.View;
 
 public partial class AddOtherPage : ContentPage
 {
-    readonly DatabaseService _database;
-    Certificate? _certificate;
-    string? _selectedFilePath;
+    private readonly DatabaseService _database;
+    private Certificate? _certificate;
+    private string? _selectedFilePath;
 
     public AddOtherPage()
     {
         InitializeComponent();
-        _database = Application.Current!.Handler!.MauiContext!.Services.GetService<DatabaseService>()!;
+        _database = ServiceHelper.GetService<DatabaseService>()
+            ?? throw new InvalidOperationException("DatabaseService not found");
     }
 
     public AddOtherPage(Certificate certificate) : this()
@@ -27,7 +28,7 @@ public partial class AddOtherPage : ContentPage
         if (_certificate != null)
         {
             FileNameEntry.Text = _certificate.Document;
-            DescriptionEditor.Text = _certificate.Country;
+            DescriptionEditor.Text = _certificate.Description ?? "";
             ExpirationDatePicker.Date = _certificate.ExpiryDate;
             _selectedFilePath = _certificate.FilePath;
 
@@ -41,11 +42,11 @@ public partial class AddOtherPage : ContentPage
         }
         else
         {
-            ExpirationDatePicker.Date = DateTime.Today.AddYears(1);
+            ExpirationDatePicker.Date = DateTime.Today.AddYears(5);
         }
     }
 
-    async void OnPickFileClicked(object sender, EventArgs e)
+    private async void OnPickFileClicked(object sender, EventArgs e)
     {
         try
         {
@@ -60,9 +61,9 @@ public partial class AddOtherPage : ContentPage
                 var fileInfo = new FileInfo(_selectedFilePath);
                 long fileSize = fileInfo.Length;
 
+                FileInfoStack.IsVisible = true;
                 FileNameLabel.Text = result.FileName;
                 FileSizeLabel.Text = $"Size: {FormatFileSize(fileSize)}";
-                FileInfoStack.IsVisible = true;
                 PickFileButton.Text = "✅ File Selected";
                 PickFileButton.BackgroundColor = Color.FromArgb("#28A745");
             }
@@ -73,11 +74,11 @@ public partial class AddOtherPage : ContentPage
         }
     }
 
-    async void OnSaveClicked(object sender, EventArgs e)
+    private async void OnSaveClicked(object sender, EventArgs e)
     {
         if (string.IsNullOrEmpty(FileNameEntry.Text))
         {
-            await DisplayAlert("Error", "Please enter a file name", "OK");
+            await DisplayAlert("Error", "Please enter document name", "OK");
             return;
         }
 
@@ -87,17 +88,18 @@ public partial class AddOtherPage : ContentPage
             {
                 Id = _certificate?.Id ?? 0,
                 Document = FileNameEntry.Text,
-                Country = DescriptionEditor.Text ?? "",
-                Number = "",
-                IssueDate = DateTime.Today,
+                Description = DescriptionEditor.Text ?? "",
                 ExpiryDate = ExpirationDatePicker.Date ?? DateTime.Today,
-                IsLifetime = false,
                 FilePath = _selectedFilePath,
-                Category = "OTHER"
+                Category = "OTHER",
+                IssueDate = DateTime.Today,
+                Number = "",
+                IsLifetime = false,
+                Country = ""
             };
 
             await _database.SaveCertificateAsync(certificate);
-            await DisplayAlert("Success", "File saved successfully!", "OK");
+            await DisplayAlert("Success", "Document saved!", "OK");
             await Navigation.PopAsync();
         }
         catch (Exception ex)
@@ -106,7 +108,7 @@ public partial class AddOtherPage : ContentPage
         }
     }
 
-    async void OnCancelClicked(object sender, EventArgs e)
+    private async void OnCancelClicked(object sender, EventArgs e)
     {
         await Navigation.PopAsync();
     }

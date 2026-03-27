@@ -5,13 +5,6 @@
 		<TargetFrameworks Condition="!$([MSBuild]::IsOSPlatform('linux'))">$(TargetFrameworks);net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
 
-		<!-- Note for MacCatalyst:
-		The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
-		When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
-		The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
-		either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
-		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
-
 		<OutputType>Exe</OutputType>
 		<RootNamespace>Docs_Manager</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -19,12 +12,6 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
-		<!-- Enable XAML source generation for faster build times and improved performance.
-		     This generates C# code from XAML at compile time instead of runtime inflation.
-		     To disable, remove this line.
-		     For individual files, you can override by setting Inflator metadata:
-		       <MauiXaml Update="MyPage.xaml" Inflator="Default" /> (reverts to defaults: Runtime for Debug, XamlC for Release)
-		       <MauiXaml Update="MyPage.xaml" Inflator="Runtime" /> (force runtime inflation) -->
 		<MauiXamlInflator>SourceGen</MauiXamlInflator>
 
 		<!-- Display name -->
@@ -37,7 +24,6 @@
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
-		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
 		<WindowsPackageType>None</WindowsPackageType>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
@@ -57,11 +43,11 @@
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
 		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
-		
+
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
 
-		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<!-- Raw Assets -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
@@ -72,91 +58,136 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="ViewModels\" />
+		<Folder Include="ViewModels\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="View\AddOtherPage.xaml.cs">
-	    <DependentUpon>AddOtherPage.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="View\CertificatesPage.xaml.cs">
-	    <DependentUpon>CertificatesPage.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="View\DocumentsPage.xaml.cs">
-	    <DependentUpon>DocumentsPage.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="View\ExperiencePage.xaml.cs">
-	    <DependentUpon>ExperiencePage.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="View\MedicinePage.xaml.cs">
-	    <DependentUpon>MedicinePage.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="View\AboutPage.xaml.cs">
-	    <DependentUpon>AboutPage.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="View\PersonalPage.xaml.cs">
-	    <DependentUpon>PersonalPage.xaml</DependentUpon>
-	  </Compile>
+		<Compile Update="App.xaml.cs">
+		  <DependentUpon>App.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="View\AddOtherPage.xaml.cs">
+			<DependentUpon>AddOtherPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="View\CertificatesPage.xaml.cs">
+			<DependentUpon>CertificatesPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="View\DocumentsPage.xaml.cs">
+			<DependentUpon>DocumentsPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="View\ExperiencePage.xaml.cs">
+			<DependentUpon>ExperiencePage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="View\MedicinePage.xaml.cs">
+			<DependentUpon>MedicinePage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="View\AboutPage.xaml.cs">
+			<DependentUpon>AboutPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="View\PersonalPage.xaml.cs">
+			<DependentUpon>PersonalPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="View\AddCertificatePage.xaml.cs">
+			<DependentUpon>AddCertificatePage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="View\AddCocPage.xaml.cs">
+			<DependentUpon>AddCocPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="View\AddDocumentPage.xaml.cs">
+			<DependentUpon>AddDocumentPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="View\AddMedicinePage.xaml.cs">
+			<DependentUpon>AddMedicinePage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="View\CocEndorsementPage.xaml.cs">
+			<DependentUpon>CocEndorsementPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="View\EditCertificatePage.xaml.cs">
+			<DependentUpon>EditCertificatePage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="View\EditExperiencePage.xaml.cs">
+			<DependentUpon>EditExperiencePage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="View\FilesPage.xaml.cs">
+			<DependentUpon>FilesPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="View\CvPage.xaml.cs">
+			<DependentUpon>CvPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="View\NotesPage.xaml.cs">
+			<DependentUpon>NotesPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="View\SendPage.xaml.cs">
+			<DependentUpon>SendPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="View\OtherPage.xaml.cs">
+			<DependentUpon>OtherPage.xaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="View\AddCertificatePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\AddCocPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\AddDocumentPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\AddMedicinePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\CocEndorsementPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\CvPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\EditCertificatePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\EditExperiencePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\FilesPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\AddOtherPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\CertificatesPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\DocumentsPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\ExperiencePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\MedicinePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\AboutPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\PersonalPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\NotesPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\OtherPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\SendPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+		<MauiXaml Update="MainPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="App.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\AddCertificatePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\AddCocPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\AddDocumentPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\AddMedicinePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\CocEndorsementPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\CvPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\EditCertificatePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\EditExperiencePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\FilesPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\AddOtherPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\CertificatesPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\DocumentsPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\ExperiencePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\MedicinePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\AboutPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\PersonalPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\NotesPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\OtherPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="View\SendPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 	</ItemGroup>
 
 </Project>

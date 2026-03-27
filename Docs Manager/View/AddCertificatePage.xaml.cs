@@ -6,14 +6,16 @@ namespace Docs_Manager.View;
 public partial class AddCertificatePage : ContentPage
 {
     readonly DatabaseService _database;
-    Certificate? _certificate;
-    string? _selectedFilePath;
+    Certificate _certificate;
+    string _selectedFilePath;
 
     public AddCertificatePage()
     {
         InitializeComponent();
-        _database = Application.Current!.Handler!.MauiContext!.Services.GetService<DatabaseService>()!;
-        CategoryPicker.SelectedIndex = 0;
+        _database = ServiceHelper.GetService<DatabaseService>()
+            ?? throw new InvalidOperationException("DatabaseService not found");
+        if (CategoryPicker != null)
+            CategoryPicker.SelectedIndex = 0;
     }
 
     public AddCertificatePage(Certificate certificate) : this()
@@ -28,14 +30,14 @@ public partial class AddCertificatePage : ContentPage
         if (_certificate != null)
         {
             DocumentEntry.Text = _certificate.Document;
-            CountryEntry.Text = _certificate.Country;
+            CountryEntry.Text = _certificate.Country ?? "";
             NumberEntry.Text = _certificate.Number;
             IssueDatePicker.Date = _certificate.IssueDate;
             LifetimeSwitch.IsToggled = _certificate.IsLifetime;
             ExpiryDatePicker.Date = _certificate.ExpiryDate;
             _selectedFilePath = _certificate.FilePath;
 
-            var index = GetCategoryIndex(_certificate.Category);
+            var index = GetCategoryIndex(_certificate.Category ?? "CERTIFICATES");
             CategoryPicker.SelectedIndex = index;
 
             if (!string.IsNullOrEmpty(_selectedFilePath))
@@ -111,8 +113,8 @@ public partial class AddCertificatePage : ContentPage
             {
                 Id = _certificate?.Id ?? 0,
                 Document = DocumentEntry.Text,
-                Country = CountryEntry.Text,
-                Number = NumberEntry.Text,
+                Country = CountryEntry.Text ?? "",
+                Number = NumberEntry.Text ?? "",
                 IssueDate = IssueDatePicker.Date ?? DateTime.Today,
                 ExpiryDate = LifetimeSwitch.IsToggled ? DateTime.MaxValue : (ExpiryDatePicker.Date ?? DateTime.Today),
                 IsLifetime = LifetimeSwitch.IsToggled,

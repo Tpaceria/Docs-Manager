@@ -7,48 +7,42 @@ namespace Docs_Manager.View;
 public partial class CertificatePage : ContentPage
 {
     private readonly DatabaseService _database;
-
     public ObservableCollection<Certificate> Certificates { get; set; } = new();
 
     public CertificatePage()
     {
         InitializeComponent();
-
-        _database = Application.Current!
-            .Handler!
-            .MauiContext!
-            .Services
-            .GetService<DatabaseService>()!;
-
+        _database = ServiceHelper.GetService<DatabaseService>()
+            ?? throw new InvalidOperationException("DatabaseService not found");
         CertificateCollectionView.ItemsSource = Certificates;
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        await LoadCertificates();
+    }
 
-        // ➕ ДОБАВЬ ЭТО - очищаем и перезагружаем
+    private async Task LoadCertificates()
+    {
         Certificates.Clear();
         var list = await _database.GetCertificatesAsync();
-
         foreach (var cert in list)
             Certificates.Add(cert);
     }
 
-    private async void OnAddCertificateClicked(object? sender, EventArgs e)
+    private async void OnAddCertificateClicked(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new AddCertificatePage());
     }
 
-    private async void OnEditCertificateClicked(object? sender, EventArgs e)
+    private async void OnEditCertificateClicked(object sender, EventArgs e)
     {
         if (sender is Button button && button.CommandParameter is Certificate cert)
-        {
             await Navigation.PushAsync(new AddCertificatePage(cert));
-        }
     }
 
-    private async void OnDeleteCertificateClicked(object? sender, EventArgs e)
+    private async void OnDeleteCertificateClicked(object sender, EventArgs e)
     {
         if (sender is Button button && button.CommandParameter is Certificate cert)
         {
@@ -57,31 +51,6 @@ public partial class CertificatePage : ContentPage
             {
                 await _database.DeleteCertificateAsync(cert);
                 Certificates.Remove(cert);
-            }
-        }
-    }
-
-    private async void OnOpenCertificateClicked(object? sender, EventArgs e)
-    {
-        if (sender is Button button && button.CommandParameter is Certificate cert)
-        {
-            if (!string.IsNullOrEmpty(cert.FilePath) && File.Exists(cert.FilePath))
-            {
-                try
-                {
-                    await Launcher.OpenAsync(new OpenFileRequest
-                    {
-                        File = new ReadOnlyFile(cert.FilePath)
-                    });
-                }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("Error", $"Cannot open file: {ex.Message}", "OK");
-                }
-            }
-            else
-            {
-                await DisplayAlert("Error", "File not found", "OK");
             }
         }
     }
