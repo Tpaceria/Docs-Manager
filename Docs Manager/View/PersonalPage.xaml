@@ -1,142 +1,207 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
-    x:Class="Docs_Manager.View.PersonalPage"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Личные данные">
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Docs_Manager.View.PersonalPage"
+             Title="Личные данные"
+             BackgroundColor="#0a1628"
+             Padding="0">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
+    <Grid RowDefinitions="*" Padding="0">
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="20" Spacing="15">
 
-            <!-- ===== ОСНОВНАЯ ИНФОРМАЦИЯ ===== -->
-            <Label Text="📋 ОСНОВНАЯ ИНФОРМАЦИЯ"
-                   FontSize="18"
-                   FontAttributes="Bold"
-                   TextColor="#FF6B35"/>
+                <!-- ===== ОСНОВНАЯ ИНФОРМАЦИЯ ===== -->
+                <Label Text="📋 ОСНОВНАЯ ИНФОРМАЦИЯ"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#FF6B35"/>
 
-            <Border StrokeShape="RoundRectangle 12"
-                    Stroke="#2E2E2E"
-                    Padding="16">
-                <VerticalStackLayout Spacing="12">
-                    <Entry x:Name="FirstNameEntry"
-                           Placeholder="Имя" />
-                    <Entry x:Name="LastNameEntry"
-                           Placeholder="Фамилия" />
-                    <Entry x:Name="EmailEntry"
-                           Placeholder="Email"
-                           Keyboard="Email" />
-                    <Entry x:Name="PhoneEntry"
-                           Placeholder="Телефон"
-                           Keyboard="Telephone" />
-                    <Label Text="Дата рождения:" FontAttributes="Bold"/>
-                    <DatePicker x:Name="BirthDatePicker"/>
-                </VerticalStackLayout>
-            </Border>
+                <Border StrokeShape="RoundRectangle 12"
+                        Stroke="#2E2E2E"
+                        Padding="16"
+                        BackgroundColor="#1a1a1a">
+                    <VerticalStackLayout Spacing="12">
+                        <Entry x:Name="FirstNameEntry"
+                               Placeholder="Имя"
+                               BackgroundColor="#2a2a2a"
+                               TextColor="#FFFFFF"
+                               PlaceholderColor="#666666"/>
+                        <Entry x:Name="LastNameEntry"
+                               Placeholder="Фамилия"
+                               BackgroundColor="#2a2a2a"
+                               TextColor="#FFFFFF"
+                               PlaceholderColor="#666666"/>
+                        <Entry x:Name="EmailEntry"
+                               Placeholder="Email"
+                               Keyboard="Email"
+                               BackgroundColor="#2a2a2a"
+                               TextColor="#FFFFFF"
+                               PlaceholderColor="#666666"/>
+                        <Entry x:Name="PhoneEntry"
+                               Placeholder="Телефон"
+                               Keyboard="Telephone"
+                               BackgroundColor="#2a2a2a"
+                               TextColor="#FFFFFF"
+                               PlaceholderColor="#666666"/>
+                        <Label Text="Дата рождения:" FontAttributes="Bold" TextColor="#FFFFFF"/>
+                        <DatePicker x:Name="BirthDatePicker" BackgroundColor="#2a2a2a" TextColor="#FFFFFF"/>
+                    </VerticalStackLayout>
+                </Border>
 
-            <!-- ===== ПРОФЕССИОНАЛЬНАЯ ИНФОРМАЦИЯ ===== -->
-            <Label Text="💼 ПРОФЕССИОНАЛЬНАЯ ИНФОРМАЦИЯ"
-                   FontSize="18"
-                   FontAttributes="Bold"
-                   TextColor="#FF6B35"/>
+                <!-- ===== ПРОФЕССИОНАЛЬНАЯ ИНФОРМАЦИЯ ===== -->
+                <Label Text="💼 ПРОФЕССИОНАЛЬНАЯ ИНФОРМАЦИЯ"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#FF6B35"/>
 
-            <Border StrokeShape="RoundRectangle 12"
-                    Stroke="#2E2E2E"
-                    Padding="16">
-                <VerticalStackLayout Spacing="12">
-                    <Entry x:Name="PositionEntry"
-                           Placeholder="Должность (например: 2nd Officer)" />
-                    <Entry x:Name="CitizenshipEntry"
-                           Placeholder="Гражданство" />
-                    <Entry x:Name="ResidenceEntry"
-                           Placeholder="Проживание (город)" />
-                    <Entry x:Name="ResidenceAirportEntry"
-                           Placeholder="Ближайший аэропорт" />
-                    <Entry x:Name="DesiredWageEntry"
-                           Placeholder="Желаемая зарплата"
-                           Keyboard="Numeric" />
+                <Border StrokeShape="RoundRectangle 12"
+                        Stroke="#2E2E2E"
+                        Padding="16"
+                        BackgroundColor="#1a1a1a">
+                    <VerticalStackLayout Spacing="12">
+                        <Entry x:Name="PositionEntry"
+                               Placeholder="Должность (например: 2nd Officer)"
+                               BackgroundColor="#2a2a2a"
+                               TextColor="#FFFFFF"
+                               PlaceholderColor="#666666"/>
+                        <Entry x:Name="CitizenshipEntry"
+                               Placeholder="Гражданство"
+                               BackgroundColor="#2a2a2a"
+                               TextColor="#FFFFFF"
+                               PlaceholderColor="#666666"/>
+                        <Entry x:Name="ResidenceEntry"
+                               Placeholder="Проживание (город)"
+                               BackgroundColor="#2a2a2a"
+                               TextColor="#FFFFFF"
+                               PlaceholderColor="#666666"/>
+                        <Entry x:Name="ResidenceAirportEntry"
+                               Placeholder="Ближайший аэропорт"
+                               BackgroundColor="#2a2a2a"
+                               TextColor="#FFFFFF"
+                               PlaceholderColor="#666666"/>
+                        <Entry x:Name="DesiredWageEntry"
+                               Placeholder="Желаемая зарплата"
+                               Keyboard="Numeric"
+                               BackgroundColor="#2a2a2a"
+                               TextColor="#FFFFFF"
+                               PlaceholderColor="#666666"/>
+                    </VerticalStackLayout>
+                </Border>
 
-                </VerticalStackLayout>
-            </Border>
+                <!-- ===== ЛИЧНАЯ ИНФОРМАЦИЯ ===== -->
+                <Label Text="👤 ЛИЧНАЯ ИНФОРМАЦИЯ"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#FF6B35"/>
 
-            <!-- ===== ЛИЧНАЯ ИНФОРМАЦИЯ ===== -->
-            <Label Text="👤 ЛИЧНАЯ ИНФОРМАЦИЯ"
-                   FontSize="18"
-                   FontAttributes="Bold"
-                   TextColor="#FF6B35"/>
+                <Border StrokeShape="RoundRectangle 12"
+                        Stroke="#2E2E2E"
+                        Padding="16"
+                        BackgroundColor="#1a1a1a">
+                    <VerticalStackLayout Spacing="12">
+                        <Entry x:Name="HeightEntry"
+                               Placeholder="Рост (см)"
+                               Keyboard="Numeric"
+                               BackgroundColor="#2a2a2a"
+                               TextColor="#FFFFFF"
+                               PlaceholderColor="#666666"/>
+                        <Entry x:Name="WeightEntry"
+                               Placeholder="Вес (кг)"
+                               Keyboard="Numeric"
+                               BackgroundColor="#2a2a2a"
+                               TextColor="#FFFFFF"
+                               PlaceholderColor="#666666"/>
+                        <Entry x:Name="ShoeSizeEntry"
+                               Placeholder="Размер обуви"
+                               Keyboard="Numeric"
+                               BackgroundColor="#2a2a2a"
+                               TextColor="#FFFFFF"
+                               PlaceholderColor="#666666"/>
+                        <Entry x:Name="OverallSizeEntry"
+                               Placeholder="Размер одежды"
+                               Keyboard="Numeric"
+                               BackgroundColor="#2a2a2a"
+                               TextColor="#FFFFFF"
+                               PlaceholderColor="#666666"/>
+                        <Entry x:Name="HairColorEntry"
+                               Placeholder="Цвет волос"
+                               BackgroundColor="#2a2a2a"
+                               TextColor="#FFFFFF"
+                               PlaceholderColor="#666666"/>
+                        <Entry x:Name="EyeColorEntry"
+                               Placeholder="Цвет глаз"
+                               BackgroundColor="#2a2a2a"
+                               TextColor="#FFFFFF"
+                               PlaceholderColor="#666666"/>
+                    </VerticalStackLayout>
+                </Border>
 
-            <Border StrokeShape="RoundRectangle 12"
-                    Stroke="#2E2E2E"
-                    Padding="16">
-                <VerticalStackLayout Spacing="12">
-                    <Entry x:Name="HeightEntry"
-                           Placeholder="Рост (см)"
-                           Keyboard="Numeric" />
-                    <Entry x:Name="WeightEntry"
-                           Placeholder="Вес (кг)"
-                           Keyboard="Numeric" />
-                    <Entry x:Name="ShoeSizeEntry"
-                           Placeholder="Размер обуви"
-                           Keyboard="Numeric" />
-                    <Entry x:Name="OverallSizeEntry"
-                           Placeholder="Размер одежды"
-                           Keyboard="Numeric" />
-                    <Entry x:Name="HairColorEntry"
-                           Placeholder="Цвет волос" />
-                    <Entry x:Name="EyeColorEntry"
-                           Placeholder="Цвет глаз" />
-                </VerticalStackLayout>
-            </Border>
+                <!-- ===== ОБРАЗОВАНИЕ ===== -->
+                <Label Text="🎓 ОБРАЗОВАНИЕ"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#FF6B35"/>
 
-            <!-- ===== ОБРАЗОВАНИЕ ===== -->
-            <Label Text="🎓 ОБРАЗОВАНИЕ"
-                   FontSize="18"
-                   FontAttributes="Bold"
-                   TextColor="#FF6B35"/>
+                <Border StrokeShape="RoundRectangle 12"
+                        Stroke="#2E2E2E"
+                        Padding="16"
+                        BackgroundColor="#1a1a1a">
+                    <VerticalStackLayout Spacing="12">
+                        <Entry x:Name="QualificationEntry"
+                               Placeholder="Квалификация/Степень"
+                               BackgroundColor="#2a2a2a"
+                               TextColor="#FFFFFF"
+                               PlaceholderColor="#666666"/>
+                        <Entry x:Name="EducationInstitutionEntry"
+                               Placeholder="Учреждение/Организация"
+                               BackgroundColor="#2a2a2a"
+                               TextColor="#FFFFFF"
+                               PlaceholderColor="#666666"/>
+                        <Label Text="Дата окончания:" FontAttributes="Bold" TextColor="#FFFFFF"/>
+                        <DatePicker x:Name="GraduationDatePicker" BackgroundColor="#2a2a2a" TextColor="#FFFFFF"/>
+                    </VerticalStackLayout>
+                </Border>
 
-            <Border StrokeShape="RoundRectangle 12"
-                    Stroke="#2E2E2E"
-                    Padding="16">
-                <VerticalStackLayout Spacing="12">
-                    <Entry x:Name="QualificationEntry"
-                           Placeholder="Квалификация/Степень" />
-                    <Entry x:Name="EducationInstitutionEntry"
-                           Placeholder="Учреждение/Организация" />
-                    <Label Text="Дата окончания:" FontAttributes="Bold"/>
-                    <DatePicker x:Name="GraduationDatePicker"/>
-                </VerticalStackLayout>
-            </Border>
+                <!-- ===== ФОТО ===== -->
+                <Label Text="📸 ФОТО"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#FF6B35"/>
 
-            <!-- ===== ФОТО ===== -->
-            <Label Text="📸 ФОТО"
-                   FontSize="18"
-                   FontAttributes="Bold"
-                   TextColor="#FF6B35"/>
+                <Button Text="Выбрать фото"
+                        x:Name="PickPhotoButton"
+                        Clicked="OnPickPhotoClicked"
+                        BackgroundColor="#0099CC"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        HeightRequest="50"/>
 
-            <Button Text="Выбрать фото"
-                    x:Name="PickPhotoButton"
-                    Clicked="OnPickPhotoClicked"
-                    BackgroundColor="#0099CC"/>
+                <Image x:Name="PhotoImage"
+                       Aspect="AspectFill"
+                       HeightRequest="200"
+                       WidthRequest="200"
+                       HorizontalOptions="Center"/>
 
-            <Image x:Name="PhotoImage"
-                   Aspect="AspectFill"
-                   HeightRequest="200"
-                   WidthRequest="200"
-                   HorizontalOptions="Center"/>
+                <!-- ===== КНОПКИ ===== -->
+                <StackLayout Orientation="Horizontal" Spacing="10" Margin="0,20,0,20">
+                    <Button Text="Сохранить"
+                            HeightRequest="50"
+                            BackgroundColor="#28A745"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            Clicked="OnSaveClicked"
+                            HorizontalOptions="FillAndExpand"/>
+                    <Button Text="Отмена"
+                            HeightRequest="50"
+                            BackgroundColor="#DC3545"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            Clicked="OnCancelClicked"
+                            HorizontalOptions="FillAndExpand"/>
+                </StackLayout>
 
-            <!-- ===== КНОПКИ ===== -->
-            <StackLayout Orientation="Horizontal" Spacing="10" Margin="0,20">
-                <Button Text="Сохранить"
-                        HeightRequest="50"
-                        BackgroundColor="#28A745"
-                        Clicked="OnSaveClicked"
-                        HorizontalOptions="FillAndExpand"/>
-                <Button Text="Отмена"
-        HeightRequest="50"
-        BackgroundColor="#DC3545"
-        HorizontalOptions="FillAndExpand"/>
-            </StackLayout>
-
-        </VerticalStackLayout>
-    </ScrollView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 
 </ContentPage>

@@ -3,58 +3,113 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Docs_Manager.View.ExperiencePage"
              Title="Experience"
-             BackgroundColor="#0a1628">
+             BackgroundColor="#0a1628"
+             Padding="0">
 
-    <Grid RowDefinitions="Auto,*,Auto" Padding="0" RowSpacing="0">
+    <Grid RowDefinitions="Auto,*" Padding="0" RowSpacing="0">
 
-        <VerticalStackLayout Grid.Row="0" Padding="20" Spacing="10" BackgroundColor="#1a1a1a">
-            <StackLayout Orientation="Horizontal" Spacing="10">
-                <Label Text="⚓" FontSize="28"/>
-                <Label Text="SEA EXPERIENCE" FontSize="22" FontAttributes="Bold" TextColor="#FF6B35" VerticalOptions="Center"/>
-            </StackLayout>
-        </VerticalStackLayout>
+        <!-- ADD BUTTON - FIXED AT TOP -->
+        <Button Grid.Row="0"
+                Text="➕ Add Experience"
+                HeightRequest="60"
+                BackgroundColor="#0099CC"
+                TextColor="White"
+                FontSize="16"
+                FontAttributes="Bold"
+                Clicked="OnAddExperienceClicked"
+                Margin="20,10,20,10"
+                CornerRadius="8"/>
 
-        <CollectionView Grid.Row="1" x:Name="ExperienceCollectionView" SelectionMode="Single" Margin="12,12,12,0" EmptyView="No experiences">
+        <!-- LIST - SCROLLABLE -->
+        <CollectionView Grid.Row="1"
+                        x:Name="ExperienceCollectionView"
+                        SelectionMode="Single"
+                        Margin="0"
+                        EmptyView="No experiences">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Border StrokeShape="RoundRectangle 8" Stroke="#333333" StrokeThickness="1" Padding="0" BackgroundColor="#2a2a2a">
-                        <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="30" Padding="16,12,16,12" VerticalOptions="Center">
-                            <VerticalStackLayout Grid.Column="0" Spacing="2" WidthRequest="150">
-                                <Label Text="{Binding VesselName}" FontSize="14" FontAttributes="Bold" TextColor="#FFFFFF" LineBreakMode="TailTruncation"/>
-                                <Label Text="{Binding Position}" FontSize="12" TextColor="#FF6B35" FontAttributes="Bold"/>
+                    <Border StrokeShape="RoundRectangle 8"
+                            Stroke="#333333"
+                            StrokeThickness="1"
+                            Padding="0"
+                            BackgroundColor="#2a2a2a"
+                            Margin="12,6,12,6">
+
+                        <Grid ColumnDefinitions="Auto,*,Auto,Auto" 
+                              ColumnSpacing="12" 
+                              Padding="16,12,16,12"
+                              VerticalOptions="Center">
+
+                            <!-- Vessel Name and Position -->
+                            <VerticalStackLayout Grid.Column="0" Spacing="3" WidthRequest="150">
+                                <Label Text="{Binding VesselName}"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#FFFFFF"
+                                       LineBreakMode="TailTruncation"/>
+                                <Label Text="{Binding Position}"
+                                       FontSize="12"
+                                       TextColor="#FF6B35"
+                                       FontAttributes="Bold"/>
                             </VerticalStackLayout>
 
-                            <StackLayout Grid.Column="1" Orientation="Horizontal" Spacing="40" HorizontalOptions="FillAndExpand">
+                            <!-- Dates -->
+                            <StackLayout Grid.Column="1" 
+                                        Orientation="Horizontal" 
+                                        Spacing="20"
+                                        HorizontalOptions="FillAndExpand">
                                 <VerticalStackLayout Spacing="2">
-                                    <Label Text="From:" FontSize="10" TextColor="#888888"/>
-                                    <Label Text="{Binding SignOnDate, StringFormat='{0:dd.MM.yyyy}'}" FontSize="12" TextColor="#FFFFFF" FontAttributes="Bold"/>
+                                    <Label Text="From:"
+                                           FontSize="10"
+                                           TextColor="#888888"/>
+                                    <Label Text="{Binding SignOnDate, StringFormat='{0:dd.MM.yyyy}'}"
+                                           FontSize="11"
+                                           TextColor="#FFFFFF"
+                                           FontAttributes="Bold"/>
                                 </VerticalStackLayout>
                                 <VerticalStackLayout Spacing="2">
-                                    <Label Text="To:" FontSize="10" TextColor="#888888"/>
-                                    <Label Text="{Binding SignOffDate, StringFormat='{0:dd.MM.yyyy}'}" FontSize="12" TextColor="#FFFFFF" FontAttributes="Bold"/>
-                                </VerticalStackLayout>
-                                <VerticalStackLayout Spacing="2">
-                                    <Label Text="Duration:" FontSize="10" TextColor="#888888"/>
-                                    <Label Text="{Binding Duration}" FontSize="12" TextColor="#28A745" FontAttributes="Bold"/>
+                                    <Label Text="To:"
+                                           FontSize="10"
+                                           TextColor="#888888"/>
+                                    <Label Text="{Binding SignOffDate, StringFormat='{0:dd.MM.yyyy}'}"
+                                           FontSize="11"
+                                           TextColor="#FFFFFF"
+                                           FontAttributes="Bold"/>
                                 </VerticalStackLayout>
                             </StackLayout>
 
-                            <Button Grid.Column="2" Text="✏️ Edit" BackgroundColor="#0099CC" TextColor="White" Padding="12,8" FontSize="11" 
-                                    Clicked="OnEditExperienceClicked" CommandParameter="{Binding .}" WidthRequest="80" HeightRequest="40"/>
+                            <!-- Edit Button -->
+                            <Button Grid.Column="2"
+                                    Text="✏️"
+                                    BackgroundColor="#0099CC"
+                                    TextColor="White"
+                                    Padding="8"
+                                    Clicked="OnEditExperienceClicked"
+                                    CommandParameter="{Binding .}"
+                                    WidthRequest="38"
+                                    HeightRequest="38"
+                                    CornerRadius="6"/>
 
-                            <Button Grid.Column="3" Text="🗑️ Delete" BackgroundColor="#DC3545" TextColor="White" Padding="12,8" FontSize="11" 
-                                    Clicked="OnDeleteExperienceClicked" CommandParameter="{Binding .}" WidthRequest="80" HeightRequest="40"/>
+                            <!-- Delete Button -->
+                            <Button Grid.Column="3"
+                                    Text="🗑️"
+                                    BackgroundColor="#DC3545"
+                                    TextColor="White"
+                                    Padding="8"
+                                    Clicked="OnDeleteExperienceClicked"
+                                    CommandParameter="{Binding .}"
+                                    WidthRequest="38"
+                                    HeightRequest="38"
+                                    CornerRadius="6"/>
+
                         </Grid>
                     </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
-        <Button Grid.Row="2" Text="➕ Add Experience" HeightRequest="60" BackgroundColor="#FF6B35" TextColor="White" FontSize="16" 
-                FontAttributes="Bold" Clicked="OnAddExperienceClicked" CornerRadius="12" Margin="20"/>
 
     </Grid>
 

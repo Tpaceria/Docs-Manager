@@ -6,15 +6,19 @@ namespace Docs_Manager.View;
 
 public partial class MedicinePage : ContentPage
 {
-    private readonly DatabaseService _database;
+    private DatabaseService? _database;
     public ObservableCollection<Certificate> Certificates { get; set; } = new();
 
     public MedicinePage()
     {
         InitializeComponent();
-        _database = ServiceHelper.GetService<DatabaseService>()
-            ?? throw new InvalidOperationException("DatabaseService not found");
         CertificateCollectionView.ItemsSource = Certificates;
+    }
+
+    private DatabaseService GetDatabase()
+    {
+        _database ??= ServiceHelper.GetService<DatabaseService>();
+        return _database;
     }
 
     protected override async void OnAppearing()
@@ -25,10 +29,17 @@ public partial class MedicinePage : ContentPage
 
     private async Task LoadCertificates()
     {
-        Certificates.Clear();
-        var list = await _database.GetCertificatesAsync();
-        foreach (var cert in list.Where(c => c.Category == "MEDICINE"))
-            Certificates.Add(cert);
+        try
+        {
+            Certificates.Clear();
+            var list = await GetDatabase().GetCertificatesAsync();
+            foreach (var cert in list.Where(c => c.Category == "MEDICINE"))
+                Certificates.Add(cert);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", $"Failed to load: {ex.Message}", "OK");
+        }
     }
 
     private async void OnAddCertificateClicked(object sender, EventArgs e)
@@ -49,7 +60,7 @@ public partial class MedicinePage : ContentPage
             bool answer = await DisplayAlert("Delete", "Delete this certificate?", "Yes", "No");
             if (answer)
             {
-                await _database.DeleteCertificateAsync(cert);
+                await GetDatabase().DeleteCertificateAsync(cert);
                 Certificates.Remove(cert);
             }
         }
