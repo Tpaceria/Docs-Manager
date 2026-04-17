@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Docs_Manager.View.AddMedicinePage"
+             Title="Add Medicine"
+             BackgroundColor="#0a1628">
+
+    <ScrollView BackgroundColor="#0a1628">
+        <VerticalStackLayout Padding="20" Spacing="15" BackgroundColor="#0a1628">
+
+            <!-- Header -->
+            <Label Text="Add Medicine Certificate" FontSize="18" FontAttributes="Bold" TextColor="#00d4ff" Margin="0,0,0,10"/>
+
+            <!-- Document Name -->
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Document Name" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
+                    <Entry x:Name="DocumentEntry" 
+                           Placeholder="Enter document name"
+                           BackgroundColor="Transparent"
+                           TextColor="#ffffff"
+                           PlaceholderColor="#7a8999"/>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Country -->
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Country" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
+                    <Entry x:Name="CountryEntry"
+                           Placeholder="Enter country"
+                           BackgroundColor="Transparent"
+                           TextColor="#ffffff"
+                           PlaceholderColor="#7a8999"/>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Number -->
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Number" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
+                    <Entry x:Name="NumberEntry"
+                           Placeholder="Enter certificate number"
+                           BackgroundColor="Transparent"
+                           TextColor="#ffffff"
+                           PlaceholderColor="#7a8999"/>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Issue Date -->
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Issue Date" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
+                    <DatePicker x:Name="IssueDatePicker"
+                                BackgroundColor="Transparent"
+                                TextColor="#ffffff"
+                                Format="dd.MM.yyyy"/>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- No Expiration Date Toggle -->
+            <HorizontalStackLayout Spacing="10" VerticalOptions="Center" Margin="0,5,0,0">
+                <Switch x:Name="LifetimeSwitch"
+                        Toggled="OnLifetimeToggled"
+                        ThumbColor="#00d4ff"
+                        OnColor="#0f5f7f"/>
+                <Label Text="No expiration date" FontSize="12" TextColor="#7a8999" VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <!-- Expiry Date -->
+            <VerticalStackLayout x:Name="ExpiryStack" Spacing="5">
+                <Label Text="Expiry Date" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
+                    <DatePicker x:Name="ExpiryDatePicker"
+                                BackgroundColor="Transparent"
+                                TextColor="#ffffff"
+                                Format="dd.MM.yyyy"/>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- File Selection -->
+            <VerticalStackLayout Spacing="5">
+                <Label Text="File" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                <Button x:Name="PickFileButton"
+                        Text="📁 Choose File"
+                        BackgroundColor="#00709f"
+                        TextColor="#ffffff"
+                        CornerRadius="6"
+                        Clicked="OnPickFileClicked"
+                        FontSize="12"/>
+            </VerticalStackLayout>
+
+            <!-- File Info -->
+            <Border x:Name="FileInfoBorder" 
+                    IsVisible="False"
+                    StrokeShape="RoundRectangle 6" 
+                    Stroke="#1a3a52" 
+                    StrokeThickness="1" 
+                    BackgroundColor="#1a3a52"
+                    Padding="10">
+                <VerticalStackLayout Spacing="5">
+                    <Label x:Name="FileNameLabel" 
+                           FontSize="11" 
+                           TextColor="#00d4ff"
+                           FontAttributes="Bold"/>
+                    <Label x:Name="FileSizeLabel" 
+                           FontSize="10" 
+                           TextColor="#7a8999"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Buttons -->
+            <HorizontalStackLayout Spacing="10" Margin="0,20,0,0">
+                <Button x:Name="SaveButton"
+                        Text="Save"
+                        BackgroundColor="#28A745"
+                        TextColor="#ffffff"
+                        CornerRadius="6"
+                        HorizontalOptions="FillAndExpand"
+                        Clicked="OnSaveClicked"
+                        FontSize="12"
+                        FontAttributes="Bold"/>
+                <Button x:Name="CancelButton"
+                        Text="Cancel"
+                        BackgroundColor="#DC3545"
+                        TextColor="#ffffff"
+                        CornerRadius="6"
+                        HorizontalOptions="FillAndExpand"
+                        Clicked="OnCancelClicked"
+                        FontSize="12"
+                        FontAttributes="Bold"/>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

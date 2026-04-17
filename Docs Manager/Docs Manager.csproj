@@ -68,8 +68,11 @@
 		<Compile Update="MainPage.xaml.cs">
 		  <DependentUpon>MainPage.xaml</DependentUpon>
 		</Compile>
-		<Compile Update="View\AddOtherPage.xaml.cs">
-			<DependentUpon>AddOtherPage.xaml</DependentUpon>
+		<Compile Update="AddCocPage.xaml.cs">
+		  <DependentUpon>AddCocPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="AddOtherPage.xaml.cs">
+		  <DependentUpon>AddOtherPage.xaml</DependentUpon>
 		</Compile>
 		<Compile Update="View\CertificatesPage.xaml.cs">
 			<DependentUpon>CertificatesPage.xaml</DependentUpon>
@@ -89,26 +92,11 @@
 		<Compile Update="View\PersonalPage.xaml.cs">
 			<DependentUpon>PersonalPage.xaml</DependentUpon>
 		</Compile>
-		<Compile Update="View\AddCertificatePage.xaml.cs">
-			<DependentUpon>AddCertificatePage.xaml</DependentUpon>
-		</Compile>
-		<Compile Update="View\AddCocPage.xaml.cs">
-			<DependentUpon>AddCocPage.xaml</DependentUpon>
-		</Compile>
-		<Compile Update="View\AddDocumentPage.xaml.cs">
-			<DependentUpon>AddDocumentPage.xaml</DependentUpon>
-		</Compile>
-		<Compile Update="View\AddMedicinePage.xaml.cs">
-			<DependentUpon>AddMedicinePage.xaml</DependentUpon>
-		</Compile>
 		<Compile Update="View\CocEndorsementPage.xaml.cs">
 			<DependentUpon>CocEndorsementPage.xaml</DependentUpon>
 		</Compile>
 		<Compile Update="View\EditCertificatePage.xaml.cs">
 			<DependentUpon>EditCertificatePage.xaml</DependentUpon>
-		</Compile>
-		<Compile Update="View\EditExperiencePage.xaml.cs">
-			<DependentUpon>EditExperiencePage.xaml</DependentUpon>
 		</Compile>
 		<Compile Update="View\FilesPage.xaml.cs">
 			<DependentUpon>FilesPage.xaml</DependentUpon>
@@ -128,23 +116,29 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<MauiXaml Update="AddCertificatePage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="AddDocumentPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="AddMedicinePage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="App.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="EditExperiencePage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="MainPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="View\AddCertificatePage.xaml">
-			<Generator>MSBuild:Compile</Generator>
+		<MauiXaml Update="AddCocPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="View\AddCocPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="View\AddDocumentPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="View\AddMedicinePage.xaml">
-			<Generator>MSBuild:Compile</Generator>
+		<MauiXaml Update="AddOtherPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="View\CocEndorsementPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
@@ -155,13 +149,7 @@
 		<MauiXaml Update="View\EditCertificatePage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="View\EditExperiencePage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
 		<MauiXaml Update="View\FilesPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="View\AddOtherPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="View\CertificatesPage.xaml">
