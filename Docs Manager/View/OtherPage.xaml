@@ -3,34 +3,74 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Docs_Manager.View.OtherPage"
              Title="Other"
-             BackgroundColor="#0a1628">
+             BackgroundColor="#0a1628"
+             Padding="0">
 
-    <Grid RowDefinitions="Auto,Auto,*" Padding="0" RowSpacing="0">
+    <Grid RowDefinitions="Auto,*" Padding="0" RowSpacing="0">
 
-        <VerticalStackLayout Grid.Row="0" Padding="20" Spacing="10" BackgroundColor="#1a1a1a">
-            <StackLayout Orientation="Horizontal" Spacing="10">
-                <Label Text="📋" FontSize="28"/>
-                <Label Text="OTHER" FontSize="22" FontAttributes="Bold" TextColor="#FF6B35" VerticalOptions="Center"/>
-            </StackLayout>
-        </VerticalStackLayout>
+        <!-- ADD BUTTON - FIXED AT TOP -->
+        <Button Grid.Row="0"
+                Text="➕ Add Other"
+                HeightRequest="60"
+                BackgroundColor="#0099CC"
+                TextColor="White"
+                FontSize="16"
+                FontAttributes="Bold"
+                Clicked="OnAddCertificateClicked"
+                Margin="20,10,20,10"
+                CornerRadius="8"/>
 
-        <Button Grid.Row="1" Text="➕ Add Other" HeightRequest="50" BackgroundColor="#0099CC" TextColor="White" 
-                FontSize="14" FontAttributes="Bold" Clicked="OnAddCertificateClicked" Margin="20,10,20,10"/>
-
-        <CollectionView Grid.Row="2" x:Name="CertificateCollectionView" SelectionMode="Single" Margin="0" EmptyView="No items">
+        <!-- LIST - SCROLLABLE -->
+        <CollectionView Grid.Row="1"
+                        x:Name="CertificateCollectionView"
+                        SelectionMode="Single"
+                        Margin="0"
+                        EmptyView="No items">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Border StrokeShape="RoundRectangle 8" Stroke="#333333" StrokeThickness="1" Padding="0" 
-                            BackgroundColor="#2a2a2a" Margin="12,6,12,6">
-                        <Grid ColumnDefinitions="*,Auto,Auto,Auto" ColumnSpacing="12" Padding="16,12,16,12" VerticalOptions="Center">
-                            <Label Grid.Column="0" Text="{Binding Document}" FontSize="14" FontAttributes="Bold" TextColor="#FFFFFF"/>
-                            <Button Grid.Column="1" Text="✏️" BackgroundColor="#0099CC" TextColor="White" Padding="8" 
-                                    Clicked="OnEditCertificateClicked" CommandParameter="{Binding .}" WidthRequest="38" HeightRequest="38" CornerRadius="6"/>
-                            <Button Grid.Column="2" Text="🗑️" BackgroundColor="#DC3545" TextColor="White" Padding="8" 
-                                    Clicked="OnDeleteCertificateClicked" CommandParameter="{Binding .}" WidthRequest="38" HeightRequest="38" CornerRadius="6"/>
+                    <Border StrokeShape="RoundRectangle 8"
+                            Stroke="#333333"
+                            StrokeThickness="1"
+                            Padding="0"
+                            BackgroundColor="#2a2a2a"
+                            Margin="12,6,12,6">
+
+                        <Grid ColumnDefinitions="*,Auto,Auto" 
+                              ColumnSpacing="12" 
+                              Padding="16,12,16,12"
+                              VerticalOptions="Center">
+
+                            <Label Grid.Column="0"
+                                   Text="{Binding Document}"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#FFFFFF"/>
+
+                            <Button Grid.Column="1"
+                                    Text="✏️"
+                                    BackgroundColor="#0099CC"
+                                    TextColor="White"
+                                    Padding="8"
+                                    Clicked="OnEditCertificateClicked"
+                                    CommandParameter="{Binding .}"
+                                    WidthRequest="38"
+                                    HeightRequest="38"
+                                    CornerRadius="6"/>
+
+                            <Button Grid.Column="2"
+                                    Text="🗑️"
+                                    BackgroundColor="#DC3545"
+                                    TextColor="White"
+                                    Padding="8"
+                                    Clicked="OnDeleteCertificateClicked"
+                                    CommandParameter="{Binding .}"
+                                    WidthRequest="38"
+                                    HeightRequest="38"
+                                    CornerRadius="6"/>
+
                         </Grid>
                     </Border>
                 </DataTemplate>

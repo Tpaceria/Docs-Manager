@@ -6,15 +6,19 @@ namespace Docs_Manager.View;
 
 public partial class ExperiencePage : ContentPage
 {
-    private readonly DatabaseService _database;
+    private DatabaseService? _database;
     public ObservableCollection<Experience> Experiences { get; set; } = new();
 
     public ExperiencePage()
     {
         InitializeComponent();
-        _database = ServiceHelper.GetService<DatabaseService>()
-            ?? throw new InvalidOperationException("DatabaseService not found");
         ExperienceCollectionView.ItemsSource = Experiences;
+    }
+
+    private DatabaseService GetDatabase()
+    {
+        _database ??= ServiceHelper.GetService<DatabaseService>();
+        return _database;
     }
 
     protected override async void OnAppearing()
@@ -25,10 +29,17 @@ public partial class ExperiencePage : ContentPage
 
     private async Task LoadExperiences()
     {
-        Experiences.Clear();
-        var list = await _database.GetExperiencesAsync();
-        foreach (var exp in list)
-            Experiences.Add(exp);
+        try
+        {
+            Experiences.Clear();
+            var list = await GetDatabase().GetExperiencesAsync();
+            foreach (var exp in list)
+                Experiences.Add(exp);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", $"Failed to load: {ex.Message}", "OK");
+        }
     }
 
     private async void OnAddExperienceClicked(object sender, EventArgs e)
@@ -49,8 +60,8 @@ public partial class ExperiencePage : ContentPage
             bool answer = await DisplayAlert("Delete", "Delete this experience?", "Yes", "No");
             if (answer)
             {
-                await _database.DeleteExperienceAsync(exp);
-                await LoadExperiences();
+                await GetDatabase().DeleteExperienceAsync(exp);
+                Experiences.Remove(exp);
             }
         }
     }

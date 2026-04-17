@@ -151,6 +151,11 @@ public partial class PersonalPage : ContentPage
         }
     }
 
+    private async void OnCancelClicked(object sender, EventArgs e)
+    {
+        await Navigation.PopAsync();
+    }
+
     private int CalculateAge(DateTime birthDate)
     {
         var today = DateTime.Today;

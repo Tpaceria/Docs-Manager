@@ -71,13 +71,7 @@ public partial class MainPage : ContentPage
     private void SetPage(ContentPage page)
     {
         _currentPage = page;
-        ContentArea.Clear();
-
-        if (page.Content != null)
-        {
-            ContentArea.Add(page.Content);
-        }
-
+        ContentArea.Content = page.Content;
         page.SendAppearing();
     }
 
