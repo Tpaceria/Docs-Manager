@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Docs_Manager.View.EditExperiencePage"
+             Title="Add Experience"
+             BackgroundColor="#0a1628">
+
+    <ScrollView BackgroundColor="#0a1628">
+        <VerticalStackLayout Padding="20" Spacing="15" BackgroundColor="#0a1628">
+
+            <!-- Header -->
+            <Label Text="⚓ Add Sea Experience" FontSize="18" FontAttributes="Bold" TextColor="#00d4ff" Margin="0,0,0,10"/>
+
+            <!-- VESSEL INFORMATION -->
+            <Label Text="VESSEL INFORMATION" FontSize="12" FontAttributes="Bold" TextColor="#7a8999" Margin="0,10,0,5"/>
+
+            <!-- Vessel Name -->
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Vessel Name" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
+                    <Entry x:Name="VesselNameEntry" 
+                           Placeholder="e.g. Yellow Submarine"
+                           BackgroundColor="Transparent"
+                           TextColor="#ffffff"
+                           PlaceholderColor="#7a8999"/>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- DWT & Position Row -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <VerticalStackLayout Grid.Column="0" Spacing="5">
+                    <Label Text="DWT (tonnes)" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                    <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
+                        <Entry x:Name="DWTEntry" 
+                               Placeholder="0" 
+                               Keyboard="Numeric" 
+                               BackgroundColor="Transparent"
+                               TextColor="#ffffff"
+                               PlaceholderColor="#7a8999"/>
+                    </Border>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                    <Label Text="Your Position" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                    <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
+                        <Picker x:Name="PositionPicker" 
+                                Title="Select position" 
+                                BackgroundColor="Transparent"
+                                TextColor="#ffffff"
+                                TitleColor="#7a8999">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Captain</x:String>
+                                    <x:String>Chief Officer</x:String>
+                                    <x:String>2nd Officer</x:String>
+                                    <x:String>3rd Officer</x:String>
+                                    <x:String>Chief Engineer</x:String>
+                                    <x:String>1st Engineer</x:String>
+                                    <x:String>2nd Engineer</x:String>
+                                    <x:String>3rd Engineer</x:String>
+                                    <x:String>Ordinary Seaman</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </Border>
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- Vessel Type & Flag Row -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <VerticalStackLayout Grid.Column="0" Spacing="5">
+                    <Label Text="Vessel Type" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                    <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
+                        <Picker x:Name="VesselTypePicker" 
+                                Title="Select type" 
+                                BackgroundColor="Transparent"
+                                TextColor="#ffffff"
+                                TitleColor="#7a8999">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Container Ship</x:String>
+                                    <x:String>Bulk Carrier</x:String>
+                                    <x:String>Tanker</x:String>
+                                    <x:String>General Cargo</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </Border>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                    <Label Text="Flag" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                    <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
+                        <Picker x:Name="FlagPicker" 
+                                Title="Select flag" 
+                                BackgroundColor="Transparent"
+                                TextColor="#ffffff"
+                                TitleColor="#7a8999">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Panama</x:String>
+                                    <x:String>Marshall Islands</x:String>
+                                    <x:String>Liberia</x:String>
+                                    <x:String>Singapore</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </Border>
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- Year of Built -->
+            <VerticalStackLayout Spacing="5">
+                <Label Text="Year of Built" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
+                    <Entry x:Name="YearEntry" 
+                           Placeholder="1990" 
+                           Keyboard="Numeric" 
+                           BackgroundColor="Transparent"
+                           TextColor="#ffffff"
+                           PlaceholderColor="#7a8999"/>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- SERVICE PERIOD -->
+            <Label Text="SERVICE PERIOD" FontSize="12" FontAttributes="Bold" TextColor="#7a8999" Margin="0,10,0,5"/>
+
+            <!-- Sign On & Sign Off Dates -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <VerticalStackLayout Grid.Column="0" Spacing="5">
+                    <Label Text="Sign On Date" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                    <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
+                        <DatePicker x:Name="SignOnDatePicker" 
+                                    BackgroundColor="Transparent"
+                                    TextColor="#ffffff"
+                                    Format="dd.MM.yyyy"/>
+                    </Border>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                    <Label Text="Sign Off Date" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                    <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
+                        <DatePicker x:Name="SignOffDatePicker" 
+                                    BackgroundColor="Transparent"
+                                    TextColor="#ffffff"
+                                    Format="dd.MM.yyyy"/>
+                    </Border>
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- ENGINE DETAILS -->
+            <Label Text="ENGINE DETAILS" FontSize="12" FontAttributes="Bold" TextColor="#7a8999" Margin="0,10,0,5"/>
+
+            <!-- Main Engine & ME Type -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <VerticalStackLayout Grid.Column="0" Spacing="5">
+                    <Label Text="Main Engine (kW)" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                    <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
+                        <Entry x:Name="MainEngineEntry" 
+                               Placeholder="0" 
+                               Keyboard="Numeric" 
+                               BackgroundColor="Transparent"
+                               TextColor="#ffffff"
+                               PlaceholderColor="#7a8999"/>
+                    </Border>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                    <Label Text="ME Type" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                    <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
+                        <Picker x:Name="METypePicker" 
+                                Title="Select type" 
+                                BackgroundColor="Transparent"
+                                TextColor="#ffffff"
+                                TitleColor="#7a8999">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Diesel</x:String>
+                                    <x:String>Steam</x:String>
+                                    <x:String>Gas Turbine</x:String>
+                                    <x:String>LNG</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </Border>
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- COMPANY INFORMATION -->
+            <Label Text="COMPANY INFORMATION" FontSize="12" FontAttributes="Bold" TextColor="#7a8999" Margin="0,10,0,5"/>
+
+            <!-- Shipowner & Crewing Agency -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <VerticalStackLayout Grid.Column="0" Spacing="5">
+                    <Label Text="Shipowner" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                    <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
+                        <Entry x:Name="ShipownerEntry" 
+                               Placeholder="e.g. Yellow Corp." 
+                               BackgroundColor="Transparent"
+                               TextColor="#ffffff"
+                               PlaceholderColor="#7a8999"/>
+                    </Border>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                    <Label Text="Crewing Agency" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                    <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
+                        <Entry x:Name="CrewingAgencyEntry" 
+                               Placeholder="e.g. Yellow Agency" 
+                               BackgroundColor="Transparent"
+                               TextColor="#ffffff"
+                               PlaceholderColor="#7a8999"/>
+                    </Border>
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- IMO Number -->
+            <VerticalStackLayout Spacing="5">
+                <Label Text="IMO Number" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
+                    <Entry x:Name="IMOEntry" 
+                           Placeholder="IMO number" 
+                           BackgroundColor="Transparent"
+                           TextColor="#ffffff"
+                           PlaceholderColor="#7a8999"/>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Buttons -->
+            <HorizontalStackLayout Spacing="10" Margin="0,20,0,0">
+                <Button x:Name="SaveButton"
+                        Text="Save"
+                        BackgroundColor="#28A745"
+                        TextColor="#ffffff"
+                        CornerRadius="6"
+                        HorizontalOptions="FillAndExpand"
+                        Clicked="OnSaveClicked"
+                        FontSize="12"
+                        FontAttributes="Bold"/>
+                <Button x:Name="CancelButton"
+                        Text="Cancel"
+                        BackgroundColor="#DC3545"
+                        TextColor="#ffffff"
+                        CornerRadius="6"
+                        HorizontalOptions="FillAndExpand"
+                        Clicked="OnCancelClicked"
+                        FontSize="12"
+                        FontAttributes="Bold"/>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

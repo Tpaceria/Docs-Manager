@@ -3,22 +3,20 @@ using Docs_Manager.Models;
 
 namespace Docs_Manager.View;
 
-public partial class AddCertificatePage : ContentPage
+public partial class AddDocumentPage : ContentPage
 {
     readonly DatabaseService _database;
     Certificate _certificate;
     string _selectedFilePath;
 
-    public AddCertificatePage()
+    public AddDocumentPage()
     {
         InitializeComponent();
         _database = ServiceHelper.GetService<DatabaseService>()
             ?? throw new InvalidOperationException("DatabaseService not found");
-        if (CategoryPicker != null)
-            CategoryPicker.SelectedIndex = 0;
     }
 
-    public AddCertificatePage(Certificate certificate) : this()
+    public AddDocumentPage(Certificate certificate) : this()
     {
         _certificate = certificate;
     }
@@ -37,21 +35,17 @@ public partial class AddCertificatePage : ContentPage
             ExpiryDatePicker.Date = _certificate.ExpiryDate;
             _selectedFilePath = _certificate.FilePath;
 
-            var index = GetCategoryIndex(_certificate.Category ?? "CERTIFICATES");
-            CategoryPicker.SelectedIndex = index;
-
             if (!string.IsNullOrEmpty(_selectedFilePath))
             {
-                FileInfoStack.IsVisible = true;
+                FileInfoBorder.IsVisible = true;
                 FileNameLabel.Text = Path.GetFileName(_selectedFilePath);
                 FileSizeLabel.Text = $"Size: {FormatFileSize(new FileInfo(_selectedFilePath).Length)}";
                 PickFileButton.Text = "✅ File Selected";
                 PickFileButton.BackgroundColor = Color.FromArgb("#28A745");
             }
 
-            Title = "Edit Certificate";
-            ExpiryDatePicker.IsVisible = !_certificate.IsLifetime;
-            ExpiryLabel.IsVisible = !_certificate.IsLifetime;
+            Title = "Edit Document";
+            ExpiryStack.IsVisible = !_certificate.IsLifetime;
         }
         else
         {
@@ -60,22 +54,9 @@ public partial class AddCertificatePage : ContentPage
         }
     }
 
-    int GetCategoryIndex(string category)
-    {
-        return category switch
-        {
-            "COC & ENDORSEMENT" => 1,
-            "DOCUMENTS" => 2,
-            "MEDICINE" => 3,
-            "OTHER" => 4,
-            _ => 0
-        };
-    }
-
     void OnLifetimeToggled(object sender, ToggledEventArgs e)
     {
-        ExpiryDatePicker.IsVisible = !e.Value;
-        ExpiryLabel.IsVisible = !e.Value;
+        ExpiryStack.IsVisible = !e.Value;
     }
 
     async void OnPickFileClicked(object sender, EventArgs e)
@@ -84,7 +65,7 @@ public partial class AddCertificatePage : ContentPage
         {
             var result = await FilePicker.PickAsync(new PickOptions
             {
-                PickerTitle = "Select Certificate File"
+                PickerTitle = "Select File"
             });
 
             if (result != null)
@@ -93,7 +74,7 @@ public partial class AddCertificatePage : ContentPage
                 var fileInfo = new FileInfo(_selectedFilePath);
                 long fileSize = fileInfo.Length;
 
-                FileInfoStack.IsVisible = true;
+                FileInfoBorder.IsVisible = true;
                 FileNameLabel.Text = result.FileName;
                 FileSizeLabel.Text = $"Size: {FormatFileSize(fileSize)}";
                 PickFileButton.Text = "✅ File Selected";
@@ -126,12 +107,11 @@ public partial class AddCertificatePage : ContentPage
                 ExpiryDate = LifetimeSwitch.IsToggled ? DateTime.MaxValue : (ExpiryDatePicker.Date ?? DateTime.Today),
                 IsLifetime = LifetimeSwitch.IsToggled,
                 FilePath = _selectedFilePath,
-                Category = CategoryPicker.SelectedItem?.ToString() ?? "CERTIFICATES"
+                Category = "DOCUMENTS"
             };
 
             await _database.SaveCertificateAsync(certificate);
-            await DisplayAlert("Success", "Certificate saved!", "OK");
-            // ✅ ИСПРАВЛЕНО: используем PopModalAsync для закрытия модального окна
+            await DisplayAlert("Success", "Document saved!", "OK");
             await Navigation.PopModalAsync();
         }
         catch (Exception ex)
@@ -140,7 +120,6 @@ public partial class AddCertificatePage : ContentPage
         }
     }
 
-    // ✅ ИСПРАВЛЕНО: используем PopModalAsync вместо PopAsync
     async void OnCancelClicked(object sender, EventArgs e)
     {
         await Navigation.PopModalAsync();

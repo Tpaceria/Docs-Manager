@@ -5,9 +5,9 @@ namespace Docs_Manager.View;
 
 public partial class AddOtherPage : ContentPage
 {
-    private readonly DatabaseService _database;
-    private Certificate? _certificate;
-    private string? _selectedFilePath;
+    readonly DatabaseService _database;
+    Certificate _certificate;
+    string _selectedFilePath;
 
     public AddOtherPage()
     {
@@ -27,32 +27,45 @@ public partial class AddOtherPage : ContentPage
 
         if (_certificate != null)
         {
-            FileNameEntry.Text = _certificate.Document;
-            DescriptionEditor.Text = _certificate.Description ?? "";
-            ExpirationDatePicker.Date = _certificate.ExpiryDate;
+            DocumentEntry.Text = _certificate.Document;
+            CountryEntry.Text = _certificate.Country ?? "";
+            NumberEntry.Text = _certificate.Number;
+            IssueDatePicker.Date = _certificate.IssueDate;
+            LifetimeSwitch.IsToggled = _certificate.IsLifetime;
+            ExpiryDatePicker.Date = _certificate.ExpiryDate;
             _selectedFilePath = _certificate.FilePath;
 
             if (!string.IsNullOrEmpty(_selectedFilePath))
             {
-                FileInfoStack.IsVisible = true;
+                FileInfoBorder.IsVisible = true;
                 FileNameLabel.Text = Path.GetFileName(_selectedFilePath);
+                FileSizeLabel.Text = $"Size: {FormatFileSize(new FileInfo(_selectedFilePath).Length)}";
+                PickFileButton.Text = "✅ File Selected";
+                PickFileButton.BackgroundColor = Color.FromArgb("#28A745");
             }
 
-            Title = "Edit Other";
+            Title = "Edit Other Document";
+            ExpiryStack.IsVisible = !_certificate.IsLifetime;
         }
         else
         {
-            ExpirationDatePicker.Date = DateTime.Today.AddYears(5);
+            IssueDatePicker.Date = DateTime.Today;
+            ExpiryDatePicker.Date = DateTime.Today.AddYears(5);
         }
     }
 
-    private async void OnPickFileClicked(object sender, EventArgs e)
+    void OnLifetimeToggled(object sender, ToggledEventArgs e)
+    {
+        ExpiryStack.IsVisible = !e.Value;
+    }
+
+    async void OnPickFileClicked(object sender, EventArgs e)
     {
         try
         {
             var result = await FilePicker.PickAsync(new PickOptions
             {
-                PickerTitle = "Select a file"
+                PickerTitle = "Select File"
             });
 
             if (result != null)
@@ -61,7 +74,7 @@ public partial class AddOtherPage : ContentPage
                 var fileInfo = new FileInfo(_selectedFilePath);
                 long fileSize = fileInfo.Length;
 
-                FileInfoStack.IsVisible = true;
+                FileInfoBorder.IsVisible = true;
                 FileNameLabel.Text = result.FileName;
                 FileSizeLabel.Text = $"Size: {FormatFileSize(fileSize)}";
                 PickFileButton.Text = "✅ File Selected";
@@ -70,47 +83,46 @@ public partial class AddOtherPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"Failed to pick file: {ex.Message}", "OK");
+            await DisplayAlert("Error", ex.Message, "OK");
         }
     }
 
-    private async void OnSaveClicked(object sender, EventArgs e)
+    async void OnSaveClicked(object sender, EventArgs e)
     {
-        if (string.IsNullOrEmpty(FileNameEntry.Text))
-        {
-            await DisplayAlert("Error", "Please enter document name", "OK");
-            return;
-        }
-
         try
         {
+            if (string.IsNullOrWhiteSpace(DocumentEntry.Text))
+            {
+                await DisplayAlert("Error", "Enter document name", "OK");
+                return;
+            }
+
             var certificate = new Certificate
             {
                 Id = _certificate?.Id ?? 0,
-                Document = FileNameEntry.Text,
-                Description = DescriptionEditor.Text ?? "",
-                ExpiryDate = ExpirationDatePicker.Date ?? DateTime.Today,
+                Document = DocumentEntry.Text,
+                Country = CountryEntry.Text ?? "",
+                Number = NumberEntry.Text ?? "",
+                IssueDate = IssueDatePicker.Date ?? DateTime.Today,
+                ExpiryDate = LifetimeSwitch.IsToggled ? DateTime.MaxValue : (ExpiryDatePicker.Date ?? DateTime.Today),
+                IsLifetime = LifetimeSwitch.IsToggled,
                 FilePath = _selectedFilePath,
-                Category = "OTHER",
-                IssueDate = DateTime.Today,
-                Number = "",
-                IsLifetime = false,
-                Country = ""
+                Category = "OTHER"
             };
 
             await _database.SaveCertificateAsync(certificate);
             await DisplayAlert("Success", "Document saved!", "OK");
-            await Navigation.PopAsync();
+            await Navigation.PopModalAsync();
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"Failed to save: {ex.Message}", "OK");
+            await DisplayAlert("Error", ex.Message, "OK");
         }
     }
 
-    private async void OnCancelClicked(object sender, EventArgs e)
+    async void OnCancelClicked(object sender, EventArgs e)
     {
-        await Navigation.PopAsync();
+        await Navigation.PopModalAsync();
     }
 
     static string FormatFileSize(long bytes)
