@@ -17,6 +17,13 @@ public partial class MedicinePage : ContentPage
         CertificateCollectionView.ItemsSource = Certificates;
     }
 
+    // ✅ КОНСТРУКТОР с INavigation
+    public MedicinePage(INavigation navigation) : this()
+    {
+        _navigation = navigation;
+        Debug.WriteLine($"✅ MedicinePage Navigation set: {_navigation != null}");
+    }
+
     private DatabaseService GetDatabase()
     {
         _database ??= ServiceHelper.GetService<DatabaseService>();

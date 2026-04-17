@@ -17,6 +17,13 @@ public partial class ExperiencePage : ContentPage
         ExperienceCollectionView.ItemsSource = Experiences;
     }
 
+    // ✅ КОНСТРУКТОР с INavigation
+    public ExperiencePage(INavigation navigation) : this()
+    {
+        _navigation = navigation;
+        Debug.WriteLine($"✅ ExperiencePage Navigation set: {_navigation != null}");
+    }
+
     private DatabaseService GetDatabase()
     {
         _database ??= ServiceHelper.GetService<DatabaseService>();

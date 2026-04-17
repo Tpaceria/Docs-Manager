@@ -17,6 +17,13 @@ public partial class DocumentsPage : ContentPage
         CertificateCollectionView.ItemsSource = Certificates;
     }
 
+    // ✅ КОНСТРУКТОР с INavigation
+    public DocumentsPage(INavigation navigation) : this()
+    {
+        _navigation = navigation;
+        Debug.WriteLine($"✅ DocumentsPage Navigation set: {_navigation != null}");
+    }
+
     private DatabaseService GetDatabase()
     {
         _database ??= ServiceHelper.GetService<DatabaseService>();
