@@ -63,9 +63,11 @@
                         TextColor="White" 
                         Clicked="OnPickFileClicked"/>
 
+                <!-- ✅ ДОБАВЛЕН FileSizeLabel -->
                 <StackLayout x:Name="FileInfoStack" IsVisible="False" Spacing="5">
                     <Label Text="File Selected:" FontSize="12" TextColor="#FF6B35"/>
                     <Label x:Name="FileNameLabel" TextColor="#FFFFFF"/>
+                    <Label x:Name="FileSizeLabel" FontSize="11" TextColor="#888888"/>
                 </StackLayout>
 
             </VerticalStackLayout>

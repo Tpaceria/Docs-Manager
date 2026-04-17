@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net10.0-android</TargetFrameworks>
@@ -65,6 +65,9 @@
 		<Compile Update="App.xaml.cs">
 		  <DependentUpon>App.xaml</DependentUpon>
 		</Compile>
+		<Compile Update="MainPage.xaml.cs">
+		  <DependentUpon>MainPage.xaml</DependentUpon>
+		</Compile>
 		<Compile Update="View\AddOtherPage.xaml.cs">
 			<DependentUpon>AddOtherPage.xaml</DependentUpon>
 		</Compile>
@@ -125,10 +128,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<MauiXaml Update="MainPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
 		<MauiXaml Update="App.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="MainPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="View\AddCertificatePage.xaml">

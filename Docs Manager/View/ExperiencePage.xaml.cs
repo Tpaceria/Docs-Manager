@@ -1,6 +1,7 @@
 using Docs_Manager.Data;
 using Docs_Manager.Models;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace Docs_Manager.View;
 
@@ -8,6 +9,7 @@ public partial class ExperiencePage : ContentPage
 {
     private DatabaseService? _database;
     public ObservableCollection<Experience> Experiences { get; set; } = new();
+    private INavigation _navigation;
 
     public ExperiencePage()
     {
@@ -42,15 +44,54 @@ public partial class ExperiencePage : ContentPage
         }
     }
 
+    // ✅ ИСПОЛЬЗУЕМ _navigation вместо this.Navigation
     private async void OnAddExperienceClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new EditExperiencePage());
+        try
+        {
+            Debug.WriteLine("🔵 OnAddExperienceClicked triggered!");
+
+            if (_navigation == null)
+            {
+                Debug.WriteLine("❌ Navigation is NULL!");
+                await DisplayAlert("Error", "Navigation context is null", "OK");
+                return;
+            }
+
+            await _navigation.PushModalAsync(
+                new NavigationPage(new EditExperiencePage())
+                {
+                    BarBackgroundColor = Color.FromArgb("#0f1f2e"),
+                    BarTextColor = Color.FromArgb("#00d4ff")
+                }
+            );
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"❌ Exception: {ex.Message}");
+            await DisplayAlert("Error", $"Failed: {ex.Message}", "OK");
+        }
     }
 
     private async void OnEditExperienceClicked(object sender, EventArgs e)
     {
         if (sender is Button button && button.CommandParameter is Experience exp)
-            await Navigation.PushAsync(new EditExperiencePage(exp));
+        {
+            try
+            {
+                await _navigation.PushModalAsync(
+                    new NavigationPage(new EditExperiencePage(exp))
+                    {
+                        BarBackgroundColor = Color.FromArgb("#0f1f2e"),
+                        BarTextColor = Color.FromArgb("#00d4ff")
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"Failed: {ex.Message}", "OK");
+            }
+        }
     }
 
     private async void OnDeleteExperienceClicked(object sender, EventArgs e)
@@ -60,8 +101,8 @@ public partial class ExperiencePage : ContentPage
             bool answer = await DisplayAlert("Delete", "Delete this experience?", "Yes", "No");
             if (answer)
             {
-                await GetDatabase().DeleteExperienceAsync(exp);
-                Experiences.Remove(exp);
+                await _database.DeleteExperienceAsync(exp);
+                await LoadExperiences();
             }
         }
     }
