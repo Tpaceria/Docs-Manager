@@ -1,96 +1,30 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Docs_Manager"
              x:Class="Docs_Manager.MainPage"
              BackgroundColor="#0a1628">
 
     <Grid RowDefinitions="*" ColumnDefinitions="280,*" Padding="0">
 
-        <!-- LEFT SIDEBAR MENU -->
+        <!-- LEFT SIDEBAR -->
         <VerticalStackLayout Grid.Row="0" Grid.Column="0" BackgroundColor="#0a1628" Padding="0" Spacing="0">
-
-            <!-- LOGO/BRAND -->
             <VerticalStackLayout Padding="20,30,20,40" Spacing="5" BackgroundColor="#0f1f2e">
-                <Label Text="📋 Docs Manager" 
-                       FontSize="18" 
-                       FontAttributes="Bold" 
-                       TextColor="#00d4ff"/>
-                <Label Text="Seafarer Profile" 
-                       FontSize="12" 
-                       TextColor="#7a8999"/>
+                <Label Text="📋 Docs Manager" FontSize="18" FontAttributes="Bold" TextColor="#00d4ff"/>
+                <Label Text="Seafarer Profile" FontSize="12" TextColor="#7a8999"/>
             </VerticalStackLayout>
 
-            <!-- MENU ITEMS -->
             <ScrollView>
                 <VerticalStackLayout Padding="0" Spacing="8" Margin="10,0,10,0">
-
-                    <Button x:Name="PersonalBtn"
-                            Text="👤 Personal"
-                            BackgroundColor="#1a3a52"
-                            TextColor="#00d4ff"
-                            FontSize="14"
-                            FontAttributes="Bold"
-                            Padding="20,15"
-                            CornerRadius="8"
-                            Clicked="OnPersonalClicked"/>
-
-                    <Button x:Name="CertificatesBtn"
-                            Text="📄 Certificates"
-                            BackgroundColor="Transparent"
-                            TextColor="#a8b8cc"
-                            FontSize="14"
-                            Padding="20,15"
-                            CornerRadius="8"
-                            Clicked="OnCertificatesClicked"/>
-
-                    <Button x:Name="CocBtn"
-                            Text="📜 COC &amp; Endorsement"
-                            BackgroundColor="Transparent"
-                            TextColor="#a8b8cc"
-                            FontSize="14"
-                            Padding="20,15"
-                            CornerRadius="8"
-                            Clicked="OnCocClicked"/>
-
-                    <Button x:Name="DocumentsBtn"
-                            Text="📑 Documents"
-                            BackgroundColor="Transparent"
-                            TextColor="#a8b8cc"
-                            FontSize="14"
-                            Padding="20,15"
-                            CornerRadius="8"
-                            Clicked="OnDocumentsClicked"/>
-
-                    <Button x:Name="MedicineBtn"
-                            Text="💊 Medicine"
-                            BackgroundColor="Transparent"
-                            TextColor="#a8b8cc"
-                            FontSize="14"
-                            Padding="20,15"
-                            CornerRadius="8"
-                            Clicked="OnMedicineClicked"/>
-
-                    <Button x:Name="OtherBtn"
-                            Text="📋 Other"
-                            BackgroundColor="Transparent"
-                            TextColor="#a8b8cc"
-                            FontSize="14"
-                            Padding="20,15"
-                            CornerRadius="8"
-                            Clicked="OnOtherClicked"/>
-
-                    <Button x:Name="ExperienceBtn"
-                            Text="⚓ Experience"
-                            BackgroundColor="Transparent"
-                            TextColor="#a8b8cc"
-                            FontSize="14"
-                            Padding="20,15"
-                            CornerRadius="8"
-                            Clicked="OnExperienceClicked"/>
-
+                    <Button x:Name="PersonalBtn" Text="👤 Personal" BackgroundColor="#1a3a52" TextColor="#00d4ff" Padding="20,15" CornerRadius="8" Clicked="OnPersonalClicked"/>
+                    <Button x:Name="CertificatesBtn" Text="📄 Certificates" BackgroundColor="Transparent" TextColor="#a8b8cc" Padding="20,15" CornerRadius="8" Clicked="OnCertificatesClicked"/>
+                    <Button x:Name="CocBtn" Text="📜 COC &amp; Endorsement" BackgroundColor="Transparent" TextColor="#a8b8cc" Padding="20,15" CornerRadius="8" Clicked="OnCocClicked"/>
+                    <Button x:Name="DocumentsBtn" Text="📑 Documents" BackgroundColor="Transparent" TextColor="#a8b8cc" Padding="20,15" CornerRadius="8" Clicked="OnDocumentsClicked"/>
+                    <Button x:Name="MedicineBtn" Text="💊 Medicine" BackgroundColor="Transparent" TextColor="#a8b8cc" Padding="20,15" CornerRadius="8" Clicked="OnMedicineClicked"/>
+                    <Button x:Name="OtherBtn" Text="📋 Other" BackgroundColor="Transparent" TextColor="#a8b8cc" Padding="20,15" CornerRadius="8" Clicked="OnOtherClicked"/>
+                    <Button x:Name="ExperienceBtn" Text="⚓ Experience" BackgroundColor="Transparent" TextColor="#a8b8cc" Padding="20,15" CornerRadius="8" Clicked="OnExperienceClicked"/>
                 </VerticalStackLayout>
             </ScrollView>
-
         </VerticalStackLayout>
 
         <!-- RIGHT CONTENT AREA -->

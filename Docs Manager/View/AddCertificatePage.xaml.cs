@@ -44,6 +44,9 @@ public partial class AddCertificatePage : ContentPage
             {
                 FileInfoStack.IsVisible = true;
                 FileNameLabel.Text = Path.GetFileName(_selectedFilePath);
+                FileSizeLabel.Text = $"Size: {FormatFileSize(new FileInfo(_selectedFilePath).Length)}";
+                PickFileButton.Text = "✅ File Selected";
+                PickFileButton.BackgroundColor = Color.FromArgb("#28A745");
             }
 
             Title = "Edit Certificate";
@@ -81,16 +84,20 @@ public partial class AddCertificatePage : ContentPage
         {
             var result = await FilePicker.PickAsync(new PickOptions
             {
-                PickerTitle = "Select Certificate File",
-                FileTypes = FilePickerFileType.Pdf
+                PickerTitle = "Select Certificate File"
             });
 
             if (result != null)
             {
                 _selectedFilePath = result.FullPath;
+                var fileInfo = new FileInfo(_selectedFilePath);
+                long fileSize = fileInfo.Length;
+
                 FileInfoStack.IsVisible = true;
                 FileNameLabel.Text = result.FileName;
-                PickFileButton.Text = "File Selected ✓";
+                FileSizeLabel.Text = $"Size: {FormatFileSize(fileSize)}";
+                PickFileButton.Text = "✅ File Selected";
+                PickFileButton.BackgroundColor = Color.FromArgb("#28A745");
             }
         }
         catch (Exception ex)
@@ -123,8 +130,9 @@ public partial class AddCertificatePage : ContentPage
             };
 
             await _database.SaveCertificateAsync(certificate);
-            await DisplayAlert("Success", "Saved!", "OK");
-            await Navigation.PopAsync();
+            await DisplayAlert("Success", "Certificate saved!", "OK");
+            // ✅ ИСПРАВЛЕНО: используем PopModalAsync для закрытия модального окна
+            await Navigation.PopModalAsync();
         }
         catch (Exception ex)
         {
@@ -132,8 +140,22 @@ public partial class AddCertificatePage : ContentPage
         }
     }
 
+    // ✅ ИСПРАВЛЕНО: используем PopModalAsync вместо PopAsync
     async void OnCancelClicked(object sender, EventArgs e)
     {
-        await Navigation.PopAsync();
+        await Navigation.PopModalAsync();
+    }
+
+    static string FormatFileSize(long bytes)
+    {
+        string[] sizes = { "B", "KB", "MB", "GB" };
+        double len = bytes;
+        int order = 0;
+        while (len >= 1024 && order < sizes.Length - 1)
+        {
+            order++;
+            len = len / 1024;
+        }
+        return $"{len:0.##} {sizes[order]}";
     }
 }
