@@ -17,6 +17,13 @@ public partial class OtherPage : ContentPage
         CertificateCollectionView.ItemsSource = Certificates;
     }
 
+    // ✅ КОНСТРУКТОР с INavigation
+    public OtherPage(INavigation navigation) : this()
+    {
+        _navigation = navigation;
+        Debug.WriteLine($"✅ OtherPage Navigation set: {_navigation != null}");
+    }
+
     private DatabaseService GetDatabase()
     {
         _database ??= ServiceHelper.GetService<DatabaseService>();

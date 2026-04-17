@@ -17,6 +17,13 @@ public partial class CocEndorsementPage : ContentPage
         CertificateCollectionView.ItemsSource = Certificates;
     }
 
+    // ✅ КОНСТРУКТОР с INavigation
+    public CocEndorsementPage(INavigation navigation) : this()
+    {
+        _navigation = navigation;
+        Debug.WriteLine($"✅ CocEndorsementPage Navigation set: {_navigation != null}");
+    }
+
     private DatabaseService GetDatabase()
     {
         _database ??= ServiceHelper.GetService<DatabaseService>();
