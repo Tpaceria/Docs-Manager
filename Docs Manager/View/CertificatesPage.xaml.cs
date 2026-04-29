@@ -12,6 +12,8 @@ public partial class CertificatePage : ContentPage
     public ObservableCollection<Certificate> Certificates { get; set; } = new();
     private INavigation _navigation;
 
+    private const string CertificateCategory = "CERTIFICATES";
+
     public CertificatePage()
     {
         InitializeComponent();
@@ -44,7 +46,7 @@ public partial class CertificatePage : ContentPage
             _allCertificates.Clear();
             Certificates.Clear();
             var list = await GetDatabase().GetCertificatesAsync();
-            foreach (var cert in list.Where(c => c.Category == "CERTIFICATES"))
+            foreach (var cert in list.Where(c => c.Category == CertificateCategory))
                 _allCertificates.Add(cert);
             ApplyFilters();
         }
@@ -75,7 +77,7 @@ public partial class CertificatePage : ContentPage
         // Status filter
         filtered = statusFilter switch
         {
-            "Active" => filtered.Where(c => c.StatusDisplay == "Active"),
+            "Active" => filtered.Where(c => !c.IsExpired && !c.IsExpiringSoon && !c.IsLifetime),
             "Expiring Soon" => filtered.Where(c => c.IsExpiringSoon),
             "Expired" => filtered.Where(c => c.IsExpired),
             "Lifetime" => filtered.Where(c => c.IsLifetime),

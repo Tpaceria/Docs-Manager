@@ -42,7 +42,9 @@ public class Certificate
     public bool IsExpired => !IsLifetime && ExpiryDate < DateTime.Today;
 
     [Ignore]
-    public bool IsExpiringSoon => !IsLifetime && !IsExpired && DaysUntilExpiry <= 30;
+    public bool IsExpiringSoon => !IsLifetime && !IsExpired && DaysUntilExpiry <= ExpiringSoonThresholdDays;
+
+    private const int ExpiringSoonThresholdDays = 30;
 
     [Ignore]
     public string StatusDisplay
