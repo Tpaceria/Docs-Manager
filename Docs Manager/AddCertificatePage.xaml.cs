@@ -112,6 +112,7 @@ public partial class AddCertificatePage : ContentPage
 
             await _database.SaveCertificateAsync(certificate);
             await DisplayAlert("Success", "Certificate saved!", "OK");
+            MessagingCenter.Send(this, "CertificateAdded");
             await Navigation.PopModalAsync();
         }
         catch (Exception ex)
