@@ -36,7 +36,17 @@ public partial class CertificatePage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        MessagingCenter.Subscribe<AddCertificatePage>(this, "CertificateAdded", async (sender) =>
+        {
+            await LoadCertificates();
+        });
         await LoadCertificates();
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        MessagingCenter.Unsubscribe<AddCertificatePage>(this, "CertificateAdded");
     }
 
     private async Task LoadCertificates()
@@ -59,8 +69,6 @@ public partial class CertificatePage : ContentPage
     private void ApplyFilters()
     {
         var query = SearchBar.Text?.Trim() ?? string.Empty;
-        var statusFilter = StatusPicker.SelectedItem as string ?? "All";
-        var sortOption = SortPicker.SelectedItem as string ?? "Expiry Date ↑";
 
         IEnumerable<Certificate> filtered = _allCertificates;
 
@@ -74,40 +82,17 @@ public partial class CertificatePage : ContentPage
                 c.Number.ToLowerInvariant().Contains(lower));
         }
 
-        // Status filter
-        filtered = statusFilter switch
-        {
-            "Active" => filtered.Where(c => !c.IsExpired && !c.IsExpiringSoon && !c.IsLifetime),
-            "Expiring Soon" => filtered.Where(c => c.IsExpiringSoon),
-            "Expired" => filtered.Where(c => c.IsExpired),
-            "Lifetime" => filtered.Where(c => c.IsLifetime),
-            _ => filtered
-        };
-
-        // Sort
-        filtered = sortOption switch
-        {
-            "Issue Date ↓" => filtered.OrderByDescending(c => c.IssueDate),
-            "Name A-Z" => filtered.OrderBy(c => c.Document),
-            _ => filtered.OrderBy(c => c.IsLifetime ? DateTime.MaxValue : c.ExpiryDate)
-        };
-
         Certificates.Clear();
         foreach (var cert in filtered)
             Certificates.Add(cert);
 
         // Update empty message
-        EmptyLabel.Text = string.IsNullOrWhiteSpace(query) && statusFilter == "All"
+        EmptyLabel.Text = string.IsNullOrWhiteSpace(query)
             ? "No certificates yet.\nTap ➕ to add one."
             : "No certificates match your search.";
     }
 
     private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
-    {
-        ApplyFilters();
-    }
-
-    private void OnFilterChanged(object sender, EventArgs e)
     {
         ApplyFilters();
     }
