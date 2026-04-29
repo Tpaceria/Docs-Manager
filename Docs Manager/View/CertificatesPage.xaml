@@ -6,81 +6,209 @@
              BackgroundColor="#0a1628"
              Padding="0">
 
-    <Grid RowDefinitions="Auto,*" Padding="0" RowSpacing="0">
+    <Grid RowDefinitions="Auto,Auto,Auto,*" Padding="0" RowSpacing="0">
 
-        <!-- ADD BUTTON - FIXED AT TOP -->
+        <!-- ADD BUTTON -->
         <Button Grid.Row="0"
                 Text="➕ Add Certificate"
-                HeightRequest="60"
+                HeightRequest="50"
                 BackgroundColor="#0099CC"
                 TextColor="White"
-                FontSize="16"
+                FontSize="15"
                 FontAttributes="Bold"
                 Clicked="OnAddCertificateClicked"
-                Margin="20,10,20,10"
+                Margin="12,10,12,4"
                 CornerRadius="8"/>
 
-        <!-- LIST - SCROLLABLE -->
-        <CollectionView Grid.Row="1"
-                        x:Name="CertificateCollectionView"
-                        SelectionMode="Single"
-                        Margin="0"
-                        EmptyView="No certificates">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Border StrokeShape="RoundRectangle 8"
-                            Stroke="#333333"
-                            StrokeThickness="1"
-                            Padding="0"
-                            BackgroundColor="#2a2a2a"
-                            Margin="12,6,12,6">
+        <!-- SEARCH BAR -->
+        <SearchBar Grid.Row="1"
+                   x:Name="SearchBar"
+                   Placeholder="🔍 Search by name, country, or number..."
+                   PlaceholderColor="#888888"
+                   TextColor="#FFFFFF"
+                   BackgroundColor="#1a2a3a"
+                   Margin="12,4,12,4"
+                   TextChanged="OnSearchTextChanged"/>
 
-                        <Grid ColumnDefinitions="*,Auto,Auto" 
-                              ColumnSpacing="12" 
-                              Padding="16,12,16,12"
-                              VerticalOptions="Center">
+        <!-- FILTER AND SORT PICKERS -->
+        <Grid Grid.Row="2"
+              ColumnDefinitions="*,*"
+              ColumnSpacing="8"
+              Margin="12,4,12,6">
 
-                            <VerticalStackLayout Grid.Column="0" Spacing="3">
-                                <Label Text="{Binding Document}"
-                                       FontSize="14"
-                                       FontAttributes="Bold"
-                                       TextColor="#FFFFFF"
-                                       LineBreakMode="TailTruncation"/>
-                                <Label Text="{Binding ExpiryDate, StringFormat='{0:dd.MM.yyyy}'}"
-                                       FontSize="11"
-                                       TextColor="#FF6B35"/>
-                            </VerticalStackLayout>
+            <Border Grid.Column="0"
+                    StrokeShape="RoundRectangle 6"
+                    Stroke="#333333"
+                    StrokeThickness="1"
+                    BackgroundColor="#1a2a3a"
+                    Padding="4,0">
+                <Picker x:Name="StatusPicker"
+                        Title="All Statuses"
+                        TextColor="#FFFFFF"
+                        TitleColor="#888888"
+                        BackgroundColor="Transparent"
+                        SelectedIndexChanged="OnFilterChanged">
+                    <Picker.Items>
+                        <x:String>All</x:String>
+                        <x:String>Active</x:String>
+                        <x:String>Expiring Soon</x:String>
+                        <x:String>Expired</x:String>
+                        <x:String>Lifetime</x:String>
+                    </Picker.Items>
+                </Picker>
+            </Border>
 
-                            <Button Grid.Column="1"
-                                    Text="✏️"
-                                    BackgroundColor="#0099CC"
-                                    TextColor="White"
-                                    Padding="8"
-                                    Clicked="OnEditCertificateClicked"
-                                    CommandParameter="{Binding .}"
-                                    WidthRequest="38"
-                                    HeightRequest="38"
-                                    CornerRadius="6"/>
+            <Border Grid.Column="1"
+                    StrokeShape="RoundRectangle 6"
+                    Stroke="#333333"
+                    StrokeThickness="1"
+                    BackgroundColor="#1a2a3a"
+                    Padding="4,0">
+                <Picker x:Name="SortPicker"
+                        Title="Sort By"
+                        TextColor="#FFFFFF"
+                        TitleColor="#888888"
+                        BackgroundColor="Transparent"
+                        SelectedIndexChanged="OnFilterChanged">
+                    <Picker.Items>
+                        <x:String>Expiry Date ↑</x:String>
+                        <x:String>Issue Date ↓</x:String>
+                        <x:String>Name A-Z</x:String>
+                    </Picker.Items>
+                </Picker>
+            </Border>
+        </Grid>
 
-                            <Button Grid.Column="2"
-                                    Text="🗑️"
-                                    BackgroundColor="#DC3545"
-                                    TextColor="White"
-                                    Padding="8"
-                                    Clicked="OnDeleteCertificateClicked"
-                                    CommandParameter="{Binding .}"
-                                    WidthRequest="38"
-                                    HeightRequest="38"
-                                    CornerRadius="6"/>
+        <!-- SCROLLABLE LIST WITH REFRESH -->
+        <RefreshView Grid.Row="3"
+                     x:Name="CertificateRefreshView"
+                     RefreshColor="#00d4ff"
+                     Refreshing="OnRefreshing">
 
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            <CollectionView x:Name="CertificateCollectionView"
+                            SelectionMode="None"
+                            Margin="0">
+
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center"
+                                         VerticalOptions="Center"
+                                         Spacing="12"
+                                         Padding="32">
+                        <Label Text="📋"
+                               FontSize="48"
+                               HorizontalOptions="Center"/>
+                        <Label x:Name="EmptyLabel"
+                               Text="No certificates found"
+                               FontSize="16"
+                               TextColor="#888888"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="8"/>
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border StrokeShape="RoundRectangle 10"
+                                Stroke="#1e3a5f"
+                                StrokeThickness="1"
+                                BackgroundColor="#112240"
+                                Margin="12,0,12,0"
+                                Padding="0">
+
+                            <Grid RowDefinitions="Auto,Auto,Auto" Padding="14,12,14,12" RowSpacing="6">
+
+                                <!-- Row 0: Name + Status badge -->
+                                <Grid Grid.Row="0" ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                    <Label Grid.Column="0"
+                                           Text="{Binding Document}"
+                                           FontSize="15"
+                                           FontAttributes="Bold"
+                                           TextColor="#FFFFFF"
+                                           LineBreakMode="TailTruncation"
+                                           VerticalOptions="Center"/>
+                                    <Border Grid.Column="1"
+                                            StrokeShape="RoundRectangle 10"
+                                            BackgroundColor="{Binding StatusColor}"
+                                            Stroke="Transparent"
+                                            Padding="8,3">
+                                        <Label Text="{Binding StatusDisplay}"
+                                               FontSize="11"
+                                               FontAttributes="Bold"
+                                               TextColor="#FFFFFF"/>
+                                    </Border>
+                                </Grid>
+
+                                <!-- Row 1: Details -->
+                                <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="16">
+                                    <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                        <Label Text="{Binding Country, StringFormat='🌍 {0}'}"
+                                               FontSize="12"
+                                               TextColor="#aaaaaa"
+                                               IsVisible="{Binding Country, Converter={x:StaticResource StringToBoolConverter}}"/>
+                                        <Label Text="{Binding Number, StringFormat='🔢 {0}'}"
+                                               FontSize="12"
+                                               TextColor="#aaaaaa"/>
+                                        <Label Text="{Binding IssueDate, StringFormat='📅 Issued: {0:dd MMM yyyy}'}"
+                                               FontSize="12"
+                                               TextColor="#aaaaaa"/>
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                        <Label Text="{Binding ExpiryDate, StringFormat='⏰ Expires: {0:dd MMM yyyy}'}"
+                                               FontSize="12"
+                                               TextColor="#aaaaaa"
+                                               IsVisible="{Binding IsLifetime, Converter={x:StaticResource InverseBoolConverter}}"/>
+                                        <Label Text="⏰ No expiration"
+                                               FontSize="12"
+                                               TextColor="#aaaaaa"
+                                               IsVisible="{Binding IsLifetime}"/>
+                                        <Label Text="{Binding DaysRemainingDisplay}"
+                                               FontSize="12"
+                                               FontAttributes="Bold"
+                                               TextColor="{Binding StatusColor}"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+
+                                <!-- Row 2: Action buttons -->
+                                <Grid Grid.Row="2" ColumnDefinitions="*,*,*" ColumnSpacing="8" Margin="0,4,0,0">
+                                    <Button Grid.Column="0"
+                                            Text="✏️ Edit"
+                                            BackgroundColor="#0099CC"
+                                            TextColor="White"
+                                            FontSize="12"
+                                            HeightRequest="34"
+                                            CornerRadius="6"
+                                            Clicked="OnEditCertificateClicked"
+                                            CommandParameter="{Binding .}"/>
+                                    <Button Grid.Column="1"
+                                            Text="👁️ View"
+                                            BackgroundColor="#6c757d"
+                                            TextColor="White"
+                                            FontSize="12"
+                                            HeightRequest="34"
+                                            CornerRadius="6"
+                                            Clicked="OnViewCertificateClicked"
+                                            CommandParameter="{Binding .}"/>
+                                    <Button Grid.Column="2"
+                                            Text="🗑️ Delete"
+                                            BackgroundColor="#DC3545"
+                                            TextColor="White"
+                                            FontSize="12"
+                                            HeightRequest="34"
+                                            CornerRadius="6"
+                                            Clicked="OnDeleteCertificateClicked"
+                                            CommandParameter="{Binding .}"/>
+                                </Grid>
+
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
 
     </Grid>
 

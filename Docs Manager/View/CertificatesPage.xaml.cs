@@ -8,8 +8,11 @@ namespace Docs_Manager.View;
 public partial class CertificatePage : ContentPage
 {
     private DatabaseService? _database;
+    private ObservableCollection<Certificate> _allCertificates = new();
     public ObservableCollection<Certificate> Certificates { get; set; } = new();
     private INavigation _navigation;
+
+    private const string CertificateCategory = "CERTIFICATES";
 
     public CertificatePage()
     {
@@ -40,15 +43,79 @@ public partial class CertificatePage : ContentPage
     {
         try
         {
+            _allCertificates.Clear();
             Certificates.Clear();
             var list = await GetDatabase().GetCertificatesAsync();
-            foreach (var cert in list)
-                Certificates.Add(cert);
+            foreach (var cert in list.Where(c => c.Category == CertificateCategory))
+                _allCertificates.Add(cert);
+            ApplyFilters();
         }
         catch (Exception ex)
         {
             await DisplayAlert("Error", $"Failed to load: {ex.Message}", "OK");
         }
+    }
+
+    private void ApplyFilters()
+    {
+        var query = SearchBar.Text?.Trim() ?? string.Empty;
+        var statusFilter = StatusPicker.SelectedItem as string ?? "All";
+        var sortOption = SortPicker.SelectedItem as string ?? "Expiry Date ↑";
+
+        IEnumerable<Certificate> filtered = _allCertificates;
+
+        // Search filter
+        if (!string.IsNullOrWhiteSpace(query))
+        {
+            var lower = query.ToLowerInvariant();
+            filtered = filtered.Where(c =>
+                c.Document.ToLowerInvariant().Contains(lower) ||
+                (c.Country ?? string.Empty).ToLowerInvariant().Contains(lower) ||
+                c.Number.ToLowerInvariant().Contains(lower));
+        }
+
+        // Status filter
+        filtered = statusFilter switch
+        {
+            "Active" => filtered.Where(c => !c.IsExpired && !c.IsExpiringSoon && !c.IsLifetime),
+            "Expiring Soon" => filtered.Where(c => c.IsExpiringSoon),
+            "Expired" => filtered.Where(c => c.IsExpired),
+            "Lifetime" => filtered.Where(c => c.IsLifetime),
+            _ => filtered
+        };
+
+        // Sort
+        filtered = sortOption switch
+        {
+            "Issue Date ↓" => filtered.OrderByDescending(c => c.IssueDate),
+            "Name A-Z" => filtered.OrderBy(c => c.Document),
+            _ => filtered.OrderBy(c => c.IsLifetime ? DateTime.MaxValue : c.ExpiryDate)
+        };
+
+        Certificates.Clear();
+        foreach (var cert in filtered)
+            Certificates.Add(cert);
+
+        // Update empty message
+        EmptyLabel.Text = string.IsNullOrWhiteSpace(query) && statusFilter == "All"
+            ? "No certificates yet.\nTap ➕ to add one."
+            : "No certificates match your search.";
+    }
+
+    private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
+    {
+        ApplyFilters();
+    }
+
+    private void OnFilterChanged(object sender, EventArgs e)
+    {
+        ApplyFilters();
+    }
+
+    private async void OnRefreshing(object sender, EventArgs e)
+    {
+        await LoadCertificates();
+        CertificateRefreshView.IsRefreshing = false;
     }
 
     // ✅ ИСПОЛЬЗУЕМ _navigation вместо this.Navigation
@@ -109,14 +176,40 @@ public partial class CertificatePage : ContentPage
         }
     }
 
+    private async void OnViewCertificateClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button && button.CommandParameter is Certificate cert)
+        {
+            var expiryText = cert.IsLifetime
+                ? "No expiration date"
+                : cert.ExpiryDate.ToString("dd MMM yyyy");
+
+            var details =
+                $"📋 Name: {cert.Document}\n" +
+                $"🌍 Country: {cert.Country ?? "N/A"}\n" +
+                $"🔢 Number: {cert.Number}\n" +
+                $"📅 Issued: {cert.IssueDate:dd MMM yyyy}\n" +
+                $"⏰ Expires: {expiryText}\n" +
+                $"📊 Status: {cert.StatusDisplay}\n" +
+                $"⏳ {cert.DaysRemainingDisplay}";
+
+            await DisplayAlert("Certificate Details", details, "Close");
+        }
+    }
+
     private async void OnDeleteCertificateClicked(object sender, EventArgs e)
     {
         if (sender is Button button && button.CommandParameter is Certificate cert)
         {
-            bool answer = await DisplayAlert("Delete", "Delete this certificate?", "Yes", "No");
+            bool answer = await DisplayAlert(
+                "Delete Certificate",
+                $"Are you sure you want to delete \"{cert.Document}\"?",
+                "Delete", "Cancel");
+
             if (answer)
             {
-                await _database.DeleteCertificateAsync(cert);
+                await GetDatabase().DeleteCertificateAsync(cert);
+                _allCertificates.Remove(cert);
                 Certificates.Remove(cert);
             }
         }
