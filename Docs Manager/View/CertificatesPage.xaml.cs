@@ -10,7 +10,7 @@ public partial class CertificatePage : ContentPage
     private DatabaseService? _database;
     private ObservableCollection<Certificate> _allCertificates = new();
     public ObservableCollection<Certificate> Certificates { get; set; } = new();
-    private INavigation _navigation;
+    private MainPage _mainPage;  // ← ИЗМЕНЕНО с INavigation на MainPage
 
     private const string CertificateCategory = "CERTIFICATES";
 
@@ -20,11 +20,11 @@ public partial class CertificatePage : ContentPage
         CertificateCollectionView.ItemsSource = Certificates;
     }
 
-    // ✅ ДОБАВЛЕН: конструктор с INavigation
-    public CertificatePage(INavigation navigation) : this()
+    // ✅ КОНСТРУКТОР С MainPage
+    public CertificatePage(MainPage mainPage) : this()
     {
-        _navigation = navigation;
-        Debug.WriteLine($"✅ CertificatePage Navigation set: {_navigation != null}");
+        _mainPage = mainPage;
+        Debug.WriteLine($"✅ CertificatePage MainPage set: {_mainPage != null}");
     }
 
     private DatabaseService GetDatabase()
@@ -36,34 +36,47 @@ public partial class CertificatePage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        MessagingCenter.Subscribe<AddCertificatePage>(this, "CertificateAdded", async (sender) =>
-        {
-            await LoadCertificates();
-        });
+        Debug.WriteLine("🔵 CertificatePage OnAppearing!");
+        await Task.Delay(100);
         await LoadCertificates();
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        MessagingCenter.Unsubscribe<AddCertificatePage>(this, "CertificateAdded");
     }
 
     private async Task LoadCertificates()
     {
         try
         {
+            Debug.WriteLine("🔵 LoadCertificates started!");
             _allCertificates.Clear();
             Certificates.Clear();
             var list = await GetDatabase().GetCertificatesAsync();
+            Debug.WriteLine($"📊 Got {list.Count} total certificates from DB");
+
             foreach (var cert in list.Where(c => c.Category == CertificateCategory))
+            {
                 _allCertificates.Add(cert);
+                Debug.WriteLine($"   ✅ Added: {cert.Document}");
+            }
+
+            Debug.WriteLine($"📊 Loaded {_allCertificates.Count} CERTIFICATES");
             ApplyFilters();
+            Debug.WriteLine($"📊 After filters: {Certificates.Count} visible");
         }
         catch (Exception ex)
         {
+            Debug.WriteLine($"❌ LoadCertificates Error: {ex.Message}");
             await DisplayAlert("Error", $"Failed to load: {ex.Message}", "OK");
         }
+    }
+
+    // ✅ PUBLIC метод для вызова из AddCertificatePage
+    public async Task LoadCertificatesPublic()
+    {
+        await LoadCertificates();
     }
 
     private void ApplyFilters()
@@ -72,7 +85,6 @@ public partial class CertificatePage : ContentPage
 
         IEnumerable<Certificate> filtered = _allCertificates;
 
-        // Search filter
         if (!string.IsNullOrWhiteSpace(query))
         {
             var lower = query.ToLowerInvariant();
@@ -86,7 +98,6 @@ public partial class CertificatePage : ContentPage
         foreach (var cert in filtered)
             Certificates.Add(cert);
 
-        // Update empty message
         EmptyLabel.Text = string.IsNullOrWhiteSpace(query)
             ? "No certificates yet.\nTap ➕ to add one."
             : "No certificates match your search.";
@@ -103,36 +114,20 @@ public partial class CertificatePage : ContentPage
         CertificateRefreshView.IsRefreshing = false;
     }
 
-    // ✅ ИСПОЛЬЗУЕМ _navigation вместо this.Navigation
     private async void OnAddCertificateClicked(object sender, EventArgs e)
     {
         try
         {
             Debug.WriteLine("🔵 OnAddCertificateClicked triggered!");
-            Debug.WriteLine($"_navigation: {_navigation}");
 
-            if (_navigation == null)
-            {
-                Debug.WriteLine("❌ Navigation is NULL!");
-                await DisplayAlert("Error", "Navigation context is null", "OK");
-                return;
-            }
+            var addPage = new AddCertificatePage(_mainPage, this);
+            _mainPage?.SetPage(addPage);
 
-            Debug.WriteLine("✅ Starting PushModalAsync...");
-
-            await _navigation.PushModalAsync(
-                new NavigationPage(new AddCertificatePage())
-                {
-                    BarBackgroundColor = Color.FromArgb("#0f1f2e"),
-                    BarTextColor = Color.FromArgb("#00d4ff")
-                }
-            );
-
-            Debug.WriteLine("✅ PushModalAsync completed!");
+            Debug.WriteLine($"✅ SetPage completed!");
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"❌ Exception: {ex.GetType().Name}: {ex.Message}");
+            Debug.WriteLine($"❌ Exception: {ex.Message}");
             await DisplayAlert("Error", $"Failed: {ex.Message}", "OK");
         }
     }
@@ -144,14 +139,8 @@ public partial class CertificatePage : ContentPage
             try
             {
                 Debug.WriteLine($"✏️ Editing certificate: {cert.Document}");
-
-                await _navigation.PushModalAsync(
-                    new NavigationPage(new AddCertificatePage(cert))
-                    {
-                        BarBackgroundColor = Color.FromArgb("#0f1f2e"),
-                        BarTextColor = Color.FromArgb("#00d4ff")
-                    }
-                );
+                var addPage = new AddCertificatePage(cert, _mainPage, this);
+                _mainPage?.SetPage(addPage);
             }
             catch (Exception ex)
             {

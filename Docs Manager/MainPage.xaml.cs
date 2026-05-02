@@ -26,9 +26,7 @@ public partial class MainPage : ContentPage
         ResetButtons();
         CertificatesBtn.BackgroundColor = Color.FromArgb("#1a3a52");
         CertificatesBtn.TextColor = Color.FromArgb("#00d4ff");
-
-        // ✅ ПЕРЕДАЁМ Navigation в конструктор
-        SetPage(new CertificatePage(this.Navigation));
+        SetPage(new CertificatePage(this));
     }
 
     private void ShowCoc()
@@ -36,9 +34,7 @@ public partial class MainPage : ContentPage
         ResetButtons();
         CocBtn.BackgroundColor = Color.FromArgb("#1a3a52");
         CocBtn.TextColor = Color.FromArgb("#00d4ff");
-
-        // ✅ ПЕРЕДАЁМ Navigation в конструктор
-        SetPage(new CocEndorsementPage(this.Navigation));
+        SetPage(new CocEndorsementPage());  // ← УБРАЛ this.Navigation
     }
 
     private void ShowDocuments()
@@ -46,9 +42,7 @@ public partial class MainPage : ContentPage
         ResetButtons();
         DocumentsBtn.BackgroundColor = Color.FromArgb("#1a3a52");
         DocumentsBtn.TextColor = Color.FromArgb("#00d4ff");
-
-        // ✅ ПЕРЕДАЁМ Navigation в конструктор
-        SetPage(new DocumentsPage(this.Navigation));
+        SetPage(new DocumentsPage());  // ← УБРАЛ this.Navigation
     }
 
     private void ShowMedicine()
@@ -56,9 +50,7 @@ public partial class MainPage : ContentPage
         ResetButtons();
         MedicineBtn.BackgroundColor = Color.FromArgb("#1a3a52");
         MedicineBtn.TextColor = Color.FromArgb("#00d4ff");
-
-        // ✅ ПЕРЕДАЁМ Navigation в конструктор
-        SetPage(new MedicinePage(this.Navigation));
+        SetPage(new MedicinePage());  // ← УБРАЛ this.Navigation
     }
 
     private void ShowOther()
@@ -66,9 +58,7 @@ public partial class MainPage : ContentPage
         ResetButtons();
         OtherBtn.BackgroundColor = Color.FromArgb("#1a3a52");
         OtherBtn.TextColor = Color.FromArgb("#00d4ff");
-
-        // ✅ ПЕРЕДАЁМ Navigation в конструктор
-        SetPage(new OtherPage(this.Navigation));
+        SetPage(new OtherPage());  // ← УБРАЛ this.Navigation
     }
 
     private void ShowExperience()
@@ -76,12 +66,10 @@ public partial class MainPage : ContentPage
         ResetButtons();
         ExperienceBtn.BackgroundColor = Color.FromArgb("#1a3a52");
         ExperienceBtn.TextColor = Color.FromArgb("#00d4ff");
-
-        // ✅ ПЕРЕДАЁМ Navigation в конструктор
-        SetPage(new ExperiencePage(this.Navigation));
+        SetPage(new ExperiencePage());  // ← УБРАЛ this.Navigation
     }
 
-    private void SetPage(ContentPage page)
+    public void SetPage(ContentPage page)
     {
         Debug.WriteLine($"🔵 SetPage: {page.GetType().Name}");
 
