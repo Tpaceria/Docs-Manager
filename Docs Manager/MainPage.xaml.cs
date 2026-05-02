@@ -34,7 +34,7 @@ public partial class MainPage : ContentPage
         ResetButtons();
         CocBtn.BackgroundColor = Color.FromArgb("#1a3a52");
         CocBtn.TextColor = Color.FromArgb("#00d4ff");
-        SetPage(new CocEndorsementPage());  // ← УБРАЛ this.Navigation
+        SetPage(new CocEndorsementPage());
     }
 
     private void ShowDocuments()
@@ -42,7 +42,7 @@ public partial class MainPage : ContentPage
         ResetButtons();
         DocumentsBtn.BackgroundColor = Color.FromArgb("#1a3a52");
         DocumentsBtn.TextColor = Color.FromArgb("#00d4ff");
-        SetPage(new DocumentsPage());  // ← УБРАЛ this.Navigation
+        SetPage(new DocumentsPage());
     }
 
     private void ShowMedicine()
@@ -50,7 +50,7 @@ public partial class MainPage : ContentPage
         ResetButtons();
         MedicineBtn.BackgroundColor = Color.FromArgb("#1a3a52");
         MedicineBtn.TextColor = Color.FromArgb("#00d4ff");
-        SetPage(new MedicinePage());  // ← УБРАЛ this.Navigation
+        SetPage(new MedicinePage());
     }
 
     private void ShowOther()
@@ -58,7 +58,7 @@ public partial class MainPage : ContentPage
         ResetButtons();
         OtherBtn.BackgroundColor = Color.FromArgb("#1a3a52");
         OtherBtn.TextColor = Color.FromArgb("#00d4ff");
-        SetPage(new OtherPage());  // ← УБРАЛ this.Navigation
+        SetPage(new OtherPage());
     }
 
     private void ShowExperience()
@@ -66,7 +66,7 @@ public partial class MainPage : ContentPage
         ResetButtons();
         ExperienceBtn.BackgroundColor = Color.FromArgb("#1a3a52");
         ExperienceBtn.TextColor = Color.FromArgb("#00d4ff");
-        SetPage(new ExperiencePage());  // ← УБРАЛ this.Navigation
+        SetPage(new ExperiencePage());
     }
 
     public void SetPage(ContentPage page)
@@ -74,12 +74,17 @@ public partial class MainPage : ContentPage
         Debug.WriteLine($"🔵 SetPage: {page.GetType().Name}");
 
         _currentPage = page;
+
         ContentArea.Content = page.Content;
-        page.SendAppearing();
+
+        // ✅ ВАЖНО — вручную вызываем загрузку
+        if (page is CertificatePage certPage)
+        {
+            _ = certPage.LoadCertificatesPublic();
+        }
 
         Debug.WriteLine($"✅ Page set: {page.GetType().Name}");
     }
-
     private void ResetButtons()
     {
         PersonalBtn.BackgroundColor = Colors.Transparent;

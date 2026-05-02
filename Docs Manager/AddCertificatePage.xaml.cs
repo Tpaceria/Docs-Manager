@@ -8,15 +8,18 @@ public partial class AddCertificatePage : ContentPage
     readonly DatabaseService _database;
     Certificate _certificate;
     string _selectedFilePath;
+    CertificatePage _parentPage;
 
-    public AddCertificatePage()
+    public AddCertificatePage(CertificatePage parentPage)
     {
         InitializeComponent();
+        _parentPage = parentPage;
+
         _database = ServiceHelper.GetService<DatabaseService>()
             ?? throw new InvalidOperationException("DatabaseService not found");
     }
 
-    public AddCertificatePage(Certificate certificate) : this()
+    public AddCertificatePage(Certificate certificate, CertificatePage parentPage) : this(parentPage)
     {
         _certificate = certificate;
     }
@@ -35,15 +38,6 @@ public partial class AddCertificatePage : ContentPage
             ExpiryDatePicker.Date = _certificate.ExpiryDate;
             _selectedFilePath = _certificate.FilePath;
 
-            if (!string.IsNullOrEmpty(_selectedFilePath))
-            {
-                FileInfoBorder.IsVisible = true;
-                FileNameLabel.Text = Path.GetFileName(_selectedFilePath);
-                FileSizeLabel.Text = $"Size: {FormatFileSize(new FileInfo(_selectedFilePath).Length)}";
-                PickFileButton.Text = "✅ File Selected";
-                PickFileButton.BackgroundColor = Color.FromArgb("#28A745");
-            }
-
             Title = "Edit Certificate";
             ExpiryStack.IsVisible = !_certificate.IsLifetime;
         }
@@ -57,34 +51,6 @@ public partial class AddCertificatePage : ContentPage
     void OnLifetimeToggled(object sender, ToggledEventArgs e)
     {
         ExpiryStack.IsVisible = !e.Value;
-    }
-
-    async void OnPickFileClicked(object sender, EventArgs e)
-    {
-        try
-        {
-            var result = await FilePicker.PickAsync(new PickOptions
-            {
-                PickerTitle = "Select Certificate File"
-            });
-
-            if (result != null)
-            {
-                _selectedFilePath = result.FullPath;
-                var fileInfo = new FileInfo(_selectedFilePath);
-                long fileSize = fileInfo.Length;
-
-                FileInfoBorder.IsVisible = true;
-                FileNameLabel.Text = result.FileName;
-                FileSizeLabel.Text = $"Size: {FormatFileSize(fileSize)}";
-                PickFileButton.Text = "✅ File Selected";
-                PickFileButton.BackgroundColor = Color.FromArgb("#28A745");
-            }
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("Error", ex.Message, "OK");
-        }
     }
 
     async void OnSaveClicked(object sender, EventArgs e)
@@ -104,16 +70,25 @@ public partial class AddCertificatePage : ContentPage
                 Country = CountryEntry.Text ?? "",
                 Number = NumberEntry.Text ?? "",
                 IssueDate = IssueDatePicker.Date ?? DateTime.Today,
-                ExpiryDate = LifetimeSwitch.IsToggled ? DateTime.MaxValue : (ExpiryDatePicker.Date ?? DateTime.Today),
+                ExpiryDate = LifetimeSwitch.IsToggled
+    ? DateTime.MaxValue
+    : (ExpiryDatePicker.Date ?? DateTime.Today),
                 IsLifetime = LifetimeSwitch.IsToggled,
                 FilePath = _selectedFilePath,
                 Category = "CERTIFICATES"
             };
 
             await _database.SaveCertificateAsync(certificate);
+
             await DisplayAlert("Success", "Certificate saved!", "OK");
-            MessagingCenter.Send(this, "CertificateAdded");
-            await Navigation.PopModalAsync();
+
+            // 🔥 обновляем список
+            if (_parentPage != null)
+                await _parentPage.LoadCertificatesPublic();
+
+            // 🔥 возвращаемся назад
+            if (Application.Current.MainPage is MainPage main)
+                main.SetPage(_parentPage);
         }
         catch (Exception ex)
         {
@@ -123,19 +98,25 @@ public partial class AddCertificatePage : ContentPage
 
     async void OnCancelClicked(object sender, EventArgs e)
     {
-        await Navigation.PopModalAsync();
+        if (Application.Current.MainPage is MainPage main)
+            main.SetPage(_parentPage);
     }
 
-    static string FormatFileSize(long bytes)
+    async void OnPickFileClicked(object sender, EventArgs e)
     {
-        string[] sizes = { "B", "KB", "MB", "GB" };
-        double len = bytes;
-        int order = 0;
-        while (len >= 1024 && order < sizes.Length - 1)
+        try
         {
-            order++;
-            len = len / 1024;
+            var result = await FilePicker.PickAsync();
+
+            if (result != null)
+            {
+                _selectedFilePath = result.FullPath;
+                await DisplayAlert("File selected", result.FileName, "OK");
+            }
         }
-        return $"{len:0.##} {sizes[order]}";
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", ex.Message, "OK");
+        }
     }
 }
