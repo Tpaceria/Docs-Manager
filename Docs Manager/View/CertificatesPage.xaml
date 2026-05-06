@@ -126,14 +126,14 @@
                                 <!-- Row 2: Action buttons -->
                                 <Grid Grid.Row="2" ColumnDefinitions="*,*,*" ColumnSpacing="8" Margin="0,4,0,0">
                                     <Button Grid.Column="0"
-                                            Text="✏️ Edit"
-                                            BackgroundColor="#0099CC"
-                                            TextColor="White"
-                                            FontSize="12"
-                                            HeightRequest="34"
-                                            CornerRadius="6"
-                                            Clicked="OnEditCertificateClicked"
-                                            CommandParameter="{Binding .}"/>
+        Text="✏️ Edit"
+        BackgroundColor="#0099CC"
+        TextColor="White"
+        FontSize="12"
+        HeightRequest="34"
+        CornerRadius="6"
+        Clicked="OnEditClicked"
+        CommandParameter="{Binding .}"/>
                                     <Button Grid.Column="1"
                                             Text="👁️ View"
                                             BackgroundColor="#6c757d"

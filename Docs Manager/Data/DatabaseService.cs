@@ -21,7 +21,6 @@ namespace Docs_Manager.Data
             _database.CreateTableAsync<Certificate>().Wait();
             _database.CreateTableAsync<StoredFile>().Wait();
             _database.CreateTableAsync<Experience>().Wait();
-            _database.CreateTableAsync<Experience>().Wait();  // ← ДОБАВЬ ЭТУ СТРОКУ
         }
 
         // -------------------------
@@ -169,5 +168,14 @@ namespace Docs_Manager.Data
         {
             return await _database.DeleteAsync(experience);
         }
+        public async Task<int> AddCertificateAsync(Certificate cert)
+        {
+            return await _database.InsertAsync(cert);
+        }
+        public async Task<int> DeleteAsync(Certificate cert)
+        {
+            return await _database.DeleteAsync(cert);
+        }
     }
+
 }

@@ -26,6 +26,8 @@ public partial class MainPage : ContentPage
         ResetButtons();
         CertificatesBtn.BackgroundColor = Color.FromArgb("#1a3a52");
         CertificatesBtn.TextColor = Color.FromArgb("#00d4ff");
+
+        // ✔ старый рабочий вариант
         SetPage(new CertificatePage(this));
     }
 
@@ -71,34 +73,87 @@ public partial class MainPage : ContentPage
 
     public void SetPage(ContentPage page)
     {
-        Debug.WriteLine($"🔵 SetPage: {page.GetType().Name}");
+        Debug.WriteLine("====================================");
+        Debug.WriteLine($"🔵 SetPage START: {page.GetType().Name}");
+
+        if (_currentPage != null)
+            Debug.WriteLine($"🟡 Previous page: {_currentPage.GetType().Name}");
+        else
+            Debug.WriteLine("🟡 Previous page: NULL");
 
         _currentPage = page;
 
-        ContentArea.Content = page.Content;
+        // --- текущий контент контейнера ---
+        if (ContentArea.Content != null)
+            Debug.WriteLine($"📦 ContentArea BEFORE: {ContentArea.Content.GetType().Name}");
+        else
+            Debug.WriteLine("📦 ContentArea BEFORE: NULL");
 
-        // ✅ ВАЖНО — вручную вызываем загрузку
+        // --- контент страницы ---
+        if (page.Content != null)
+        {
+            Debug.WriteLine($"📄 Page.Content: {page.Content.GetType().Name}");
+
+            if (page.Content.Parent != null)
+                Debug.WriteLine($"⚠️ Page.Content уже имеет Parent: {page.Content.Parent.GetType().Name}");
+            else
+                Debug.WriteLine("✅ Page.Content без Parent");
+        }
+        else
+        {
+            Debug.WriteLine("❌ Page.Content = NULL");
+        }
+
+        // --- ОТРЫВАЕМ ---
+        var view = page.Content;
+        page.Content = null;
+
+        Debug.WriteLine("✂️ Отцепили Content от страницы");
+
+        // --- чистим контейнер ---
+        ContentArea.Content = null;
+        Debug.WriteLine("🧹 ContentArea очищен");
+
+        // --- вставляем ---
+        ContentArea.Content = view;
+        Debug.WriteLine($"📥 Вставили: {view?.GetType().Name}");
+
+        // --- проверка после ---
+        if (view?.Parent != null)
+            Debug.WriteLine($"🔗 Новый Parent: {view.Parent.GetType().Name}");
+        else
+            Debug.WriteLine("❌ У view нет Parent после вставки");
+
+        // --- спец логика ---
         if (page is CertificatePage certPage)
         {
+            Debug.WriteLine("📜 Detected CertificatePage → loading data...");
             _ = certPage.LoadCertificatesPublic();
         }
 
-        Debug.WriteLine($"✅ Page set: {page.GetType().Name}");
+        Debug.WriteLine($"✅ SetPage END: {page.GetType().Name}");
+        Debug.WriteLine("====================================");
     }
     private void ResetButtons()
     {
         PersonalBtn.BackgroundColor = Colors.Transparent;
         PersonalBtn.TextColor = Color.FromArgb("#a8b8cc");
+
         CertificatesBtn.BackgroundColor = Colors.Transparent;
         CertificatesBtn.TextColor = Color.FromArgb("#a8b8cc");
+
         CocBtn.BackgroundColor = Colors.Transparent;
         CocBtn.TextColor = Color.FromArgb("#a8b8cc");
+
         DocumentsBtn.BackgroundColor = Colors.Transparent;
         DocumentsBtn.TextColor = Color.FromArgb("#a8b8cc");
+
         MedicineBtn.BackgroundColor = Colors.Transparent;
         MedicineBtn.TextColor = Color.FromArgb("#a8b8cc");
+
         OtherBtn.BackgroundColor = Colors.Transparent;
         OtherBtn.TextColor = Color.FromArgb("#a8b8cc");
+
         ExperienceBtn.BackgroundColor = Colors.Transparent;
         ExperienceBtn.TextColor = Color.FromArgb("#a8b8cc");
     }

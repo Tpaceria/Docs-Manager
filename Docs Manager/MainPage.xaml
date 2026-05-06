@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Docs_Manager"
              x:Class="Docs_Manager.MainPage"
              BackgroundColor="#0a1628">
 
@@ -16,28 +15,20 @@
 
             <ScrollView>
                 <VerticalStackLayout Padding="0" Spacing="8" Margin="10,0,10,0">
-                    <Button x:Name="PersonalBtn" Text="👤 Personal" BackgroundColor="#1a3a52" TextColor="#00d4ff" Padding="20,15" CornerRadius="8" Clicked="OnPersonalClicked"/>
-                    <Button x:Name="CertificatesBtn" Text="📄 Certificates" BackgroundColor="Transparent" TextColor="#a8b8cc" Padding="20,15" CornerRadius="8" Clicked="OnCertificatesClicked"/>
-                    <Button x:Name="CocBtn" Text="📜 COC &amp; Endorsement" BackgroundColor="Transparent" TextColor="#a8b8cc" Padding="20,15" CornerRadius="8" Clicked="OnCocClicked"/>
-                    <Button x:Name="DocumentsBtn" Text="📑 Documents" BackgroundColor="Transparent" TextColor="#a8b8cc" Padding="20,15" CornerRadius="8" Clicked="OnDocumentsClicked"/>
-                    <Button x:Name="MedicineBtn" Text="💊 Medicine" BackgroundColor="Transparent" TextColor="#a8b8cc" Padding="20,15" CornerRadius="8" Clicked="OnMedicineClicked"/>
-                    <Button x:Name="OtherBtn" Text="📋 Other" BackgroundColor="Transparent" TextColor="#a8b8cc" Padding="20,15" CornerRadius="8" Clicked="OnOtherClicked"/>
-                    <Button x:Name="ExperienceBtn" Text="⚓ Experience" BackgroundColor="Transparent" TextColor="#a8b8cc" Padding="20,15" CornerRadius="8" Clicked="OnExperienceClicked"/>
+                    <Button x:Name="PersonalBtn" Text="👤 Personal" Clicked="OnPersonalClicked"/>
+                    <Button x:Name="CertificatesBtn" Text="📄 Certificates" Clicked="OnCertificatesClicked"/>
+                    <Button x:Name="CocBtn" Text="📜 COC &amp; Endorsement" Clicked="OnCocClicked"/>
+                    <Button x:Name="DocumentsBtn" Text="📑 Documents" Clicked="OnDocumentsClicked"/>
+                    <Button x:Name="MedicineBtn" Text="💊 Medicine" Clicked="OnMedicineClicked"/>
+                    <Button x:Name="OtherBtn" Text="📋 Other" Clicked="OnOtherClicked"/>
+                    <Button x:Name="ExperienceBtn" Text="⚓ Experience" Clicked="OnExperienceClicked"/>
                 </VerticalStackLayout>
             </ScrollView>
         </VerticalStackLayout>
 
-        <!-- RIGHT CONTENT AREA -->
-        <Grid Grid.Row="0" 
-              Grid.Column="1"
-              BackgroundColor="#0a1628"
-              Padding="0">
-            <ContentView x:Name="ContentArea" 
-                         Padding="0"
-                         VerticalOptions="FillAndExpand"
-                         HorizontalOptions="FillAndExpand"/>
-        </Grid>
-
+        <!-- ✅ ВАЖНО: ContentPresenter -->
+        <ContentPresenter Grid.Column="1"
+                          x:Name="ContentArea"/>
     </Grid>
 
 </ContentPage>
