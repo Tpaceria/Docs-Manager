@@ -7,110 +7,104 @@ namespace Docs_Manager.View;
 
 public partial class MedicinePage : ContentPage
 {
-    private DatabaseService? _database;
+    private DatabaseService _database;
+    private ObservableCollection<Certificate> _allCertificates = new();
+
     public ObservableCollection<Certificate> Certificates { get; set; } = new();
-    private INavigation _navigation;
+
+    private MainPage _mainPage;
 
     public MedicinePage()
     {
         InitializeComponent();
+
+        _database = ServiceHelper.GetService<DatabaseService>()
+            ?? throw new InvalidOperationException("DatabaseService not found");
+
         CertificateCollectionView.ItemsSource = Certificates;
+        _ = LoadCertificates();
     }
 
-    // ✅ КОНСТРУКТОР с INavigation
-    public MedicinePage(INavigation navigation) : this()
+    public MedicinePage(MainPage mainPage) : this()
     {
-        _navigation = navigation;
-        Debug.WriteLine($"✅ MedicinePage Navigation set: {_navigation != null}");
-    }
-
-    private DatabaseService GetDatabase()
-    {
-        _database ??= ServiceHelper.GetService<DatabaseService>();
-        return _database;
+        _mainPage = mainPage;
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+
         await LoadCertificates();
     }
 
     private async Task LoadCertificates()
     {
-        try
-        {
-            Certificates.Clear();
-            var list = await GetDatabase().GetCertificatesAsync();
-            foreach (var cert in list.Where(c => c.Category == "MEDICINE"))
-                Certificates.Add(cert);
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("Error", $"Failed to load: {ex.Message}", "OK");
-        }
-    }
+        _allCertificates.Clear();
+        Certificates.Clear();
 
-    // ✅ ИСПОЛЬЗУЕМ _navigation вместо this.Navigation
-    private async void OnAddCertificateClicked(object sender, EventArgs e)
-    {
-        try
+        var list = await _database.GetCertificatesAsync();
+
+        foreach (var cert in list.Where(c => c.Category == "MEDICINE"))
         {
-            Debug.WriteLine("🔵 OnAddCertificateClicked triggered!");
-
-            if (_navigation == null)
-            {
-                Debug.WriteLine("❌ Navigation is NULL!");
-                await DisplayAlert("Error", "Navigation context is null", "OK");
-                return;
-            }
-
-            await _navigation.PushModalAsync(
-                new NavigationPage(new AddMedicinePage())
-                {
-                    BarBackgroundColor = Color.FromArgb("#0f1f2e"),
-                    BarTextColor = Color.FromArgb("#00d4ff")
-                }
-            );
+            _allCertificates.Add(cert);
         }
-        catch (Exception ex)
+        foreach (var cert in _allCertificates)
         {
-            Debug.WriteLine($"❌ Exception: {ex.Message}");
-            await DisplayAlert("Error", $"Failed: {ex.Message}", "OK");
+            Certificates.Add(cert);
         }
     }
 
-    private async void OnEditCertificateClicked(object sender, EventArgs e)
+    private void OnAddCertificateClicked(object sender, EventArgs e)
     {
-        if (sender is Button button && button.CommandParameter is Certificate cert)
+        Debug.WriteLine("➕ ADD MEDICINE");
+
+        var page = new AddMedicinePage(this, _mainPage);
+
+        _mainPage.SetPage(page);
+    }
+
+    private void OnEditCertificateClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button &&
+            button.CommandParameter is Certificate cert)
         {
-            try
-            {
-                await _navigation.PushModalAsync(
-                    new NavigationPage(new AddMedicinePage(cert))
-                    {
-                        BarBackgroundColor = Color.FromArgb("#0f1f2e"),
-                        BarTextColor = Color.FromArgb("#00d4ff")
-                    }
-                );
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", $"Failed: {ex.Message}", "OK");
-            }
+            Debug.WriteLine($"✏️ EDIT MEDICINE: {cert.Document}");
+
+            var page = new AddMedicinePage(cert, this, _mainPage);
+
+            _mainPage.SetPage(page);
         }
     }
 
     private async void OnDeleteCertificateClicked(object sender, EventArgs e)
     {
-        if (sender is Button button && button.CommandParameter is Certificate cert)
+        if (sender is Button button &&
+            button.CommandParameter is Certificate cert)
         {
-            bool answer = await DisplayAlert("Delete", "Delete this certificate?", "Yes", "No");
-            if (answer)
-            {
-                await _database.DeleteCertificateAsync(cert);
-                Certificates.Remove(cert);
-            }
+            bool confirm = await DisplayAlert(
+                "Delete",
+                $"Delete \"{cert.Document}\"?",
+                "Yes",
+                "Cancel");
+
+            if (!confirm)
+                return;
+
+            await _database.DeleteAsync(cert);
+
+            await LoadCertificates();
         }
+    }
+
+    public async void AddCertificate(Certificate cert)
+    {
+        await _database.SaveCertificateAsync(cert);
+
+        await LoadCertificates();
+    }
+
+    public async void RefreshList()
+    {
+        await LoadCertificates();
     }
 }

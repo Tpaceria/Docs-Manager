@@ -5,80 +5,111 @@ namespace Docs_Manager.View;
 
 public partial class AddMedicinePage : ContentPage
 {
-    readonly DatabaseService _database;
-    Certificate _certificate;
-    string _selectedFilePath;
+    private readonly DatabaseService _database;
 
-    public AddMedicinePage()
+    private readonly MedicinePage _parentPage;
+    private readonly MainPage _mainPage;
+
+    private Certificate _certificate;
+    private string _selectedFilePath;
+
+    public AddMedicinePage(
+        MedicinePage parentPage,
+        MainPage mainPage)
     {
         InitializeComponent();
+
         _database = ServiceHelper.GetService<DatabaseService>()
             ?? throw new InvalidOperationException("DatabaseService not found");
+
+        _parentPage = parentPage;
+        _mainPage = mainPage;
+
+        Title = "Add Medicine";
     }
 
-    public AddMedicinePage(Certificate certificate) : this()
+    public AddMedicinePage(
+        Certificate certificate,
+        MedicinePage parentPage,
+        MainPage mainPage) : this(parentPage, mainPage)
     {
         _certificate = certificate;
+
+        FillForm();
+    }
+
+    private void FillForm()
+    {
+        if (_certificate == null)
+            return;
+
+        DocumentEntry.Text = _certificate.Document;
+        CountryEntry.Text = _certificate.Country ?? "";
+        NumberEntry.Text = _certificate.Number;
+
+        IssueDatePicker.Date =
+            Convert.ToDateTime(_certificate.IssueDate);
+
+        ExpiryDatePicker.Date =
+            Convert.ToDateTime(_certificate.ExpiryDate);
+
+        LifetimeSwitch.IsToggled = _certificate.IsLifetime;
+
+        _selectedFilePath = _certificate.FilePath;
+
+        if (!string.IsNullOrEmpty(_selectedFilePath))
+        {
+            FileInfoBorder.IsVisible = true;
+
+            FileNameLabel.Text =
+                Path.GetFileName(_selectedFilePath);
+        }
+
+        Title = "Edit Medicine";
+
+        ExpiryStack.IsVisible = !_certificate.IsLifetime;
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
 
-        if (_certificate != null)
-        {
-            DocumentEntry.Text = _certificate.Document;
-            CountryEntry.Text = _certificate.Country ?? "";
-            NumberEntry.Text = _certificate.Number;
-            IssueDatePicker.Date = _certificate.IssueDate;
-            LifetimeSwitch.IsToggled = _certificate.IsLifetime;
-            ExpiryDatePicker.Date = _certificate.ExpiryDate;
-            _selectedFilePath = _certificate.FilePath;
-
-            if (!string.IsNullOrEmpty(_selectedFilePath))
-            {
-                FileInfoBorder.IsVisible = true;
-                FileNameLabel.Text = Path.GetFileName(_selectedFilePath);
-                FileSizeLabel.Text = $"Size: {FormatFileSize(new FileInfo(_selectedFilePath).Length)}";
-                PickFileButton.Text = "✅ File Selected";
-                PickFileButton.BackgroundColor = Color.FromArgb("#28A745");
-            }
-
-            Title = "Edit Medicine";
-            ExpiryStack.IsVisible = !_certificate.IsLifetime;
-        }
-        else
+        if (_certificate == null)
         {
             IssueDatePicker.Date = DateTime.Today;
-            ExpiryDatePicker.Date = DateTime.Today.AddYears(5);
+            ExpiryDatePicker.Date =
+                DateTime.Today.AddYears(5);
         }
     }
 
-    void OnLifetimeToggled(object sender, ToggledEventArgs e)
+    private void OnLifetimeToggled(
+        object sender,
+        ToggledEventArgs e)
     {
         ExpiryStack.IsVisible = !e.Value;
     }
 
-    async void OnPickFileClicked(object sender, EventArgs e)
+    private async void OnPickFileClicked(
+        object sender,
+        EventArgs e)
     {
         try
         {
-            var result = await FilePicker.PickAsync(new PickOptions
-            {
-                PickerTitle = "Select File"
-            });
+            var result = await FilePicker.PickAsync(
+                new PickOptions
+                {
+                    PickerTitle = "Select File"
+                });
 
             if (result != null)
             {
                 _selectedFilePath = result.FullPath;
-                var fileInfo = new FileInfo(_selectedFilePath);
-                long fileSize = fileInfo.Length;
 
                 FileInfoBorder.IsVisible = true;
+
                 FileNameLabel.Text = result.FileName;
-                FileSizeLabel.Text = $"Size: {FormatFileSize(fileSize)}";
+
                 PickFileButton.Text = "✅ File Selected";
-                PickFileButton.BackgroundColor = Color.FromArgb("#28A745");
             }
         }
         catch (Exception ex)
@@ -87,54 +118,86 @@ public partial class AddMedicinePage : ContentPage
         }
     }
 
-    async void OnSaveClicked(object sender, EventArgs e)
+    private async void OnSaveClicked(
+        object sender,
+        EventArgs e)
     {
         try
         {
             if (string.IsNullOrWhiteSpace(DocumentEntry.Text))
             {
-                await DisplayAlert("Error", "Enter document name", "OK");
+                await DisplayAlert(
+                    "Error",
+                    "Enter document name",
+                    "OK");
+
                 return;
             }
 
-            var certificate = new Certificate
+            if (_certificate == null)
             {
-                Id = _certificate?.Id ?? 0,
-                Document = DocumentEntry.Text,
-                Country = CountryEntry.Text ?? "",
-                Number = NumberEntry.Text ?? "",
-                IssueDate = IssueDatePicker.Date ?? DateTime.Today,
-                ExpiryDate = LifetimeSwitch.IsToggled ? DateTime.MaxValue : (ExpiryDatePicker.Date ?? DateTime.Today),
-                IsLifetime = LifetimeSwitch.IsToggled,
-                FilePath = _selectedFilePath,
-                Category = "MEDICINE"
-            };
+                var cert = new Certificate
+                {
+                    Document = DocumentEntry.Text,
+                    Country = CountryEntry.Text,
+                    Number = NumberEntry.Text,
 
-            await _database.SaveCertificateAsync(certificate);
-            await DisplayAlert("Success", "Medicine certificate saved!", "OK");
-            await Navigation.PopModalAsync();
+                    IssueDate =
+                        Convert.ToDateTime(IssueDatePicker.Date),
+
+                    ExpiryDate = LifetimeSwitch.IsToggled
+                        ? DateTime.MaxValue
+                        : Convert.ToDateTime(ExpiryDatePicker.Date),
+
+                    IsLifetime = LifetimeSwitch.IsToggled,
+
+                    FilePath = _selectedFilePath,
+
+                    Category = "MEDICINE"
+                };
+
+                _parentPage.AddCertificate(cert);
+            }
+            else
+            {
+                _certificate.Document = DocumentEntry.Text;
+                _certificate.Country = CountryEntry.Text;
+                _certificate.Number = NumberEntry.Text;
+
+                _certificate.IssueDate =
+                    Convert.ToDateTime(IssueDatePicker.Date);
+
+                _certificate.ExpiryDate =
+                    LifetimeSwitch.IsToggled
+                    ? DateTime.MaxValue
+                    : Convert.ToDateTime(ExpiryDatePicker.Date);
+
+                _certificate.IsLifetime =
+                    LifetimeSwitch.IsToggled;
+
+                _certificate.FilePath =
+                    _selectedFilePath;
+
+                _parentPage.AddCertificate(_certificate);
+            }
+
+            _mainPage.SetPage(
+                new MedicinePage(_mainPage));
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            await DisplayAlert(
+                "Error",
+                ex.Message,
+                "OK");
         }
     }
 
-    async void OnCancelClicked(object sender, EventArgs e)
+    private void OnCancelClicked(
+        object sender,
+        EventArgs e)
     {
-        await Navigation.PopModalAsync();
-    }
-
-    static string FormatFileSize(long bytes)
-    {
-        string[] sizes = { "B", "KB", "MB", "GB" };
-        double len = bytes;
-        int order = 0;
-        while (len >= 1024 && order < sizes.Length - 1)
-        {
-            order++;
-            len = len / 1024;
-        }
-        return $"{len:0.##} {sizes[order]}";
+        _mainPage.SetPage(
+            new MedicinePage(_mainPage));
     }
 }

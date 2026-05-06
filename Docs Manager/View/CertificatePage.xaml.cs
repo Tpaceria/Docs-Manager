@@ -48,11 +48,10 @@ public partial class CertificatePage : ContentPage
 
         var list = await _database.GetCertificatesAsync();
 
-        foreach (var cert in list)
+        foreach (var cert in list.Where(c => c.Category == "CERTIFICATES"))
         {
             _allCertificates.Add(cert);
         }
-
         ApplyFilters();
     }
 

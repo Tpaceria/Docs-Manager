@@ -52,7 +52,7 @@ public partial class MainPage : ContentPage
         ResetButtons();
         MedicineBtn.BackgroundColor = Color.FromArgb("#1a3a52");
         MedicineBtn.TextColor = Color.FromArgb("#00d4ff");
-        SetPage(new MedicinePage());
+        SetPage(new MedicinePage(this));
     }
 
     private void ShowOther()
