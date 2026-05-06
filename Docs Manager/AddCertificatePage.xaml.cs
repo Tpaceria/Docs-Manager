@@ -6,17 +6,23 @@ public partial class AddCertificatePage : ContentPage
 {
     private string _selectedFilePath;
     private readonly CertificatePage _parentPage;
+    private readonly MainPage _mainPage;
     private Certificate _certificate;
 
-    public AddCertificatePage(CertificatePage parentPage)
+    public AddCertificatePage(CertificatePage parentPage, MainPage mainPage)
     {
         InitializeComponent();
+
         _parentPage = parentPage;
+        _mainPage = mainPage;
 
         Title = "Add Certificate";
     }
 
-    public AddCertificatePage(Certificate certificate, CertificatePage parentPage) : this(parentPage)
+    public AddCertificatePage(
+        Certificate certificate,
+        CertificatePage parentPage,
+        MainPage mainPage) : this(parentPage, mainPage)
     {
         _certificate = certificate;
         FillForm();
@@ -103,21 +109,27 @@ public partial class AddCertificatePage : ContentPage
             _certificate.Document = DocumentEntry.Text;
             _certificate.Country = CountryEntry.Text;
             _certificate.Number = NumberEntry.Text;
-            _certificate.IssueDate = Convert.ToDateTime(IssueDatePicker.Date);
+
+            _certificate.IssueDate =
+                Convert.ToDateTime(IssueDatePicker.Date);
+
             _certificate.ExpiryDate = LifetimeSwitch.IsToggled
                 ? DateTime.MaxValue
                 : Convert.ToDateTime(ExpiryDatePicker.Date);
+
             _certificate.IsLifetime = LifetimeSwitch.IsToggled;
             _certificate.FilePath = _selectedFilePath;
 
-            _parentPage.RefreshList();
+            _parentPage.AddCertificate(_certificate);
         }
 
-        await Navigation.PopAsync();
+        // ✅ возврат на список
+        _mainPage.SetPage(new CertificatePage(_mainPage));
     }
 
-    private async void OnCancelClicked(object sender, EventArgs e)
+    private void OnCancelClicked(object sender, EventArgs e)
     {
-        await Navigation.PopAsync();
+        // ✅ возврат без сохранения
+        _mainPage.SetPage(new CertificatePage(_mainPage));
     }
 }

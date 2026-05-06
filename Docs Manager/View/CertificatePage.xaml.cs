@@ -9,7 +9,9 @@ public partial class CertificatePage : ContentPage
 {
     private DatabaseService _database;
     private ObservableCollection<Certificate> _allCertificates = new();
+
     public ObservableCollection<Certificate> Certificates { get; set; } = new();
+
     private MainPage _mainPage;
 
     public CertificatePage()
@@ -22,15 +24,20 @@ public partial class CertificatePage : ContentPage
         CertificateCollectionView.ItemsSource = Certificates;
     }
 
-    // ✔ старый конструктор возвращаем
     public CertificatePage(MainPage mainPage) : this()
     {
         _mainPage = mainPage;
     }
 
-    // ✔ возвращаем метод
     public async Task LoadCertificatesPublic()
     {
+        await LoadCertificates();
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
         await LoadCertificates();
     }
 
@@ -42,7 +49,9 @@ public partial class CertificatePage : ContentPage
         var list = await _database.GetCertificatesAsync();
 
         foreach (var cert in list)
+        {
             _allCertificates.Add(cert);
+        }
 
         ApplyFilters();
     }
@@ -56,6 +65,7 @@ public partial class CertificatePage : ContentPage
         if (!string.IsNullOrWhiteSpace(query))
         {
             var lower = query.ToLowerInvariant();
+
             filtered = filtered.Where(c =>
                 c.Document.ToLowerInvariant().Contains(lower) ||
                 (c.Country ?? "").ToLowerInvariant().Contains(lower) ||
@@ -65,7 +75,9 @@ public partial class CertificatePage : ContentPage
         Certificates.Clear();
 
         foreach (var cert in filtered)
+        {
             Certificates.Add(cert);
+        }
     }
 
     private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
@@ -81,34 +93,44 @@ public partial class CertificatePage : ContentPage
 
     private void OnAddCertificateClicked(object sender, EventArgs e)
     {
-        var addPage = new AddCertificatePage(this);
-        _mainPage?.SetPage(addPage);
+        Debug.WriteLine("➕ ADD clicked");
+
+        var addPage = new AddCertificatePage(this, _mainPage);
+
+        _mainPage.SetPage(addPage);
     }
 
     private void OnEditClicked(object sender, EventArgs e)
     {
-        if (sender is Button button && button.CommandParameter is Certificate cert)
+        if (sender is Button button &&
+            button.CommandParameter is Certificate cert)
         {
             Debug.WriteLine($"✏️ EDIT clicked: {cert.Document}");
 
-            var addPage = new AddCertificatePage(cert, this);
+            var addPage =
+                new AddCertificatePage(cert, this, _mainPage);
+
             _mainPage.SetPage(addPage);
         }
     }
+
     private async void OnViewCertificateClicked(object sender, EventArgs e)
     {
-        if (sender is Button button && button.CommandParameter is Certificate cert)
+        if (sender is Button button &&
+            button.CommandParameter is Certificate cert)
         {
             Debug.WriteLine($"👁 VIEW clicked: {cert.Document}");
 
-            // ❌ если файл НЕ прикреплен
-            if (string.IsNullOrWhiteSpace(cert.FilePath) || !File.Exists(cert.FilePath))
+            if (string.IsNullOrWhiteSpace(cert.FilePath) ||
+                !File.Exists(cert.FilePath))
             {
-                bool attachNow = await Application.Current.MainPage.DisplayAlert(
-                    "Файл не найден",
-                    "У сертификата нет прикрепленного файла.\nПрикрепить сейчас?",
-                    "Прикрепить",
-                    "Отмена");
+                bool attachNow =
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Файл не найден",
+                        "У сертификата нет прикрепленного файла.\nПрикрепить сейчас?",
+                        "Прикрепить",
+                        "Отмена");
+
                 if (!attachNow)
                     return;
 
@@ -120,8 +142,6 @@ public partial class CertificatePage : ContentPage
 
                     await _database.SaveCertificateAsync(cert);
 
-                    Debug.WriteLine($"📎 Файл прикреплен: {cert.FilePath}");
-
                     await Launcher.OpenAsync(new OpenFileRequest
                     {
                         File = new ReadOnlyFile(cert.FilePath)
@@ -131,33 +151,40 @@ public partial class CertificatePage : ContentPage
                 return;
             }
 
-            // ✅ если файл есть — открываем
             await Launcher.OpenAsync(new OpenFileRequest
             {
                 File = new ReadOnlyFile(cert.FilePath)
             });
         }
     }
+
     private async void OnDeleteCertificateClicked(object sender, EventArgs e)
     {
-        if (sender is Button button && button.CommandParameter is Certificate cert)
+        if (sender is Button button &&
+            button.CommandParameter is Certificate cert)
         {
             Debug.WriteLine($"🗑 DELETE clicked: {cert.Document}");
 
-            bool confirm = await Application.Current.MainPage.DisplayAlert(
-                "Delete Certificate",
-                $"Delete \"{cert.Document}\"?",
-                "Yes",
-                "Cancel");
-            if (!confirm) return;
+            bool confirm =
+                await Application.Current.MainPage.DisplayAlert(
+                    "Delete Certificate",
+                    $"Delete \"{cert.Document}\"?",
+                    "Yes",
+                    "Cancel");
+
+            if (!confirm)
+                return;
 
             await _database.DeleteAsync(cert);
+
             await LoadCertificates();
         }
     }
+
     public async void AddCertificate(Certificate cert)
     {
         await _database.SaveCertificateAsync(cert);
+
         await LoadCertificates();
     }
 

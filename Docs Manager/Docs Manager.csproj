@@ -74,9 +74,6 @@
 		<Compile Update="AddOtherPage.xaml.cs">
 		  <DependentUpon>AddOtherPage.xaml</DependentUpon>
 		</Compile>
-		<Compile Update="View\CertificatesPage.xaml.cs">
-			<DependentUpon>CertificatesPage.xaml</DependentUpon>
-		</Compile>
 		<Compile Update="View\DocumentsPage.xaml.cs">
 			<DependentUpon>DocumentsPage.xaml</DependentUpon>
 		</Compile>
@@ -150,9 +147,6 @@
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="View\FilesPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="View\CertificatesPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="View\DocumentsPage.xaml">
