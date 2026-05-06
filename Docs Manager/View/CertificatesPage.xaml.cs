@@ -101,21 +101,41 @@ public partial class CertificatePage : ContentPage
         {
             Debug.WriteLine($"👁 VIEW clicked: {cert.Document}");
 
-            var expiryText = cert.IsLifetime
-                ? "No expiration date"
-                : cert.ExpiryDate.ToString("dd MMM yyyy");
+            // ❌ если файл НЕ прикреплен
+            if (string.IsNullOrWhiteSpace(cert.FilePath) || !File.Exists(cert.FilePath))
+            {
+                bool attachNow = await Application.Current.MainPage.DisplayAlert(
+                    "Файл не найден",
+                    "У сертификата нет прикрепленного файла.\nПрикрепить сейчас?",
+                    "Прикрепить",
+                    "Отмена");
+                if (!attachNow)
+                    return;
 
-            var details =
-                $"📄 Name: {cert.Document}\n" +
-                $"🌍 Country: {cert.Country ?? "N/A"}\n" +
-                $"🔢 Number: {cert.Number}\n" +
-                $"📅 Issued: {cert.IssueDate:dd MMM yyyy}\n" +
-                $"⏳ Expires: {expiryText}";
+                var result = await FilePicker.PickAsync();
 
-            await Application.Current.MainPage.DisplayAlert(
-                "Certificate Details",
-                details,
-                "OK");
+                if (result != null)
+                {
+                    cert.FilePath = result.FullPath;
+
+                    await _database.SaveCertificateAsync(cert);
+
+                    Debug.WriteLine($"📎 Файл прикреплен: {cert.FilePath}");
+
+                    await Launcher.OpenAsync(new OpenFileRequest
+                    {
+                        File = new ReadOnlyFile(cert.FilePath)
+                    });
+                }
+
+                return;
+            }
+
+            // ✅ если файл есть — открываем
+            await Launcher.OpenAsync(new OpenFileRequest
+            {
+                File = new ReadOnlyFile(cert.FilePath)
+            });
         }
     }
     private async void OnDeleteCertificateClicked(object sender, EventArgs e)
