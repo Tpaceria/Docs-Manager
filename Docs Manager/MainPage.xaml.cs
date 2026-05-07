@@ -36,7 +36,7 @@ public partial class MainPage : ContentPage
         ResetButtons();
         CocBtn.BackgroundColor = Color.FromArgb("#1a3a52");
         CocBtn.TextColor = Color.FromArgb("#00d4ff");
-        SetPage(new CocEndorsementPage());
+        SetPage(new CocEndorsementPage(this));
     }
 
     private void ShowDocuments()
