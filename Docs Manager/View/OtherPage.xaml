@@ -49,28 +49,46 @@
                                    FontAttributes="Bold"
                                    TextColor="#FFFFFF"/>
 
-                            <Button Grid.Column="1"
-                                    Text="✏️"
-                                    BackgroundColor="#0099CC"
-                                    TextColor="White"
-                                    Padding="8"
-                                    Clicked="OnEditCertificateClicked"
-                                    CommandParameter="{Binding .}"
-                                    WidthRequest="38"
-                                    HeightRequest="38"
-                                    CornerRadius="6"/>
+                            <FlexLayout Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Direction="Row"
+            Wrap="Wrap"
+            AlignItems="Center"
+            JustifyContent="End">
 
-                            <Button Grid.Column="2"
-                                    Text="🗑️"
-                                    BackgroundColor="#DC3545"
-                                    TextColor="White"
-                                    Padding="8"
-                                    Clicked="OnDeleteCertificateClicked"
-                                    CommandParameter="{Binding .}"
-                                    WidthRequest="38"
-                                    HeightRequest="38"
-                                    CornerRadius="6"/>
+                                <!-- VIEW -->
+                                <Button Text="View"
+            BackgroundColor="#00d4ff"
+            TextColor="White"
+            CornerRadius="10"
+            Padding="12,6"
+            Margin="0,0,10,0"
+            FontSize="12"
+            Clicked="OnViewCertificateClicked"
+            CommandParameter="{Binding .}" />
 
+                                <!-- EDIT -->
+                                <Button Text="Edit"
+            BackgroundColor="#FFC107"
+            TextColor="Black"
+            CornerRadius="10"
+            Padding="12,6"
+            Margin="0,0,10,0"
+            FontSize="12"
+            Clicked="OnEditCertificateClicked"
+            CommandParameter="{Binding .}" />
+
+                                <!-- DELETE -->
+                                <Button Text="Delete"
+            BackgroundColor="#DC3545"
+            TextColor="White"
+            CornerRadius="10"
+            Padding="12,6"
+            FontSize="12"
+            Clicked="OnDeleteCertificateClicked"
+            CommandParameter="{Binding .}" />
+
+                            </FlexLayout>
                         </Grid>
                     </Border>
                 </DataTemplate>

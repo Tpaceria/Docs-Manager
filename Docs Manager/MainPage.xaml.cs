@@ -60,7 +60,7 @@ public partial class MainPage : ContentPage
         ResetButtons();
         OtherBtn.BackgroundColor = Color.FromArgb("#1a3a52");
         OtherBtn.TextColor = Color.FromArgb("#00d4ff");
-        SetPage(new OtherPage());
+        SetPage(new OtherPage(this));
     }
 
     private void ShowExperience()
