@@ -2,116 +2,286 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Docs_Manager.View.ExperiencePage"
-             Title="Experience"
-             BackgroundColor="#0a1628"
+             BackgroundColor="#071426"
              Padding="0">
 
-    <Grid RowDefinitions="Auto,*" Padding="0" RowSpacing="0">
+    <Grid RowDefinitions="Auto,Auto,Auto,*">
 
-        <!-- ADD BUTTON - FIXED AT TOP -->
-        <Button Grid.Row="0"
-                Text="➕ Add Experience"
-                HeightRequest="60"
-                BackgroundColor="#0099CC"
-                TextColor="White"
-                FontSize="16"
-                FontAttributes="Bold"
-                Clicked="OnAddClicked"
-                Margin="20,10,20,10"
-                CornerRadius="8"/>
+        <!-- HEADER -->
+        <Border Grid.Row="0"
+                BackgroundColor="#0d1b2d"
+                StrokeThickness="0"
+                Padding="24,18">
 
-        <!-- LIST - SCROLLABLE -->
-        <CollectionView Grid.Row="1"
+            <Grid ColumnDefinitions="*,Auto">
+
+                <VerticalStackLayout Spacing="2">
+
+                    <Label Text="Sea Service Experience"
+                           FontSize="26"
+                           FontAttributes="Bold"
+                           TextColor="White"/>
+
+                    <Label Text="Contracts, vessels and sea service history"
+                           FontSize="13"
+                           TextColor="#7f9bb8"/>
+
+                </VerticalStackLayout>
+
+                <Button Grid.Column="1"
+                        Text="➕ Add Contract"
+                        HeightRequest="50"
+                        WidthRequest="220"
+                        BackgroundColor="#00bfff"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        FontSize="15"
+                        CornerRadius="14"
+                        Clicked="OnAddClicked"/>
+
+            </Grid>
+        </Border>
+
+        <!-- STATS -->
+        <Grid Grid.Row="1"
+              ColumnDefinitions="*,*,*,*"
+              ColumnSpacing="14"
+              Padding="20,16,20,8">
+
+            <!-- TOTAL -->
+            <Border BackgroundColor="#102544"
+                    Stroke="#17365d"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="18">
+
+                <VerticalStackLayout Spacing="4">
+
+                    <Label Text="CONTRACTS"
+                           FontSize="11"
+                           TextColor="#7f9bb8"/>
+
+                    <Label Text="{Binding Experiences.Count}"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="White"/>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- SEA TIME -->
+            <Border Grid.Column="1"
+                    BackgroundColor="#102544"
+                    Stroke="#17365d"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="18">
+
+                <VerticalStackLayout Spacing="4">
+
+                    <Label Text="SEA TIME"
+                           FontSize="11"
+                           TextColor="#7f9bb8"/>
+
+                    <Label Text="365+"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#28d17c"/>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- LAST VESSEL -->
+            <Border Grid.Column="2"
+                    BackgroundColor="#102544"
+                    Stroke="#17365d"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="18">
+
+                <VerticalStackLayout Spacing="4">
+
+                    <Label Text="VESSELS"
+                           FontSize="11"
+                           TextColor="#7f9bb8"/>
+
+                    <Label Text="FLEET"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#00bfff"/>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- STATUS -->
+            <Border Grid.Column="3"
+                    BackgroundColor="#102544"
+                    Stroke="#17365d"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="18">
+
+                <VerticalStackLayout Spacing="4">
+
+                    <Label Text="STATUS"
+                           FontSize="11"
+                           TextColor="#7f9bb8"/>
+
+                    <Label Text="ACTIVE"
+                           FontSize="22"
+                           FontAttributes="Bold"
+                           TextColor="#ffb020"/>
+
+                </VerticalStackLayout>
+            </Border>
+
+        </Grid>
+
+        <!-- SEARCH -->
+        <Border Grid.Row="2"
+                Margin="20,0,20,14"
+                BackgroundColor="#102544"
+                Stroke="#17365d"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 14"
+                Padding="12,4">
+
+            <Grid ColumnDefinitions="Auto,*">
+
+                <Label Text="🔍"
+                       VerticalOptions="Center"
+                       FontSize="16"
+                       Margin="4,0,10,0"/>
+
+                <SearchBar Grid.Column="1"
+                           x:Name="SearchBar"
+                           Placeholder="Search vessels..."
+                           PlaceholderColor="#7f9bb8"
+                           TextColor="White"
+                           BackgroundColor="Transparent"/>
+
+            </Grid>
+        </Border>
+
+        <!-- LIST -->
+        <CollectionView Grid.Row="3"
                         x:Name="ExperienceCollectionView"
-                        SelectionMode="Single"
-                        Margin="0"
-                        EmptyView="No experiences">
+                        ItemsSource="{Binding Experiences}"
+                        SelectionMode="None"
+                        Margin="18,0,18,18"
+                        EmptyView="No experience records">
+
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="12"/>
+                <LinearItemsLayout Orientation="Vertical"
+                                   ItemSpacing="12"/>
             </CollectionView.ItemsLayout>
+
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Border StrokeShape="RoundRectangle 8"
-                            Stroke="#333333"
+
+                    <Border BackgroundColor="#102544"
+                            Stroke="#17365d"
                             StrokeThickness="1"
-                            Padding="0"
-                            BackgroundColor="#2a2a2a"
-                            Margin="12,6,12,6">
+                            StrokeShape="RoundRectangle 18"
+                            Padding="18">
 
-                        <Grid ColumnDefinitions="Auto,*,Auto,Auto" 
-                              ColumnSpacing="12" 
-                              Padding="16,12,16,12"
-                              VerticalOptions="Center">
+                        <Grid RowDefinitions="Auto,Auto"
+                              ColumnDefinitions="*,Auto">
 
-                            <!-- Vessel Name and Position -->
-                            <VerticalStackLayout Grid.Column="0" Spacing="3" WidthRequest="150">
+                            <!-- LEFT -->
+                            <VerticalStackLayout Spacing="10">
+
+                                <!-- TITLE -->
                                 <Label Text="{Binding VesselName}"
-                                       FontSize="14"
+                                       FontSize="20"
                                        FontAttributes="Bold"
-                                       TextColor="#FFFFFF"
-                                       LineBreakMode="TailTruncation"/>
-                                <Label Text="{Binding Position}"
-                                       FontSize="12"
-                                       TextColor="#FF6B35"
-                                       FontAttributes="Bold"/>
+                                       TextColor="White"/>
+
+                                <!-- DATES -->
+                                <HorizontalStackLayout Spacing="20">
+
+                                    <Label Text="{Binding SignOnDate, StringFormat='Sign On: {0:dd MMM yyyy}'}"
+                                           FontSize="13"
+                                           TextColor="#8fb3d9"/>
+
+                                    <Label Text="{Binding SignOffDate, StringFormat='Sign Off: {0:dd MMM yyyy}'}"
+                                           FontSize="13"
+                                           TextColor="#8fb3d9"/>
+
+                                </HorizontalStackLayout>
+
+                                <!-- SERVICE -->
+                                <HorizontalStackLayout Spacing="10">
+
+                                    <Label Text="Sea Service"
+                                           FontSize="14"
+                                           TextColor="White"/>
+
+                                    <Label Text="{Binding SeaServiceDisplay}"
+                                           FontSize="14"
+                                           FontAttributes="Bold"
+                                           TextColor="#28d17c"/>
+
+                                </HorizontalStackLayout>
+
                             </VerticalStackLayout>
 
-                            <!-- Dates -->
-                            <StackLayout Grid.Column="1" 
-                                        Orientation="Horizontal" 
-                                        Spacing="20"
-                                        HorizontalOptions="FillAndExpand">
-                                <VerticalStackLayout Spacing="2">
-                                    <Label Text="From:"
-                                           FontSize="10"
-                                           TextColor="#888888"/>
-                                    <Label Text="{Binding SignOnDate, StringFormat='{0:dd.MM.yyyy}'}"
-                                           FontSize="11"
-                                           TextColor="#FFFFFF"
-                                           FontAttributes="Bold"/>
-                                </VerticalStackLayout>
-                                <VerticalStackLayout Spacing="2">
-                                    <Label Text="To:"
-                                           FontSize="10"
-                                           TextColor="#888888"/>
-                                    <Label Text="{Binding SignOffDate, StringFormat='{0:dd.MM.yyyy}'}"
-                                           FontSize="11"
-                                           TextColor="#FFFFFF"
-                                           FontAttributes="Bold"/>
-                                </VerticalStackLayout>
-                            </StackLayout>
+                            <!-- STATUS -->
+                            <Border Grid.Column="1"
+                                    BackgroundColor="#28d17c"
+                                    Padding="14,6"
+                                    HeightRequest="36"
+                                    StrokeThickness="0"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="Start"
+                                    StrokeShape="RoundRectangle 20">
 
-                            <!-- Edit Button -->
-                            <FlexLayout Grid.Column="1"
-            Direction="Row"
-            Wrap="Wrap"
-            AlignItems="Center"
-            JustifyContent="End">
+                                <Label Text="COMPLETED"
+                                       FontSize="12"
+                                       FontAttributes="Bold"
+                                       TextColor="White"/>
 
-                                <Button Text="Edit"
-            BackgroundColor="#FFC107"
-            TextColor="Black"
-            CornerRadius="10"
-            Padding="12,6"
-            Margin="0,0,10,0"
-            FontSize="12"
-            Clicked="OnEditClicked"
-            CommandParameter="{Binding .}" />
+                            </Border>
 
-                                <Button Text="Delete"
-            BackgroundColor="#DC3545"
-            TextColor="White"
-            CornerRadius="10"
-            Padding="12,6"
-            FontSize="12"
-            Clicked="OnDeleteClicked"
-            CommandParameter="{Binding .}" />
+                            <!-- ACTIONS -->
+                            <FlexLayout Grid.Row="1"
+                                        Grid.ColumnSpan="2"
+                                        Direction="Row"
+                                        JustifyContent="End"
+                                        Margin="0,18,0,0">
+
+                                <!-- EDIT -->
+                                <Button Text="✏️"
+                                        WidthRequest="46"
+                                        HeightRequest="46"
+                                        FontSize="16"
+                                        BackgroundColor="#ffb020"
+                                        TextColor="Black"
+                                        CornerRadius="14"
+                                        Margin="0,0,10,0"
+                                        Clicked="OnEditClicked"
+                                        CommandParameter="{Binding .}"/>
+
+                                <!-- DELETE -->
+                                <Button Text="🗑"
+                                        WidthRequest="46"
+                                        HeightRequest="46"
+                                        FontSize="16"
+                                        BackgroundColor="#ff4d6d"
+                                        TextColor="White"
+                                        CornerRadius="14"
+                                        Clicked="OnDeleteClicked"
+                                        CommandParameter="{Binding .}"/>
 
                             </FlexLayout>
+
                         </Grid>
+
                     </Border>
+
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+
         </CollectionView>
 
     </Grid>

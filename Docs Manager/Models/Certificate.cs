@@ -42,34 +42,61 @@ public class Certificate
     public bool IsExpired => !IsLifetime && ExpiryDate < DateTime.Today;
 
     [Ignore]
-    public bool IsExpiringSoon => !IsLifetime && !IsExpired && DaysUntilExpiry <= ExpiringSoonThresholdDays;
+    public bool IsCritical =>
+        !IsLifetime &&
+        !IsExpired &&
+        DaysUntilExpiry <= 7;
 
+    [Ignore]
+    public bool IsExpiringSoon =>
+        !IsLifetime &&
+        !IsExpired &&
+        DaysUntilExpiry > 7 &&
+        DaysUntilExpiry <= ExpiringSoonThresholdDays;
     private const int ExpiringSoonThresholdDays = 30;
 
     [Ignore]
+   
     public string StatusDisplay
     {
         get
         {
-            if (IsLifetime) return "Lifetime";
-            if (IsExpired) return "Expired";
-            if (IsExpiringSoon) return "Expiring Soon";
+            if (IsLifetime)
+                return "Lifetime";
+
+            if (IsExpired)
+                return "Expired";
+
+            if (IsCritical)
+                return "Critical";
+
+            if (IsExpiringSoon)
+                return "Expiring Soon";
+
             return "Active";
         }
     }
-
     [Ignore]
+    
     public string StatusColor
     {
         get
         {
-            if (IsLifetime) return "#00d4ff";
-            if (IsExpired) return "#DC3545";
-            if (IsExpiringSoon) return "#FFC107";
+            if (IsLifetime)
+                return "#00d4ff";
+
+            if (IsExpired)
+                return "#DC3545";
+
+            if (IsCritical)
+                return "#ff4d4d";
+
+            if (IsExpiringSoon)
+                return "#FFC107";
+
             return "#28A745";
         }
     }
-
     [Ignore]
     public string DaysRemainingDisplay
     {
