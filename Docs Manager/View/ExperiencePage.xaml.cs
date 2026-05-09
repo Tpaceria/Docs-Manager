@@ -1,116 +1,95 @@
 using Docs_Manager.Data;
 using Docs_Manager.Models;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace Docs_Manager.View;
 
 public partial class ExperiencePage : ContentPage
 {
-    private DatabaseService? _database;
+    private DatabaseService _database;
+
     public ObservableCollection<Experience> Experiences { get; set; } = new();
-    private INavigation _navigation;
+
+    private MainPage _mainPage;
 
     public ExperiencePage()
     {
         InitializeComponent();
+
+        _database = ServiceHelper.GetService<DatabaseService>()
+            ?? throw new InvalidOperationException("DatabaseService not found");
+
         ExperienceCollectionView.ItemsSource = Experiences;
+
+        _ = LoadExperiences();
     }
 
-    // ✅ КОНСТРУКТОР с INavigation
-    public ExperiencePage(INavigation navigation) : this()
+    public ExperiencePage(MainPage mainPage) : this()
     {
-        _navigation = navigation;
-        Debug.WriteLine($"✅ ExperiencePage Navigation set: {_navigation != null}");
-    }
-
-    private DatabaseService GetDatabase()
-    {
-        _database ??= ServiceHelper.GetService<DatabaseService>();
-        return _database;
+        _mainPage = mainPage;
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+
         await LoadExperiences();
     }
 
     private async Task LoadExperiences()
     {
-        try
+        Experiences.Clear();
+
+        var list = await _database.GetExperiencesAsync();
+
+        foreach (var exp in list.OrderByDescending(x => x.SignOffDate))
         {
-            Experiences.Clear();
-            var list = await GetDatabase().GetExperiencesAsync();
-            foreach (var exp in list)
-                Experiences.Add(exp);
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("Error", $"Failed to load: {ex.Message}", "OK");
+            Experiences.Add(exp);
         }
     }
 
-    // ✅ ИСПОЛЬЗУЕМ _navigation вместо this.Navigation
-    private async void OnAddExperienceClicked(object sender, EventArgs e)
+    private void OnAddClicked(object sender, EventArgs e)
     {
-        try
-        {
-            Debug.WriteLine("🔵 OnAddExperienceClicked triggered!");
+        var page = new EditExperiencePage(this, _mainPage);
 
-            if (_navigation == null)
-            {
-                Debug.WriteLine("❌ Navigation is NULL!");
-                await DisplayAlert("Error", "Navigation context is null", "OK");
+        _mainPage.SetPage(page);
+    }
+
+    private void OnEditClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button &&
+            button.CommandParameter is Experience exp)
+        {
+            var page =
+                new EditExperiencePage(exp, this, _mainPage);
+
+            _mainPage.SetPage(page);
+        }
+    }
+
+    private async void OnDeleteClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button &&
+            button.CommandParameter is Experience exp)
+        {
+            bool confirm =
+                await Application.Current.Windows[0].Page.DisplayAlertAsync(
+                    "Delete",
+                    $"Delete experience on {exp.VesselName}?",
+                    "Yes",
+                    "Cancel");
+
+            if (!confirm)
                 return;
-            }
 
-            await _navigation.PushModalAsync(
-                new NavigationPage(new EditExperiencePage())
-                {
-                    BarBackgroundColor = Color.FromArgb("#0f1f2e"),
-                    BarTextColor = Color.FromArgb("#00d4ff")
-                }
-            );
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"❌ Exception: {ex.Message}");
-            await DisplayAlert("Error", $"Failed: {ex.Message}", "OK");
+            await _database.DeleteExperienceAsync(exp);
+
+            await LoadExperiences();
         }
     }
 
-    private async void OnEditExperienceClicked(object sender, EventArgs e)
+    public async void RefreshList()
     {
-        if (sender is Button button && button.CommandParameter is Experience exp)
-        {
-            try
-            {
-                await _navigation.PushModalAsync(
-                    new NavigationPage(new EditExperiencePage(exp))
-                    {
-                        BarBackgroundColor = Color.FromArgb("#0f1f2e"),
-                        BarTextColor = Color.FromArgb("#00d4ff")
-                    }
-                );
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", $"Failed: {ex.Message}", "OK");
-            }
-        }
-    }
-
-    private async void OnDeleteExperienceClicked(object sender, EventArgs e)
-    {
-        if (sender is Button button && button.CommandParameter is Experience exp)
-        {
-            bool answer = await DisplayAlert("Delete", "Delete this experience?", "Yes", "No");
-            if (answer)
-            {
-                await _database.DeleteExperienceAsync(exp);
-                await LoadExperiences();
-            }
-        }
+        await LoadExperiences();
     }
 }

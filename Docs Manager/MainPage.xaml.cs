@@ -69,7 +69,7 @@ public partial class MainPage : ContentPage
         ResetButtons();
         ExperienceBtn.BackgroundColor = Color.FromArgb("#1a3a52");
         ExperienceBtn.TextColor = Color.FromArgb("#00d4ff");
-        SetPage(new ExperiencePage());
+        SetPage(new ExperiencePage(this));
     }
 
     public void SetPage(ContentPage page)

@@ -5,51 +5,67 @@ namespace Docs_Manager.View;
 
 public partial class EditExperiencePage : ContentPage
 {
-    readonly DatabaseService _database;
-    Experience _experience;
+    private readonly DatabaseService _database;
 
-    public EditExperiencePage()
+    private readonly ExperiencePage _parentPage;
+    private readonly MainPage _mainPage;
+
+    private Experience _experience;
+
+    public EditExperiencePage(
+        ExperiencePage parentPage,
+        MainPage mainPage)
     {
         InitializeComponent();
+
+        _parentPage = parentPage;
+        _mainPage = mainPage;
+
         _database = ServiceHelper.GetService<DatabaseService>()
             ?? throw new InvalidOperationException("DatabaseService not found");
+
+        Title = "Add Experience";
     }
 
-    public EditExperiencePage(Experience experience) : this()
+    public EditExperiencePage(
+        Experience experience,
+        ExperiencePage parentPage,
+        MainPage mainPage)
+        : this(parentPage, mainPage)
     {
         _experience = experience;
+
+        FillForm();
+    }
+
+    private void FillForm()
+    {
+        if (_experience == null)
+            return;
+
+        VesselNameEntry.Text = _experience.VesselName;
+
+        SignOnDatePicker.Date =
+            Convert.ToDateTime(_experience.SignOnDate);
+
+        SignOffDatePicker.Date =
+            Convert.ToDateTime(_experience.SignOffDate);
+
+        Title = "Edit Experience";
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
 
-        if (_experience != null)
-        {
-            VesselNameEntry.Text = _experience.VesselName ?? "";
-            DWTEntry.Text = _experience.DWT.ToString();
-            PositionPicker.SelectedItem = _experience.Position;
-            VesselTypePicker.SelectedItem = _experience.VesselType;
-            FlagPicker.SelectedItem = _experience.Flag;
-            YearEntry.Text = _experience.YearOfBuilt.ToString();
-            SignOnDatePicker.Date = _experience.SignOnDate;
-            SignOffDatePicker.Date = _experience.SignOffDate;
-            MainEngineEntry.Text = _experience.MainEngineKW.ToString();
-            METypePicker.SelectedItem = _experience.METype;
-            ShipownerEntry.Text = _experience.Shipowner ?? "";
-            CrewingAgencyEntry.Text = _experience.CrewingAgency ?? "";
-            IMOEntry.Text = _experience.IMO ?? "";
-
-            Title = "Edit Experience";
-        }
-        else
+        if (_experience == null)
         {
             SignOnDatePicker.Date = DateTime.Today;
             SignOffDatePicker.Date = DateTime.Today;
         }
     }
 
-    async void OnSaveClicked(object sender, EventArgs e)
+    private async void OnSaveClicked(object sender, EventArgs e)
     {
         try
         {
@@ -59,27 +75,25 @@ public partial class EditExperiencePage : ContentPage
                 return;
             }
 
-            var experience = new Experience
+            var exp = new Experience
             {
                 Id = _experience?.Id ?? 0,
+
                 VesselName = VesselNameEntry.Text,
-                DWT = int.TryParse(DWTEntry.Text, out int dwt) ? dwt : 0,
-                Position = PositionPicker.SelectedItem?.ToString() ?? "",
-                VesselType = VesselTypePicker.SelectedItem?.ToString() ?? "",
-                Flag = FlagPicker.SelectedItem?.ToString() ?? "",
-                YearOfBuilt = int.TryParse(YearEntry.Text, out int year) ? year : 0,
-                SignOnDate = SignOnDatePicker.Date ?? DateTime.Today,
-                SignOffDate = SignOffDatePicker.Date ?? DateTime.Today,
-                MainEngineKW = int.TryParse(MainEngineEntry.Text, out int engine) ? engine : 0,
-                METype = METypePicker.SelectedItem?.ToString() ?? "",
-                Shipowner = ShipownerEntry.Text ?? "",
-                CrewingAgency = CrewingAgencyEntry.Text ?? "",
-                IMO = IMOEntry.Text ?? ""
+
+
+                SignOnDate =
+                    Convert.ToDateTime(SignOnDatePicker.Date),
+
+                SignOffDate =
+                    Convert.ToDateTime(SignOffDatePicker.Date)
             };
 
-            await _database.SaveExperienceAsync(experience);
-            await DisplayAlert("Success", "Experience saved!", "OK");
-            await Navigation.PopModalAsync();
+            await _database.SaveExperienceAsync(exp);
+
+            _parentPage.RefreshList();
+
+            _mainPage.SetPage(new ExperiencePage(_mainPage));
         }
         catch (Exception ex)
         {
@@ -87,8 +101,8 @@ public partial class EditExperiencePage : ContentPage
         }
     }
 
-    async void OnCancelClicked(object sender, EventArgs e)
+    private void OnCancelClicked(object sender, EventArgs e)
     {
-        await Navigation.PopModalAsync();
+        _mainPage.SetPage(new ExperiencePage(_mainPage));
     }
 }

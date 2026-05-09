@@ -16,7 +16,7 @@
                 TextColor="White"
                 FontSize="16"
                 FontAttributes="Bold"
-                Clicked="OnAddExperienceClicked"
+                Clicked="OnAddClicked"
                 Margin="20,10,20,10"
                 CornerRadius="8"/>
 
@@ -82,29 +82,32 @@
                             </StackLayout>
 
                             <!-- Edit Button -->
-                            <Button Grid.Column="2"
-                                    Text="✏️"
-                                    BackgroundColor="#0099CC"
-                                    TextColor="White"
-                                    Padding="8"
-                                    Clicked="OnEditExperienceClicked"
-                                    CommandParameter="{Binding .}"
-                                    WidthRequest="38"
-                                    HeightRequest="38"
-                                    CornerRadius="6"/>
+                            <FlexLayout Grid.Column="1"
+            Direction="Row"
+            Wrap="Wrap"
+            AlignItems="Center"
+            JustifyContent="End">
 
-                            <!-- Delete Button -->
-                            <Button Grid.Column="3"
-                                    Text="🗑️"
-                                    BackgroundColor="#DC3545"
-                                    TextColor="White"
-                                    Padding="8"
-                                    Clicked="OnDeleteExperienceClicked"
-                                    CommandParameter="{Binding .}"
-                                    WidthRequest="38"
-                                    HeightRequest="38"
-                                    CornerRadius="6"/>
+                                <Button Text="Edit"
+            BackgroundColor="#FFC107"
+            TextColor="Black"
+            CornerRadius="10"
+            Padding="12,6"
+            Margin="0,0,10,0"
+            FontSize="12"
+            Clicked="OnEditClicked"
+            CommandParameter="{Binding .}" />
 
+                                <Button Text="Delete"
+            BackgroundColor="#DC3545"
+            TextColor="White"
+            CornerRadius="10"
+            Padding="12,6"
+            FontSize="12"
+            Clicked="OnDeleteClicked"
+            CommandParameter="{Binding .}" />
+
+                            </FlexLayout>
                         </Grid>
                     </Border>
                 </DataTemplate>
