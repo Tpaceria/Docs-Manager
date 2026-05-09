@@ -1,116 +1,151 @@
 using Docs_Manager.Data;
 using Docs_Manager.Models;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace Docs_Manager.View;
 
 public partial class DocumentsPage : ContentPage
 {
-    private DatabaseService? _database;
+    private DatabaseService _database;
+
+    private ObservableCollection<Certificate> _allCertificates = new();
+
     public ObservableCollection<Certificate> Certificates { get; set; } = new();
-    private INavigation _navigation;
+
+    private MainPage _mainPage;
 
     public DocumentsPage()
     {
         InitializeComponent();
+
+        _database = ServiceHelper.GetService<DatabaseService>()
+            ?? throw new InvalidOperationException("DatabaseService not found");
+
         CertificateCollectionView.ItemsSource = Certificates;
+
+        _ = LoadCertificates();
     }
 
-    // ✅ КОНСТРУКТОР с INavigation
-    public DocumentsPage(INavigation navigation) : this()
+    public DocumentsPage(MainPage mainPage) : this()
     {
-        _navigation = navigation;
-        Debug.WriteLine($"✅ DocumentsPage Navigation set: {_navigation != null}");
-    }
-
-    private DatabaseService GetDatabase()
-    {
-        _database ??= ServiceHelper.GetService<DatabaseService>();
-        return _database;
+        _mainPage = mainPage;
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+
         await LoadCertificates();
     }
 
     private async Task LoadCertificates()
     {
-        try
+        _allCertificates.Clear();
+        Certificates.Clear();
+
+        var list = await _database.GetCertificatesAsync();
+
+        foreach (var cert in list.Where(c => c.Category == "DOCUMENTS"))
         {
-            Certificates.Clear();
-            var list = await GetDatabase().GetCertificatesAsync();
-            foreach (var cert in list.Where(c => c.Category == "DOCUMENTS"))
-                Certificates.Add(cert);
+            _allCertificates.Add(cert);
         }
-        catch (Exception ex)
+
+        foreach (var cert in _allCertificates)
         {
-            await DisplayAlert("Error", $"Failed to load: {ex.Message}", "OK");
+            Certificates.Add(cert);
         }
     }
 
-    // ✅ ИСПОЛЬЗУЕМ _navigation вместо this.Navigation
-    private async void OnAddCertificateClicked(object sender, EventArgs e)
+    private void OnAddCertificateClicked(object sender, EventArgs e)
     {
-        try
-        {
-            Debug.WriteLine("🔵 OnAddCertificateClicked triggered!");
+        var page = new AddDocumentPage(this, _mainPage);
 
-            if (_navigation == null)
+        _mainPage.SetPage(page);
+    }
+
+    private void OnEditCertificateClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button &&
+            button.CommandParameter is Certificate cert)
+        {
+            var page = new AddDocumentPage(cert, this, _mainPage);
+
+            _mainPage.SetPage(page);
+        }
+    }
+
+    private async void OnViewCertificateClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button &&
+            button.CommandParameter is Certificate cert)
+        {
+            if (string.IsNullOrWhiteSpace(cert.FilePath) ||
+                !File.Exists(cert.FilePath))
             {
-                Debug.WriteLine("❌ Navigation is NULL!");
-                await DisplayAlert("Error", "Navigation context is null", "OK");
+                bool attachNow =
+                    await Application.Current.Windows[0].Page.DisplayAlertAsync(
+                        "Файл не найден",
+                        "У записи нет прикрепленного файла.\nПрикрепить сейчас?",
+                        "Прикрепить",
+                        "Отмена");
+
+                if (!attachNow)
+                    return;
+
+                var result = await FilePicker.Default.PickAsync();
+
+                if (result != null)
+                {
+                    cert.FilePath = result.FullPath;
+
+                    await _database.SaveCertificateAsync(cert);
+
+                    await Launcher.OpenAsync(new OpenFileRequest
+                    {
+                        File = new ReadOnlyFile(cert.FilePath)
+                    });
+                }
+
                 return;
             }
 
-            await _navigation.PushModalAsync(
-                new NavigationPage(new AddDocumentPage())
-                {
-                    BarBackgroundColor = Color.FromArgb("#0f1f2e"),
-                    BarTextColor = Color.FromArgb("#00d4ff")
-                }
-            );
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"❌ Exception: {ex.Message}");
-            await DisplayAlert("Error", $"Failed: {ex.Message}", "OK");
-        }
-    }
-
-    private async void OnEditCertificateClicked(object sender, EventArgs e)
-    {
-        if (sender is Button button && button.CommandParameter is Certificate cert)
-        {
-            try
+            await Launcher.OpenAsync(new OpenFileRequest
             {
-                await _navigation.PushModalAsync(
-                    new NavigationPage(new AddDocumentPage(cert))
-                    {
-                        BarBackgroundColor = Color.FromArgb("#0f1f2e"),
-                        BarTextColor = Color.FromArgb("#00d4ff")
-                    }
-                );
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", $"Failed: {ex.Message}", "OK");
-            }
+                File = new ReadOnlyFile(cert.FilePath)
+            });
         }
     }
 
     private async void OnDeleteCertificateClicked(object sender, EventArgs e)
     {
-        if (sender is Button button && button.CommandParameter is Certificate cert)
+        if (sender is Button button &&
+            button.CommandParameter is Certificate cert)
         {
-            bool answer = await DisplayAlert("Delete", "Delete this certificate?", "Yes", "No");
-            if (answer)
-            {
-                await _database.DeleteCertificateAsync(cert);
-                Certificates.Remove(cert);
-            }
+            bool confirm =
+                await Application.Current.Windows[0].Page.DisplayAlertAsync(
+                    "Delete",
+                    $"Delete \"{cert.Document}\"?",
+                    "Yes",
+                    "Cancel");
+
+            if (!confirm)
+                return;
+
+            await _database.DeleteAsync(cert);
+
+            await LoadCertificates();
         }
+    }
+
+    public async void AddCertificate(Certificate cert)
+    {
+        await _database.SaveCertificateAsync(cert);
+
+        await LoadCertificates();
+    }
+
+    public async void RefreshList()
+    {
+        await LoadCertificates();
     }
 }

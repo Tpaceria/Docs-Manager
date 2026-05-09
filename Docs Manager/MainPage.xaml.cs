@@ -42,11 +42,12 @@ public partial class MainPage : ContentPage
     private void ShowDocuments()
     {
         ResetButtons();
+
         DocumentsBtn.BackgroundColor = Color.FromArgb("#1a3a52");
         DocumentsBtn.TextColor = Color.FromArgb("#00d4ff");
-        SetPage(new DocumentsPage());
-    }
 
+        SetPage(new DocumentsPage(this));
+    }
     private void ShowMedicine()
     {
         ResetButtons();
