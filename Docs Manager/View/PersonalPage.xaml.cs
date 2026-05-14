@@ -18,149 +18,290 @@ public partial class PersonalPage : ContentPage
         _database ??= ServiceHelper.GetService<DatabaseService>();
         return _database;
     }
+    public async Task LoadProfileAsync()
+    {
+        try
+        {
+            var profile = await GetDatabase().GetUserProfileAsync();
+
+            if (profile == null)
+                return;
+
+            FirstNameEntry.Text = profile.FirstName;
+            LastNameEntry.Text = profile.LastName;
+            EmailEntry.Text = profile.Email;
+            PhoneEntry.Text = profile.Phone;
+
+            BirthDatePicker.Date =
+                profile.BirthDate == DateTime.MinValue
+                    ? DateTime.Today
+                    : profile.BirthDate;
+
+            PositionEntry.Text = profile.Position;
+            CitizenshipEntry.Text = profile.Citizenship;
+            ResidenceEntry.Text = profile.Residence;
+            ResidenceAirportEntry.Text = profile.ResidenceAirport;
+
+            DesiredWageEntry.Text =
+                profile.DesiredWage.ToString();
+
+            HeightEntry.Text =
+                profile.Height.ToString();
+
+            WeightEntry.Text =
+                profile.Weight.ToString();
+
+            ShoeSizeEntry.Text =
+                profile.ShoeSize.ToString();
+
+            OverallSizeEntry.Text =
+                profile.OverallSize.ToString();
+
+            HairColorEntry.Text = profile.HairColor;
+            EyeColorEntry.Text = profile.EyeColor;
+
+            QualificationEntry.Text =
+                profile.QualificationDegree;
+
+            EducationInstitutionEntry.Text =
+                profile.EducationInstitution;
+
+            GraduationDatePicker.Date =
+                profile.GraduationDate == DateTime.MinValue
+                    ? DateTime.Today
+                    : profile.GraduationDate;
+
+            if (!string.IsNullOrEmpty(profile.PhotoPath)
+                && File.Exists(profile.PhotoPath))
+            {
+                _photoPath = profile.PhotoPath;
+
+                PhotoImage.Source =
+                    new FileImageSource
+                    {
+                        File = _photoPath
+                    };
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert(
+                "LOAD ERROR",
+                ex.ToString(),
+                "OK");
+        }
+    }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
 
-        try
-        {
-            var profile = await GetDatabase().GetUserProfileAsync();
-
-            if (profile != null)
-            {
-                FirstNameEntry.Text = profile.FirstName;
-                LastNameEntry.Text = profile.LastName;
-                EmailEntry.Text = profile.Email;
-                PhoneEntry.Text = profile.Phone;
-                BirthDatePicker.Date = profile.BirthDate != DateTime.MinValue ? profile.BirthDate : DateTime.Today;
-
-                PositionEntry.Text = profile.Position;
-                CitizenshipEntry.Text = profile.Citizenship;
-                ResidenceEntry.Text = profile.Residence;
-                ResidenceAirportEntry.Text = profile.ResidenceAirport;
-                DesiredWageEntry.Text = profile.DesiredWage > 0 ? profile.DesiredWage.ToString() : "";
-
-                HeightEntry.Text = profile.Height > 0 ? profile.Height.ToString() : "";
-                WeightEntry.Text = profile.Weight > 0 ? profile.Weight.ToString() : "";
-                ShoeSizeEntry.Text = profile.ShoeSize > 0 ? profile.ShoeSize.ToString() : "";
-                OverallSizeEntry.Text = profile.OverallSize > 0 ? profile.OverallSize.ToString() : "";
-                HairColorEntry.Text = profile.HairColor;
-                EyeColorEntry.Text = profile.EyeColor;
-
-                QualificationEntry.Text = profile.QualificationDegree;
-                EducationInstitutionEntry.Text = profile.EducationInstitution;
-                GraduationDatePicker.Date = profile.GraduationDate != DateTime.MinValue ? profile.GraduationDate : DateTime.Today;
-
-                if (!string.IsNullOrEmpty(profile.PhotoPath) && File.Exists(profile.PhotoPath))
-                {
-                    _photoPath = profile.PhotoPath;
-                    PhotoImage.Source = new FileImageSource { File = _photoPath };
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("Error", $"Failed to load profile: {ex.Message}", "OK");
-        }
-    }
+        await LoadProfileAsync();
+    }    // =========================================
+    // ВЫБОР ФОТО
+    // =========================================
 
     private async void OnPickPhotoClicked(object sender, EventArgs e)
     {
         try
         {
-            var result = await FilePicker.PickAsync(new PickOptions
-            {
-                PickerTitle = "Выбери фото",
-                FileTypes = FilePickerFileType.Images
-            });
+            var result = await FilePicker.PickAsync(
+                new PickOptions
+                {
+                    PickerTitle = "Выберите фото",
+                    FileTypes = FilePickerFileType.Images
+                });
 
             if (result != null)
             {
                 _photoPath = result.FullPath;
-                PhotoImage.Source = new FileImageSource { File = _photoPath };
+
+                PhotoImage.Source =
+                    new FileImageSource
+                    {
+                        File = _photoPath
+                    };
+
                 PickPhotoButton.Text = "✅ Фото выбрано";
-                PickPhotoButton.BackgroundColor = Color.FromArgb("#28A745");
+
+                PickPhotoButton.BackgroundColor =
+                    Color.FromArgb("#28A745");
             }
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Ошибка", $"Не удалось выбрать фото: {ex.Message}", "OK");
+            await DisplayAlert(
+                "Ошибка",
+                $"Не удалось выбрать фото:\n{ex.Message}",
+                "OK");
         }
     }
+
+    // =========================================
+    // СОХРАНЕНИЕ
+    // =========================================
 
     private async void OnSaveClicked(object sender, EventArgs e)
     {
+        await DisplayAlert("TEST", "BUTTON WORKS", "OK");
+
         try
         {
-            if (string.IsNullOrWhiteSpace(FirstNameEntry.Text))
+            var db = GetDatabase();
+
+            // ===== ПОЛУЧАЕМ ПРОФИЛЬ =====
+
+            var profile = await db.GetUserProfileAsync();
+
+            // ===== ЕСЛИ НЕТ — СОЗДАЁМ =====
+
+            if (profile == null)
             {
-                await DisplayAlert("Ошибка", "Введи имя", "OK");
-                return;
+                profile = new UserProfile
+                {
+                    Id = 1
+                };
             }
 
-            if (string.IsNullOrWhiteSpace(LastNameEntry.Text))
-            {
-                await DisplayAlert("Ошибка", "Введи фамилию", "OK");
-                return;
-            }
+            // =====================================
+            // ОСНОВНАЯ ИНФОРМАЦИЯ
+            // =====================================
 
-            int.TryParse(HeightEntry.Text, out int height);
-            int.TryParse(WeightEntry.Text, out int weight);
-            int.TryParse(ShoeSizeEntry.Text, out int shoeSize);
-            int.TryParse(OverallSizeEntry.Text, out int overallSize);
-            decimal.TryParse(DesiredWageEntry.Text, out decimal wage);
+            profile.FirstName =
+                FirstNameEntry.Text ?? "";
 
-            var profile = new UserProfile
-            {
-                Id = 1,
-                FirstName = FirstNameEntry.Text,
-                LastName = LastNameEntry.Text,
-                Email = EmailEntry.Text ?? "",
-                Phone = PhoneEntry.Text ?? "",
-                BirthDate = BirthDatePicker.Date ?? DateTime.Today,
-                Age = CalculateAge(BirthDatePicker.Date ?? DateTime.Today),
+            profile.LastName =
+                LastNameEntry.Text ?? "";
 
-                Position = PositionEntry.Text ?? "",
-                Citizenship = CitizenshipEntry.Text ?? "",
-                Residence = ResidenceEntry.Text ?? "",
-                ResidenceAirport = ResidenceAirportEntry.Text ?? "",
-                DesiredWage = wage,
+            profile.Email =
+                EmailEntry.Text ?? "";
 
-                Height = height,
-                Weight = weight,
-                ShoeSize = shoeSize,
-                OverallSize = overallSize,
-                HairColor = HairColorEntry.Text ?? "",
-                EyeColor = EyeColorEntry.Text ?? "",
+            profile.Phone =
+                PhoneEntry.Text ?? "";
 
-                QualificationDegree = QualificationEntry.Text ?? "",
-                EducationInstitution = EducationInstitutionEntry.Text ?? "",
-                GraduationDate = GraduationDatePicker.Date ?? DateTime.Today,
+            profile.Age =
+                CalculateAge(profile.BirthDate);
+            // =====================================
+            // ПРОФЕССИОНАЛЬНО
+            // =====================================
 
-                PhotoPath = _photoPath,
-                UpdatedDate = DateTime.Now
-            };
+            profile.Position =
+                PositionEntry.Text ?? "";
 
-            await GetDatabase().SaveUserProfileAsync(profile);
-            await DisplayAlert("Успех", "Данные профиля сохранены!", "OK");
+            profile.Citizenship =
+                CitizenshipEntry.Text ?? "";
+
+            profile.Residence =
+                ResidenceEntry.Text ?? "";
+
+            profile.ResidenceAirport =
+                ResidenceAirportEntry.Text ?? "";
+
+            decimal.TryParse(
+                DesiredWageEntry.Text,
+                out decimal wage);
+
+            profile.DesiredWage = wage;
+
+            // =====================================
+            // ЛИЧНОЕ
+            // =====================================
+
+            int.TryParse(
+                HeightEntry.Text,
+                out int height);
+
+            profile.Height = height;
+
+            int.TryParse(
+                WeightEntry.Text,
+                out int weight);
+
+            profile.Weight = weight;
+
+            int.TryParse(
+                ShoeSizeEntry.Text,
+                out int shoeSize);
+
+            profile.ShoeSize = shoeSize;
+
+            int.TryParse(
+                OverallSizeEntry.Text,
+                out int overallSize);
+
+            profile.OverallSize = overallSize;
+
+            profile.HairColor =
+                HairColorEntry.Text ?? "";
+
+            profile.EyeColor =
+                EyeColorEntry.Text ?? "";
+
+            // =====================================
+            // ОБРАЗОВАНИЕ
+            // =====================================
+
+            profile.QualificationDegree =
+                QualificationEntry.Text ?? "";
+
+            profile.EducationInstitution =
+                EducationInstitutionEntry.Text ?? "";
+
+            profile.GraduationDate = GraduationDatePicker.Date.Value;
+            // =====================================
+            // ФОТО
+            // =====================================
+
+            profile.PhotoPath = _photoPath;
+
+            // =====================================
+            // ОБНОВЛЕНИЕ
+            // =====================================
+
+            profile.UpdatedDate = DateTime.Now;
+
+            // =====================================
+            // СОХРАНЕНИЕ В БАЗУ
+            // =====================================
+
+            await db.SaveUserProfileAsync(profile);
+
+            await DisplayAlert(
+                "Success",
+                "Profile saved successfully!",
+                "OK");
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Ошибка", $"Ошибка при сохранении: {ex.Message}", "OK");
+            await DisplayAlert(
+                "Error",
+                ex.ToString(),
+                "OK");
         }
     }
+
+    // =========================================
+    // ОТМЕНА
+    // =========================================
 
     private async void OnCancelClicked(object sender, EventArgs e)
     {
         await Navigation.PopAsync();
     }
 
+    // =========================================
+    // ВОЗРАСТ
+    // =========================================
+
     private int CalculateAge(DateTime birthDate)
     {
         var today = DateTime.Today;
-        var age = today.Year - birthDate.Year;
-        if (birthDate.Date > today.AddYears(-age)) age--;
+
+        int age = today.Year - birthDate.Year;
+
+        if (birthDate.Date > today.AddYears(-age))
+            age--;
+
         return age;
     }
 }

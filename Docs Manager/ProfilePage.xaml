@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Docs_Manager.View.ProfilePage"
+             BackgroundColor="#071426"
+             Padding="0">
+
+    <ScrollView>
+
+        <VerticalStackLayout Spacing="20"
+                             Padding="20,20,20,30">
+
+            <!-- ===================================== -->
+            <!-- HEADER -->
+            <!-- ===================================== -->
+
+            <Border BackgroundColor="#102544"
+                    Stroke="#17365d"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 22"
+                    Padding="24">
+
+                <Grid ColumnDefinitions="120,*,Auto"
+                      ColumnSpacing="20">
+
+                    <!-- PHOTO -->
+                    <Border WidthRequest="110"
+                            HeightRequest="110"
+                            StrokeThickness="0"
+                            BackgroundColor="#17365d"
+                            StrokeShape="RoundRectangle 55">
+
+                        <Image x:Name="ProfilePhoto"
+                               Aspect="AspectFill"/>
+                    </Border>
+
+                    <!-- INFO -->
+                    <VerticalStackLayout Grid.Column="1"
+                                         VerticalOptions="Center"
+                                         Spacing="6">
+
+                        <Label x:Name="FullNameLabel"
+                               Text="Seafarer Name"
+                               FontSize="30"
+                               FontAttributes="Bold"
+                               TextColor="White"/>
+
+                        <Label x:Name="RankLabel"
+                               Text="Rank"
+                               FontSize="18"
+                               TextColor="#00d4ff"/>
+
+                        <HorizontalStackLayout Spacing="10">
+
+                            <Label Text="Nationality:"
+                                   FontSize="14"
+                                   TextColor="#7f9bb8"/>
+
+                            <Label x:Name="NationalityLabel"
+                                   Text="Country"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="White"/>
+
+                        </HorizontalStackLayout>
+
+                    </VerticalStackLayout>
+
+                    <!-- STATUS -->
+                    <Border Grid.Column="2"
+                            BackgroundColor="#28A745"
+                            Padding="18,10"
+                            HeightRequest="50"
+                            VerticalOptions="Start"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 18">
+
+                        <Label x:Name="CrewStatusLabel"
+                               Text="READY"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="White"/>
+
+                    </Border>
+
+                </Grid>
+
+            </Border>
+
+            <!-- ===================================== -->
+            <!-- STATS -->
+            <!-- ===================================== -->
+
+            <Grid ColumnDefinitions="*,*,*,*"
+                  ColumnSpacing="14">
+
+                <!-- TOTAL -->
+                <Border BackgroundColor="#102544"
+                        Stroke="#17365d"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 18"
+                        Padding="18">
+
+                    <VerticalStackLayout Spacing="4">
+
+                        <Label Text="DOCUMENTS"
+                               FontSize="11"
+                               TextColor="#7f9bb8"/>
+
+                        <Label x:Name="TotalDocsLabel"
+                               Text="0"
+                               FontSize="28"
+                               FontAttributes="Bold"
+                               TextColor="White"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- ACTIVE -->
+                <Border Grid.Column="1"
+                        BackgroundColor="#102544"
+                        Stroke="#17365d"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 18"
+                        Padding="18">
+
+                    <VerticalStackLayout Spacing="4">
+
+                        <Label Text="ACTIVE"
+                               FontSize="11"
+                               TextColor="#7f9bb8"/>
+
+                        <Label x:Name="ActiveDocsLabel"
+                               Text="0"
+                               FontSize="28"
+                               FontAttributes="Bold"
+                               TextColor="#28d17c"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- EXPIRING -->
+                <Border Grid.Column="2"
+                        BackgroundColor="#102544"
+                        Stroke="#17365d"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 18"
+                        Padding="18">
+
+                    <VerticalStackLayout Spacing="4">
+
+                        <Label Text="EXPIRING"
+                               FontSize="11"
+                               TextColor="#7f9bb8"/>
+
+                        <Label x:Name="ExpiringDocsLabel"
+                               Text="0"
+                               FontSize="28"
+                               FontAttributes="Bold"
+                               TextColor="#ffb020"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- EXPIRED -->
+                <Border Grid.Column="3"
+                        BackgroundColor="#102544"
+                        Stroke="#17365d"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 18"
+                        Padding="18">
+
+                    <VerticalStackLayout Spacing="4">
+
+                        <Label Text="EXPIRED"
+                               FontSize="11"
+                               TextColor="#7f9bb8"/>
+
+                        <Label x:Name="ExpiredDocsLabel"
+                               Text="0"
+                               FontSize="28"
+                               FontAttributes="Bold"
+                               TextColor="#ff4d6d"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+            </Grid>
+
+            <!-- ===================================== -->
+            <!-- ALERTS -->
+            <!-- ===================================== -->
+
+            <Border BackgroundColor="#102544"
+                    Stroke="#17365d"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 18"
+                    Padding="22">
+
+                <VerticalStackLayout Spacing="14">
+
+                    <Label Text="⚠ Alerts &amp; Expiring Documents"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="White"/>
+
+                    <VerticalStackLayout x:Name="AlertsContainer"
+                                         Spacing="10">
+
+                        <Label Text="No alerts"
+                               TextColor="#7f9bb8"
+                               FontSize="14"/>
+
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+
+            </Border>
+
+            <!-- ===================================== -->
+            <!-- QUICK ACTIONS -->
+            <!-- ===================================== -->
+
+            <Border BackgroundColor="#102544"
+                    Stroke="#17365d"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 18"
+                    Padding="22">
+
+                <VerticalStackLayout Spacing="18">
+
+                    <Label Text="⚡ Quick Actions"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="White"/>
+
+                    <Grid ColumnDefinitions="*,*,*,*"
+                          ColumnSpacing="14">
+
+                        <Button Text="+ Certificate"
+                                BackgroundColor="#00bfff"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                CornerRadius="14"
+                                HeightRequest="55"/>
+
+                        <Button Grid.Column="1"
+                                Text="+ Medical"
+                                BackgroundColor="#00bfff"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                CornerRadius="14"
+                                HeightRequest="55"/>
+
+                        <Button Grid.Column="2"
+                                Text="+ Experience"
+                                BackgroundColor="#00bfff"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                CornerRadius="14"
+                                HeightRequest="55"/>
+
+                        <Button Grid.Column="3"
+                                Text="+ Document"
+                                BackgroundColor="#00bfff"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                CornerRadius="14"
+                                HeightRequest="55"/>
+
+                    </Grid>
+
+                </VerticalStackLayout>
+
+            </Border>
+
+            <!-- ===================================== -->
+            <!-- SEA SERVICE -->
+            <!-- ===================================== -->
+
+            <Border BackgroundColor="#102544"
+                    Stroke="#17365d"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 18"
+                    Padding="22">
+
+                <VerticalStackLayout Spacing="16">
+
+                    <Label Text="⚓ Sea Service Summary"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="White"/>
+
+                    <Grid ColumnDefinitions="*,*"
+                          RowDefinitions="Auto,Auto"
+                          RowSpacing="12">
+
+                        <HorizontalStackLayout Spacing="8">
+
+                            <Label Text="Last Rank:"
+                                   TextColor="#7f9bb8"
+                                   FontSize="14"/>
+
+                            <Label x:Name="LastRankLabel"
+                                   Text="—"
+                                   TextColor="White"
+                                   FontAttributes="Bold"
+                                   FontSize="14"/>
+
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Grid.Column="1"
+                                               Spacing="8">
+
+                            <Label Text="Contracts:"
+                                   TextColor="#7f9bb8"
+                                   FontSize="14"/>
+
+                            <Label x:Name="ContractsCountLabel"
+                                   Text="0"
+                                   TextColor="White"
+                                   FontAttributes="Bold"
+                                   FontSize="14"/>
+
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Grid.Row="1"
+                                               Spacing="8">
+
+                            <Label Text="Last Vessel:"
+                                   TextColor="#7f9bb8"
+                                   FontSize="14"/>
+
+                            <Label x:Name="LastVesselLabel"
+                                   Text="—"
+                                   TextColor="White"
+                                   FontAttributes="Bold"
+                                   FontSize="14"/>
+
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Grid.Row="1"
+                                               Grid.Column="1"
+                                               Spacing="8">
+
+                            <Label Text="Sea Service:"
+                                   TextColor="#7f9bb8"
+                                   FontSize="14"/>
+
+                            <Label x:Name="SeaServiceLabel"
+                                   Text="0 months"
+                                   TextColor="White"
+                                   FontAttributes="Bold"
+                                   FontSize="14"/>
+
+                        </HorizontalStackLayout>
+
+                    </Grid>
+
+                </VerticalStackLayout>
+
+            </Border>
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+
+    </ContentPage>

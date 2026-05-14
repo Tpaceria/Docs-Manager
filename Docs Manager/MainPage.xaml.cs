@@ -77,62 +77,40 @@ public partial class MainPage : ContentPage
         Debug.WriteLine("====================================");
         Debug.WriteLine($"🔵 SetPage START: {page.GetType().Name}");
 
-        if (_currentPage != null)
-            Debug.WriteLine($"🟡 Previous page: {_currentPage.GetType().Name}");
-        else
-            Debug.WriteLine("🟡 Previous page: NULL");
-
-        _currentPage = page;
-
-        // --- текущий контент контейнера ---
-        if (ContentArea.Content != null)
-            Debug.WriteLine($"📦 ContentArea BEFORE: {ContentArea.Content.GetType().Name}");
-        else
-            Debug.WriteLine("📦 ContentArea BEFORE: NULL");
-
-        // --- контент страницы ---
-        if (page.Content != null)
+        try
         {
-            Debug.WriteLine($"📄 Page.Content: {page.Content.GetType().Name}");
+            _currentPage = page;
 
-            if (page.Content.Parent != null)
-                Debug.WriteLine($"⚠️ Page.Content уже имеет Parent: {page.Content.Parent.GetType().Name}");
-            else
-                Debug.WriteLine("✅ Page.Content без Parent");
+            ContentArea.Content = null;
+
+            ContentArea.Content = page.Content;
+
+            Debug.WriteLine($"📥 Inserted: {page.Content?.GetType().Name}");
+
+            // 🔥 загрузка PersonalPage
+            if (page is PersonalPage personalPage)
+            {
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Task.Delay(100);
+                    await personalPage.LoadProfileAsync();
+                });
+            }
+
+            // 🔥 certificates
+            if (page is CertificatePage certPage)
+            {
+                Debug.WriteLine("📜 Loading certificates...");
+                _ = certPage.LoadCertificatesPublic();
+            }
+
+            Debug.WriteLine($"✅ SetPage END: {page.GetType().Name}");
         }
-        else
+        catch (Exception ex)
         {
-            Debug.WriteLine("❌ Page.Content = NULL");
-        }
-
-        // --- ОТРЫВАЕМ ---
-        var view = page.Content;
-        page.Content = null;
-
-        Debug.WriteLine("✂️ Отцепили Content от страницы");
-
-        // --- чистим контейнер ---
-        ContentArea.Content = null;
-        Debug.WriteLine("🧹 ContentArea очищен");
-
-        // --- вставляем ---
-        ContentArea.Content = view;
-        Debug.WriteLine($"📥 Вставили: {view?.GetType().Name}");
-
-        // --- проверка после ---
-        if (view?.Parent != null)
-            Debug.WriteLine($"🔗 Новый Parent: {view.Parent.GetType().Name}");
-        else
-            Debug.WriteLine("❌ У view нет Parent после вставки");
-
-        // --- спец логика ---
-        if (page is CertificatePage certPage)
-        {
-            Debug.WriteLine("📜 Detected CertificatePage → loading data...");
-            _ = certPage.LoadCertificatesPublic();
+            Debug.WriteLine($"❌ SetPage ERROR: {ex}");
         }
 
-        Debug.WriteLine($"✅ SetPage END: {page.GetType().Name}");
         Debug.WriteLine("====================================");
     }
     private void ResetButtons()
