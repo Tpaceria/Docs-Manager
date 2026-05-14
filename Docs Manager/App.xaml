@@ -1,15 +1,132 @@
 <?xml version="1.0" encoding="utf-8" ?>
+
 <Application
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converters="clr-namespace:Docs_Manager.Converters"
     x:Class="Docs_Manager.App">
+
     <Application.Resources>
+
         <ResourceDictionary>
+
+            <!-- EXISTING -->
+
             <Color x:Key="PageBackgroundColor">#0a1628</Color>
             <Color x:Key="PrimaryColor">#00d4ff</Color>
-            <converters:StringToBoolConverter x:Key="StringToBoolConverter"/>
-            <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+
+            <converters:StringToBoolConverter
+                x:Key="StringToBoolConverter"/>
+
+            <converters:InverseBoolConverter
+                x:Key="InverseBoolConverter"/>
+
+            <!-- ===================================== -->
+            <!-- GLOBAL UI COLORS -->
+            <!-- ===================================== -->
+
+            <Color x:Key="PageBackground">#071426</Color>
+            <Color x:Key="CardBackground">#102544</Color>
+            <Color x:Key="CardStroke">#17365d</Color>
+
+            <Color x:Key="AccentBlue">#00bfff</Color>
+            <Color x:Key="AccentOrange">#ff7a2f</Color>
+
+            <Color x:Key="TextPrimary">White</Color>
+            <Color x:Key="TextSecondary">#8fb3d9</Color>
+
+            <!-- ===================================== -->
+            <!-- ENTRY STYLE -->
+            <!-- ===================================== -->
+
+            <Style TargetType="Entry">
+
+                <Setter Property="BackgroundColor"
+                        Value="#1a1f2e"/>
+
+                <Setter Property="TextColor"
+                        Value="White"/>
+
+                <Setter Property="PlaceholderColor"
+                        Value="#7f9bb8"/>
+
+                <Setter Property="HeightRequest"
+                        Value="52"/>
+
+                <Setter Property="Margin"
+                        Value="0,0,0,10"/>
+
+            </Style>
+
+            <!-- ===================================== -->
+            <!-- BUTTON STYLE -->
+            <!-- ===================================== -->
+
+            <Style TargetType="Button">
+
+                <Setter Property="CornerRadius"
+                        Value="14"/>
+
+                <Setter Property="HeightRequest"
+                        Value="50"/>
+
+                <Setter Property="FontAttributes"
+                        Value="Bold"/>
+
+                <Setter Property="FontSize"
+                        Value="14"/>
+
+            </Style>
+
+            <!-- ===================================== -->
+            <!-- CARD STYLE -->
+            <!-- ===================================== -->
+
+            <Style x:Key="DashboardCardStyle"
+                   TargetType="Border">
+
+                <Setter Property="BackgroundColor"
+                        Value="{StaticResource CardBackground}"/>
+
+                <Setter Property="Stroke"
+                        Value="{StaticResource CardStroke}"/>
+
+                <Setter Property="StrokeThickness"
+                        Value="1"/>
+
+                <Setter Property="Padding"
+                        Value="18"/>
+
+                <Setter Property="StrokeShape">
+
+                    <Setter.Value>
+                        <RoundRectangle CornerRadius="18"/>
+                    </Setter.Value>
+
+                </Setter>
+
+            </Style>
+
+            <!-- ===================================== -->
+            <!-- SECTION TITLE -->
+            <!-- ===================================== -->
+
+            <Style x:Key="SectionTitleStyle"
+                   TargetType="Label">
+
+                <Setter Property="FontSize"
+                        Value="22"/>
+
+                <Setter Property="FontAttributes"
+                        Value="Bold"/>
+
+                <Setter Property="TextColor"
+                        Value="{StaticResource AccentOrange}"/>
+
+            </Style>
+
         </ResourceDictionary>
+
     </Application.Resources>
+
 </Application>
