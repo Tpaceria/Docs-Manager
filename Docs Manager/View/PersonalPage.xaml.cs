@@ -29,10 +29,8 @@ public partial class PersonalPage : ContentPage
 
             FirstNameEntry.Text = profile.FirstName;
             LastNameEntry.Text = profile.LastName;
-            EmailEntry.Text = profile.Email;
-            PhoneEntry.Text = profile.Phone;
-
-            BirthDatePicker.Date =
+            PrimaryEmailEntry.Text = profile.Email;
+            PrimaryPhoneEntry.Text = profile.Phone; BirthDatePicker.Date =
                 profile.BirthDate == DateTime.MinValue
                     ? DateTime.Today
                     : profile.BirthDate;
@@ -174,11 +172,10 @@ public partial class PersonalPage : ContentPage
                 LastNameEntry.Text ?? "";
 
             profile.Email =
-                EmailEntry.Text ?? "";
+                PrimaryEmailEntry.Text ?? "";
 
             profile.Phone =
-                PhoneEntry.Text ?? "";
-
+                PrimaryPhoneEntry.Text ?? "";
             profile.Age =
                 CalculateAge(profile.BirthDate);
             // =====================================
@@ -303,5 +300,101 @@ public partial class PersonalPage : ContentPage
             age--;
 
         return age;
+    }
+
+    private void OnAddSecondaryEmailClicked(object sender, EventArgs e)
+    {
+        SecondaryEmailLayout.IsVisible = true;
+    }
+
+    private void OnRemoveSecondaryEmailClicked(object sender, EventArgs e)
+    {
+        SecondaryEmailEntry.Text = "";
+
+        SecondaryEmailLayout.IsVisible = false;
+    }
+
+    private bool _primaryTelegram;
+    private bool _primaryWhatsapp;
+    private bool _primaryViber;
+
+    private bool _secondaryTelegram;
+    private bool _secondaryWhatsapp;
+    private bool _secondaryViber;
+
+    private void OnAddSecondaryPhoneClicked(object sender, EventArgs e)
+    {
+        SecondaryPhoneLayout.IsVisible = true;
+    }
+
+    private void OnRemoveSecondaryPhoneClicked(object sender, EventArgs e)
+    {
+        SecondaryPhoneEntry.Text = "";
+
+        SecondaryPhoneLayout.IsVisible = false;
+    }
+    private void ToggleMessenger(Button button, ref bool state, Color activeColor)
+    {
+        state = !state;
+
+        if (state)
+        {
+            button.BackgroundColor = activeColor;
+            button.TextColor = Colors.White;
+            button.BorderColor = activeColor;
+        }
+        else
+        {
+            button.BackgroundColor = Color.FromArgb("#141b2d");
+            button.TextColor = Color.FromArgb("#7f9bb8");
+            button.BorderColor = Color.FromArgb("#2c4260");
+        }
+    }
+    private void OnPrimaryTelegramClicked(object sender, EventArgs e)
+    {
+        ToggleMessenger(
+            PrimaryTelegramButton,
+            ref _primaryTelegram,
+            Color.FromArgb("#229ED9"));
+    }
+
+    private void OnPrimaryWhatsappClicked(object sender, EventArgs e)
+    {
+        ToggleMessenger(
+            PrimaryWhatsappButton,
+            ref _primaryWhatsapp,
+            Color.FromArgb("#25D366"));
+    }
+
+    private void OnPrimaryViberClicked(object sender, EventArgs e)
+    {
+        ToggleMessenger(
+            PrimaryViberButton,
+            ref _primaryViber,
+            Color.FromArgb("#7360F2"));
+    }
+
+    private void OnSecondaryTelegramClicked(object sender, EventArgs e)
+    {
+        ToggleMessenger(
+            SecondaryTelegramButton,
+            ref _secondaryTelegram,
+            Color.FromArgb("#229ED9"));
+    }
+
+    private void OnSecondaryWhatsappClicked(object sender, EventArgs e)
+    {
+        ToggleMessenger(
+            SecondaryWhatsappButton,
+            ref _secondaryWhatsapp,
+            Color.FromArgb("#25D366"));
+    }
+
+    private void OnSecondaryViberClicked(object sender, EventArgs e)
+    {
+        ToggleMessenger(
+            SecondaryViberButton,
+            ref _secondaryViber,
+            Color.FromArgb("#7360F2"));
     }
 }

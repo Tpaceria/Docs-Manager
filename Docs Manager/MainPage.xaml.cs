@@ -81,13 +81,12 @@ public partial class MainPage : ContentPage
         {
             _currentPage = page;
 
-            ContentArea.Content = null;
-
+            // ВСТАВЛЯЕМ КОНТЕНТ
             ContentArea.Content = page.Content;
 
             Debug.WriteLine($"📥 Inserted: {page.Content?.GetType().Name}");
 
-            // 🔥 загрузка PersonalPage
+            // PERSONAL
             if (page is PersonalPage personalPage)
             {
                 MainThread.BeginInvokeOnMainThread(async () =>
@@ -97,7 +96,7 @@ public partial class MainPage : ContentPage
                 });
             }
 
-            // 🔥 certificates
+            // CERTIFICATES
             if (page is CertificatePage certPage)
             {
                 Debug.WriteLine("📜 Loading certificates...");

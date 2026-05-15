@@ -14,6 +14,8 @@
         <!-- ===================================== -->
 
         <Border Grid.Row="0"
+                ZIndex="10"
+                Margin="0,0,0,20"
                 BackgroundColor="#0d1b2d"
                 StrokeThickness="0"
                 Padding="24,18">
@@ -39,6 +41,8 @@
                         BackgroundColor="#28A745"
                         TextColor="White"
                         WidthRequest="140"
+                        HeightRequest="50"
+                        CornerRadius="14"
                         Clicked="OnSaveClicked"/>
 
                 <Button Grid.Column="2"
@@ -46,6 +50,8 @@
                         BackgroundColor="#ff4d6d"
                         TextColor="White"
                         WidthRequest="140"
+                        HeightRequest="50"
+                        CornerRadius="14"
                         Clicked="OnCancelClicked"/>
 
             </Grid>
@@ -56,7 +62,8 @@
         <!-- CONTENT -->
         <!-- ===================================== -->
 
-        <ScrollView Grid.Row="1">
+        <ScrollView Grid.Row="1"
+                    InputTransparent="False">
 
             <Grid Padding="20"
                   ColumnDefinitions="2*,1*"
@@ -68,14 +75,14 @@
 
                 <VerticalStackLayout Spacing="18">
 
-                    <!-- BASIC -->
+                    <!-- BASIC INFORMATION -->
 
                     <Label Text="📋 BASIC INFORMATION"
                            Style="{StaticResource SectionTitleStyle}"/>
 
                     <Border Style="{StaticResource DashboardCardStyle}">
 
-                        <VerticalStackLayout>
+                        <VerticalStackLayout Spacing="12">
 
                             <Entry x:Name="FirstNameEntry"
                                    Placeholder="First Name"/>
@@ -83,13 +90,54 @@
                             <Entry x:Name="LastNameEntry"
                                    Placeholder="Last Name"/>
 
-                            <Entry x:Name="EmailEntry"
-                                   Placeholder="Email"
-                                   Keyboard="Email"/>
+                            <Grid ColumnDefinitions="*,*"
+                                  ColumnSpacing="12">
 
-                            <Entry x:Name="PhoneEntry"
-                                   Placeholder="Phone"
-                                   Keyboard="Telephone"/>
+                                <Entry x:Name="PlaceOfBirthEntry"
+                                       Grid.Column="0"
+                                       Placeholder="Place Of Birth"/>
+
+                                <Entry x:Name="NationalityEntry"
+                                       Grid.Column="1"
+                                       Placeholder="Nationality"/>
+
+                            </Grid>
+
+                            <Grid ColumnDefinitions="*,*"
+                                  ColumnSpacing="12">
+
+                                <Picker x:Name="GenderPicker"
+                                        Grid.Column="0"
+                                        Title="Gender"
+                                        TextColor="White"
+                                        BackgroundColor="#1a1f2e">
+
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Male</x:String>
+                                            <x:String>Female</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+
+                                </Picker>
+
+                                <Picker x:Name="MaritalStatusPicker"
+                                        Grid.Column="1"
+                                        Title="Marital Status"
+                                        TextColor="White"
+                                        BackgroundColor="#1a1f2e">
+
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Single</x:String>
+                                            <x:String>Married</x:String>
+                                            <x:String>Divorced</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+
+                                </Picker>
+
+                            </Grid>
 
                             <Label Text="Birth Date"
                                    TextColor="White"
@@ -103,6 +151,171 @@
 
                     </Border>
 
+                    <!-- CONTACTS -->
+
+                    <Label Text="📞 CONTACTS"
+                           Style="{StaticResource SectionTitleStyle}"/>
+
+                    <Border Style="{StaticResource DashboardCardStyle}">
+
+                        <VerticalStackLayout Spacing="18">
+
+                            <!-- EMAIL -->
+
+                            <VerticalStackLayout Spacing="12">
+
+                                <Grid ColumnDefinitions="*,Auto"
+                                      ColumnSpacing="10">
+
+                                    <Entry x:Name="PrimaryEmailEntry"
+                                           Placeholder="Primary Email"
+                                           Keyboard="Email"/>
+
+                                    <Button Grid.Column="1"
+                                            Text="+"
+                                            WidthRequest="50"
+                                            HeightRequest="50"
+                                            CornerRadius="14"
+                                            BackgroundColor="#00bfff"
+                                            TextColor="White"
+                                            Clicked="OnAddSecondaryEmailClicked"/>
+
+                                </Grid>
+
+                                <HorizontalStackLayout
+                                    x:Name="SecondaryEmailLayout"
+                                    IsVisible="False"
+                                    Spacing="10">
+
+                                    <Entry x:Name="SecondaryEmailEntry"
+                                           HorizontalOptions="FillAndExpand"
+                                           Placeholder="Secondary Email"
+                                           Keyboard="Email"/>
+
+                                    <Button Text="🗑"
+                                            WidthRequest="50"
+                                            HeightRequest="50"
+                                            CornerRadius="14"
+                                            BackgroundColor="#ff4d6d"
+                                            TextColor="White"
+                                            Clicked="OnRemoveSecondaryEmailClicked"/>
+
+                                </HorizontalStackLayout>
+
+                            </VerticalStackLayout>
+
+                            <!-- PHONE -->
+
+                            <VerticalStackLayout Spacing="16">
+
+                                <!-- PRIMARY PHONE -->
+
+                                <Entry x:Name="PrimaryPhoneEntry"
+                                       Placeholder="Phone Number"
+                                       Keyboard="Telephone"/>
+
+                                <HorizontalStackLayout Spacing="10">
+
+                                    <Button x:Name="PrimaryTelegramButton"
+                                            Text="Telegram"
+                                            BackgroundColor="#141b2d"
+                                            TextColor="#7f9bb8"
+                                            BorderColor="#2c4260"
+                                            BorderWidth="1"
+                                            CornerRadius="12"
+                                            HeightRequest="42"
+                                            Clicked="OnPrimaryTelegramClicked"/>
+
+                                    <Button x:Name="PrimaryWhatsappButton"
+                                            Text="WhatsApp"
+                                            BackgroundColor="#141b2d"
+                                            TextColor="#7f9bb8"
+                                            BorderColor="#2c4260"
+                                            BorderWidth="1"
+                                            CornerRadius="12"
+                                            HeightRequest="42"
+                                            Clicked="OnPrimaryWhatsappClicked"/>
+
+                                    <Button x:Name="PrimaryViberButton"
+                                            Text="Viber"
+                                            BackgroundColor="#141b2d"
+                                            TextColor="#7f9bb8"
+                                            BorderColor="#2c4260"
+                                            BorderWidth="1"
+                                            CornerRadius="12"
+                                            HeightRequest="42"
+                                            Clicked="OnPrimaryViberClicked"/>
+
+                                    <Button Text="+"
+                                            WidthRequest="46"
+                                            HeightRequest="42"
+                                            CornerRadius="12"
+                                            BackgroundColor="#00bfff"
+                                            TextColor="White"
+                                            Clicked="OnAddSecondaryPhoneClicked"/>
+
+                                </HorizontalStackLayout>
+
+                                <!-- SECONDARY PHONE -->
+
+                                <VerticalStackLayout x:Name="SecondaryPhoneLayout"
+                                                     IsVisible="False"
+                                                     Spacing="10">
+
+                                    <Entry x:Name="SecondaryPhoneEntry"
+                                           Placeholder="Secondary Phone"
+                                           Keyboard="Telephone"/>
+
+                                    <HorizontalStackLayout Spacing="10">
+
+                                        <Button x:Name="SecondaryTelegramButton"
+                                                Text="Telegram"
+                                                BackgroundColor="#141b2d"
+                                                TextColor="#7f9bb8"
+                                                BorderColor="#2c4260"
+                                                BorderWidth="1"
+                                                CornerRadius="12"
+                                                HeightRequest="42"
+                                                Clicked="OnSecondaryTelegramClicked"/>
+
+                                        <Button x:Name="SecondaryWhatsappButton"
+                                                Text="WhatsApp"
+                                                BackgroundColor="#141b2d"
+                                                TextColor="#7f9bb8"
+                                                BorderColor="#2c4260"
+                                                BorderWidth="1"
+                                                CornerRadius="12"
+                                                HeightRequest="42"
+                                                Clicked="OnSecondaryWhatsappClicked"/>
+
+                                        <Button x:Name="SecondaryViberButton"
+                                                Text="Viber"
+                                                BackgroundColor="#141b2d"
+                                                TextColor="#7f9bb8"
+                                                BorderColor="#2c4260"
+                                                BorderWidth="1"
+                                                CornerRadius="12"
+                                                HeightRequest="42"
+                                                Clicked="OnSecondaryViberClicked"/>
+
+                                        <Button Text="🗑"
+                                                WidthRequest="46"
+                                                HeightRequest="42"
+                                                CornerRadius="12"
+                                                BackgroundColor="#ff4d6d"
+                                                TextColor="White"
+                                                Clicked="OnRemoveSecondaryPhoneClicked"/>
+
+                                    </HorizontalStackLayout>
+
+                                </VerticalStackLayout>
+
+                            </VerticalStackLayout>
+
+                        </VerticalStackLayout>
+
+                    </Border>
+
                     <!-- PROFESSIONAL -->
 
                     <Label Text="💼 PROFESSIONAL"
@@ -110,7 +323,7 @@
 
                     <Border Style="{StaticResource DashboardCardStyle}">
 
-                        <VerticalStackLayout>
+                        <VerticalStackLayout Spacing="12">
 
                             <Entry x:Name="PositionEntry"
                                    Placeholder="Position"/>
@@ -134,9 +347,7 @@
 
                 </VerticalStackLayout>
 
-                <!-- ===================================== -->
                 <!-- RIGHT COLUMN -->
-                <!-- ===================================== -->
 
                 <VerticalStackLayout Grid.Column="1"
                                      Spacing="18">
@@ -173,7 +384,7 @@
 
                     <Border Style="{StaticResource DashboardCardStyle}">
 
-                        <VerticalStackLayout>
+                        <VerticalStackLayout Spacing="12">
 
                             <Entry x:Name="HeightEntry"
                                    Placeholder="Height (cm)"
@@ -208,7 +419,7 @@
 
                     <Border Style="{StaticResource DashboardCardStyle}">
 
-                        <VerticalStackLayout>
+                        <VerticalStackLayout Spacing="12">
 
                             <Entry x:Name="QualificationEntry"
                                    Placeholder="Qualification"/>
