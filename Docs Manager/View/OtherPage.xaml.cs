@@ -1,4 +1,3 @@
-
 using Docs_Manager.Data;
 using Docs_Manager.Models;
 using System.Collections.ObjectModel;
@@ -6,7 +5,7 @@ using System.Diagnostics;
 
 namespace Docs_Manager.View;
 
-public partial class OtherPage : ContentPage
+public partial class OtherPage : ContentView
 {
     private DatabaseService _database;
     private ObservableCollection<Certificate> _allCertificates = new();
@@ -30,13 +29,6 @@ public partial class OtherPage : ContentPage
     public OtherPage(MainPage mainPage) : this()
     {
         _mainPage = mainPage;
-    }
-
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-
-        await LoadCertificates();
     }
 
     private async Task LoadCertificates()
@@ -84,7 +76,7 @@ public partial class OtherPage : ContentPage
                 !File.Exists(cert.FilePath))
             {
                 bool attachNow =
-                    await Application.Current.Windows[0].Page.DisplayAlertAsync(
+                    await Application.Current.MainPage.DisplayAlert(
                         "Файл не найден",
                         "У записи нет прикрепленного файла.\nПрикрепить сейчас?",
                         "Прикрепить",
@@ -123,7 +115,7 @@ public partial class OtherPage : ContentPage
             button.CommandParameter is Certificate cert)
         {
             bool confirm =
-                await Application.Current.Windows[0].Page.DisplayAlertAsync(
+                await Application.Current.MainPage.DisplayAlert(
                     "Delete",
                     $"Delete \"{cert.Document}\"?",
                     "Yes",

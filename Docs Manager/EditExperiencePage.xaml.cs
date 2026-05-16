@@ -3,11 +3,12 @@ using Docs_Manager.Models;
 
 namespace Docs_Manager.View;
 
-public partial class EditExperiencePage : ContentPage
+public partial class EditExperiencePage : ContentView
 {
     private readonly DatabaseService _database;
 
     private readonly ExperiencePage _parentPage;
+
     private readonly MainPage _mainPage;
 
     private Experience _experience;
@@ -19,12 +20,18 @@ public partial class EditExperiencePage : ContentPage
         InitializeComponent();
 
         _parentPage = parentPage;
+
         _mainPage = mainPage;
 
         _database = ServiceHelper.GetService<DatabaseService>()
             ?? throw new InvalidOperationException("DatabaseService not found");
 
-        Title = "Add Experience";
+        if (_experience == null)
+        {
+            SignOnDatePicker.Date = DateTime.Today;
+
+            SignOffDatePicker.Date = DateTime.Today;
+        }
     }
 
     public EditExperiencePage(
@@ -50,19 +57,6 @@ public partial class EditExperiencePage : ContentPage
 
         SignOffDatePicker.Date =
             Convert.ToDateTime(_experience.SignOffDate);
-
-        Title = "Edit Experience";
-    }
-
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-
-        if (_experience == null)
-        {
-            SignOnDatePicker.Date = DateTime.Today;
-            SignOffDatePicker.Date = DateTime.Today;
-        }
     }
 
     private async void OnSaveClicked(object sender, EventArgs e)
@@ -71,7 +65,11 @@ public partial class EditExperiencePage : ContentPage
         {
             if (string.IsNullOrWhiteSpace(VesselNameEntry.Text))
             {
-                await DisplayAlert("Error", "Enter vessel name", "OK");
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Enter vessel name",
+                    "OK");
+
                 return;
             }
 
@@ -80,7 +78,6 @@ public partial class EditExperiencePage : ContentPage
                 Id = _experience?.Id ?? 0,
 
                 VesselName = VesselNameEntry.Text,
-
 
                 SignOnDate =
                     Convert.ToDateTime(SignOnDatePicker.Date),
@@ -97,7 +94,10 @@ public partial class EditExperiencePage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            await Application.Current.MainPage.DisplayAlert(
+                "Error",
+                ex.Message,
+                "OK");
         }
     }
 

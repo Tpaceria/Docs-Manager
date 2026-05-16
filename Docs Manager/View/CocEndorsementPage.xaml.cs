@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace Docs_Manager.View;
 
-public partial class CocEndorsementPage : ContentPage
+public partial class CocEndorsementPage : ContentView
 {
     private DatabaseService _database;
 
@@ -29,13 +29,6 @@ public partial class CocEndorsementPage : ContentPage
     public CocEndorsementPage(MainPage mainPage) : this()
     {
         _mainPage = mainPage;
-    }
-
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-
-        await LoadCertificates();
     }
 
     private async Task LoadCertificates()
@@ -83,7 +76,7 @@ public partial class CocEndorsementPage : ContentPage
                 !File.Exists(cert.FilePath))
             {
                 bool attachNow =
-                    await Application.Current.Windows[0].Page.DisplayAlertAsync(
+                    await Application.Current.MainPage.DisplayAlert(
                         "Файл не найден",
                         "У записи нет прикрепленного файла.\nПрикрепить сейчас?",
                         "Прикрепить",
@@ -122,7 +115,7 @@ public partial class CocEndorsementPage : ContentPage
             button.CommandParameter is Certificate cert)
         {
             bool confirm =
-                await Application.Current.Windows[0].Page.DisplayAlertAsync(
+                await Application.Current.MainPage.DisplayAlert(
                     "Delete",
                     $"Delete \"{cert.Document}\"?",
                     "Yes",

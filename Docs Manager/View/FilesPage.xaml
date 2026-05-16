@@ -1,83 +1,32 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Docs_Manager.View.FilesPage"
-             Title="Files">
 
-    <Grid RowDefinitions="Auto,Auto,*" Padding="0" RowSpacing="0">
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Docs_Manager.View.FilesPage">
 
-        <!-- Header -->
-        <VerticalStackLayout Grid.Row="0" Padding="20" Spacing="10" BackgroundColor="#1a1a1a">
-            <StackLayout Orientation="Horizontal" Spacing="10">
-                <Label Text="📁" FontSize="28"/>
-                <Label Text="FILES &amp; CERTIFICATES" 
-                       FontSize="22" 
-                       FontAttributes="Bold"
-                       TextColor="#FF6B35"
-                       VerticalOptions="Center"/>
-            </StackLayout>
-        </VerticalStackLayout>
+    <VerticalStackLayout Padding="20" Spacing="12">
 
-        <!-- Category Buttons (Horizontal) -->
-        <HorizontalStackLayout Grid.Row="1" Padding="10" Spacing="5" BackgroundColor="#1a1a1a">
-            <Button Text="CERTIFICATES" 
-                    BackgroundColor="#FF6B35"
-                    TextColor="White"
-                    FontSize="11"
-                    FontAttributes="Bold"
-                    Clicked="OnCertificatesClicked"
-                    HorizontalOptions="FillAndExpand"
-                    HeightRequest="40"/>
-            <Button Text="COC" 
-                    BackgroundColor="#444444"
-                    TextColor="White"
-                    FontSize="11"
-                    FontAttributes="Bold"
-                    Clicked="OnCocClicked"
-                    HorizontalOptions="FillAndExpand"
-                    HeightRequest="40"/>
-            <Button Text="DOCS" 
-                    BackgroundColor="#444444"
-                    TextColor="White"
-                    FontSize="11"
-                    FontAttributes="Bold"
-                    Clicked="OnDocumentsClicked"
-                    HorizontalOptions="FillAndExpand"
-                    HeightRequest="40"/>
-            <Button Text="MEDICINE" 
-                    BackgroundColor="#444444"
-                    TextColor="White"
-                    FontSize="11"
-                    FontAttributes="Bold"
-                    Clicked="OnMedicineClicked"
-                    HorizontalOptions="FillAndExpand"
-                    HeightRequest="40"/>
-            <Button Text="OTHER" 
-                    BackgroundColor="#444444"
-                    TextColor="White"
-                    FontSize="11"
-                    FontAttributes="Bold"
-                    Clicked="OnOtherClicked"
-                    HorizontalOptions="FillAndExpand"
-                    HeightRequest="40"/>
-        </HorizontalStackLayout>
+        <Button
+            Text="Certificates"
+            Clicked="OnCertificatesClicked"/>
 
-        <!-- Content will show based on selection -->
-        <Frame x:Name="ContentFrame" 
-               Grid.Row="2"
-               Padding="0"
-               BorderColor="Transparent"
-               CornerRadius="0">
-            <VerticalStackLayout>
-                <Label x:Name="ContentLabel" 
-                       Text="Select a category" 
-                       FontSize="16" 
-                       TextColor="#AAAAAA"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"/>
-            </VerticalStackLayout>
-        </Frame>
+        <Button
+            Text="COC"
+            Clicked="OnCocClicked"/>
 
-    </Grid>
+        <Button
+            Text="Documents"
+            Clicked="OnDocumentsClicked"/>
 
-</ContentPage>
+        <Button
+            Text="Medicine"
+            Clicked="OnMedicineClicked"/>
+
+        <Button
+            Text="Other"
+            Clicked="OnOtherClicked"/>
+
+    </VerticalStackLayout>
+
+</ContentView>

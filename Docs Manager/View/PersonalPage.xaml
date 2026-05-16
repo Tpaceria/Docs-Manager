@@ -1,450 +1,82 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
-<ContentPage
+<ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Docs_Manager.View.PersonalPage"
-    BackgroundColor="{StaticResource PageBackground}"
-    Padding="0">
+    BackgroundColor="#0a1628">
 
-    <Grid RowDefinitions="Auto,*">
+    <ScrollView>
 
-        <!-- ===================================== -->
-        <!-- HEADER -->
-        <!-- ===================================== -->
+        <VerticalStackLayout
+            Padding="25"
+            Spacing="20">
 
-        <Border Grid.Row="0"
-                ZIndex="10"
-                Margin="0,0,0,20"
-                BackgroundColor="#0d1b2d"
-                StrokeThickness="0"
-                Padding="24,18">
+            <Label
+                Text="Personal Information"
+                FontSize="22"
+                FontAttributes="Bold"
+                TextColor="#00d4ff"/>
 
-            <Grid ColumnDefinitions="*,Auto,Auto"
-                  ColumnSpacing="12">
+            <!-- FIRST NAME -->
+            <VerticalStackLayout Spacing="5">
 
-                <VerticalStackLayout Spacing="2">
+                <Label
+                    Text="First Name"
+                    TextColor="#7a8999"
+                    FontSize="12"/>
 
-                    <Label Text="Personal Dashboard"
-                           FontSize="28"
-                           FontAttributes="Bold"
-                           TextColor="White"/>
+                <Entry
+                    x:Name="FirstNameEntry"
+                    Placeholder="Enter first name"
+                    TextColor="White"
+                    PlaceholderColor="#7a8999"
+                    BackgroundColor="#112033"/>
 
-                    <Label Text="Manage personal seafarer information"
-                           FontSize="13"
-                           TextColor="#7f9bb8"/>
+            </VerticalStackLayout>
 
-                </VerticalStackLayout>
+            <!-- LAST NAME -->
+            <VerticalStackLayout Spacing="5">
 
-                <Button Grid.Column="1"
-                        Text="💾 Save"
-                        BackgroundColor="#28A745"
-                        TextColor="White"
-                        WidthRequest="140"
-                        HeightRequest="50"
-                        CornerRadius="14"
-                        Clicked="OnSaveClicked"/>
+                <Label
+                    Text="Last Name"
+                    TextColor="#7a8999"
+                    FontSize="12"/>
 
-                <Button Grid.Column="2"
-                        Text="✖ Cancel"
-                        BackgroundColor="#ff4d6d"
-                        TextColor="White"
-                        WidthRequest="140"
-                        HeightRequest="50"
-                        CornerRadius="14"
-                        Clicked="OnCancelClicked"/>
+                <Entry
+                    x:Name="LastNameEntry"
+                    Placeholder="Enter last name"
+                    TextColor="White"
+                    PlaceholderColor="#7a8999"
+                    BackgroundColor="#112033"/>
 
-            </Grid>
+            </VerticalStackLayout>
 
-        </Border>
+            <!-- DATE -->
+            <VerticalStackLayout Spacing="5">
 
-        <!-- ===================================== -->
-        <!-- CONTENT -->
-        <!-- ===================================== -->
+                <Label
+                    Text="Birth Date"
+                    TextColor="#7a8999"
+                    FontSize="12"/>
 
-        <ScrollView Grid.Row="1"
-                    InputTransparent="False">
+                <DatePicker
+                    x:Name="BirthDatePicker"
+                    TextColor="White"
+                    BackgroundColor="#112033"/>
 
-            <Grid Padding="20"
-                  ColumnDefinitions="2*,1*"
-                  ColumnSpacing="18">
+            </VerticalStackLayout>
 
-                <!-- ===================================== -->
-                <!-- LEFT COLUMN -->
-                <!-- ===================================== -->
+            <!-- SAVE -->
+            <Button
+                Text="Save Profile"
+                HeightRequest="50"
+                BackgroundColor="#00a86b"
+                TextColor="White"
+                Clicked="OnSaveClicked"/>
 
-                <VerticalStackLayout Spacing="18">
+        </VerticalStackLayout>
 
-                    <!-- BASIC INFORMATION -->
+    </ScrollView>
 
-                    <Label Text="📋 BASIC INFORMATION"
-                           Style="{StaticResource SectionTitleStyle}"/>
-
-                    <Border Style="{StaticResource DashboardCardStyle}">
-
-                        <VerticalStackLayout Spacing="12">
-
-                            <Entry x:Name="FirstNameEntry"
-                                   Placeholder="First Name"/>
-
-                            <Entry x:Name="LastNameEntry"
-                                   Placeholder="Last Name"/>
-
-                            <Grid ColumnDefinitions="*,*"
-                                  ColumnSpacing="12">
-
-                                <Entry x:Name="PlaceOfBirthEntry"
-                                       Grid.Column="0"
-                                       Placeholder="Place Of Birth"/>
-
-                                <Entry x:Name="NationalityEntry"
-                                       Grid.Column="1"
-                                       Placeholder="Nationality"/>
-
-                            </Grid>
-
-                            <Grid ColumnDefinitions="*,*"
-                                  ColumnSpacing="12">
-
-                                <Picker x:Name="GenderPicker"
-                                        Grid.Column="0"
-                                        Title="Gender"
-                                        TextColor="White"
-                                        BackgroundColor="#1a1f2e">
-
-                                    <Picker.ItemsSource>
-                                        <x:Array Type="{x:Type x:String}">
-                                            <x:String>Male</x:String>
-                                            <x:String>Female</x:String>
-                                        </x:Array>
-                                    </Picker.ItemsSource>
-
-                                </Picker>
-
-                                <Picker x:Name="MaritalStatusPicker"
-                                        Grid.Column="1"
-                                        Title="Marital Status"
-                                        TextColor="White"
-                                        BackgroundColor="#1a1f2e">
-
-                                    <Picker.ItemsSource>
-                                        <x:Array Type="{x:Type x:String}">
-                                            <x:String>Single</x:String>
-                                            <x:String>Married</x:String>
-                                            <x:String>Divorced</x:String>
-                                        </x:Array>
-                                    </Picker.ItemsSource>
-
-                                </Picker>
-
-                            </Grid>
-
-                            <Label Text="Birth Date"
-                                   TextColor="White"
-                                   Margin="0,10,0,4"/>
-
-                            <DatePicker x:Name="BirthDatePicker"
-                                        BackgroundColor="#1a1f2e"
-                                        TextColor="White"/>
-
-                        </VerticalStackLayout>
-
-                    </Border>
-
-                    <!-- CONTACTS -->
-
-                    <Label Text="📞 CONTACTS"
-                           Style="{StaticResource SectionTitleStyle}"/>
-
-                    <Border Style="{StaticResource DashboardCardStyle}">
-
-                        <VerticalStackLayout Spacing="18">
-
-                            <!-- EMAIL -->
-
-                            <VerticalStackLayout Spacing="12">
-
-                                <Grid ColumnDefinitions="*,Auto"
-                                      ColumnSpacing="10">
-
-                                    <Entry x:Name="PrimaryEmailEntry"
-                                           Placeholder="Primary Email"
-                                           Keyboard="Email"/>
-
-                                    <Button Grid.Column="1"
-                                            Text="+"
-                                            WidthRequest="50"
-                                            HeightRequest="50"
-                                            CornerRadius="14"
-                                            BackgroundColor="#00bfff"
-                                            TextColor="White"
-                                            Clicked="OnAddSecondaryEmailClicked"/>
-
-                                </Grid>
-
-                                <HorizontalStackLayout
-                                    x:Name="SecondaryEmailLayout"
-                                    IsVisible="False"
-                                    Spacing="10">
-
-                                    <Entry x:Name="SecondaryEmailEntry"
-                                           HorizontalOptions="FillAndExpand"
-                                           Placeholder="Secondary Email"
-                                           Keyboard="Email"/>
-
-                                    <Button Text="🗑"
-                                            WidthRequest="50"
-                                            HeightRequest="50"
-                                            CornerRadius="14"
-                                            BackgroundColor="#ff4d6d"
-                                            TextColor="White"
-                                            Clicked="OnRemoveSecondaryEmailClicked"/>
-
-                                </HorizontalStackLayout>
-
-                            </VerticalStackLayout>
-
-                            <!-- PHONE -->
-
-                            <VerticalStackLayout Spacing="16">
-
-                                <!-- PRIMARY PHONE -->
-
-                                <Entry x:Name="PrimaryPhoneEntry"
-                                       Placeholder="Phone Number"
-                                       Keyboard="Telephone"/>
-
-                                <HorizontalStackLayout Spacing="10">
-
-                                    <Button x:Name="PrimaryTelegramButton"
-                                            Text="Telegram"
-                                            BackgroundColor="#141b2d"
-                                            TextColor="#7f9bb8"
-                                            BorderColor="#2c4260"
-                                            BorderWidth="1"
-                                            CornerRadius="12"
-                                            HeightRequest="42"
-                                            Clicked="OnPrimaryTelegramClicked"/>
-
-                                    <Button x:Name="PrimaryWhatsappButton"
-                                            Text="WhatsApp"
-                                            BackgroundColor="#141b2d"
-                                            TextColor="#7f9bb8"
-                                            BorderColor="#2c4260"
-                                            BorderWidth="1"
-                                            CornerRadius="12"
-                                            HeightRequest="42"
-                                            Clicked="OnPrimaryWhatsappClicked"/>
-
-                                    <Button x:Name="PrimaryViberButton"
-                                            Text="Viber"
-                                            BackgroundColor="#141b2d"
-                                            TextColor="#7f9bb8"
-                                            BorderColor="#2c4260"
-                                            BorderWidth="1"
-                                            CornerRadius="12"
-                                            HeightRequest="42"
-                                            Clicked="OnPrimaryViberClicked"/>
-
-                                    <Button Text="+"
-                                            WidthRequest="46"
-                                            HeightRequest="42"
-                                            CornerRadius="12"
-                                            BackgroundColor="#00bfff"
-                                            TextColor="White"
-                                            Clicked="OnAddSecondaryPhoneClicked"/>
-
-                                </HorizontalStackLayout>
-
-                                <!-- SECONDARY PHONE -->
-
-                                <VerticalStackLayout x:Name="SecondaryPhoneLayout"
-                                                     IsVisible="False"
-                                                     Spacing="10">
-
-                                    <Entry x:Name="SecondaryPhoneEntry"
-                                           Placeholder="Secondary Phone"
-                                           Keyboard="Telephone"/>
-
-                                    <HorizontalStackLayout Spacing="10">
-
-                                        <Button x:Name="SecondaryTelegramButton"
-                                                Text="Telegram"
-                                                BackgroundColor="#141b2d"
-                                                TextColor="#7f9bb8"
-                                                BorderColor="#2c4260"
-                                                BorderWidth="1"
-                                                CornerRadius="12"
-                                                HeightRequest="42"
-                                                Clicked="OnSecondaryTelegramClicked"/>
-
-                                        <Button x:Name="SecondaryWhatsappButton"
-                                                Text="WhatsApp"
-                                                BackgroundColor="#141b2d"
-                                                TextColor="#7f9bb8"
-                                                BorderColor="#2c4260"
-                                                BorderWidth="1"
-                                                CornerRadius="12"
-                                                HeightRequest="42"
-                                                Clicked="OnSecondaryWhatsappClicked"/>
-
-                                        <Button x:Name="SecondaryViberButton"
-                                                Text="Viber"
-                                                BackgroundColor="#141b2d"
-                                                TextColor="#7f9bb8"
-                                                BorderColor="#2c4260"
-                                                BorderWidth="1"
-                                                CornerRadius="12"
-                                                HeightRequest="42"
-                                                Clicked="OnSecondaryViberClicked"/>
-
-                                        <Button Text="🗑"
-                                                WidthRequest="46"
-                                                HeightRequest="42"
-                                                CornerRadius="12"
-                                                BackgroundColor="#ff4d6d"
-                                                TextColor="White"
-                                                Clicked="OnRemoveSecondaryPhoneClicked"/>
-
-                                    </HorizontalStackLayout>
-
-                                </VerticalStackLayout>
-
-                            </VerticalStackLayout>
-
-                        </VerticalStackLayout>
-
-                    </Border>
-
-                    <!-- PROFESSIONAL -->
-
-                    <Label Text="💼 PROFESSIONAL"
-                           Style="{StaticResource SectionTitleStyle}"/>
-
-                    <Border Style="{StaticResource DashboardCardStyle}">
-
-                        <VerticalStackLayout Spacing="12">
-
-                            <Entry x:Name="PositionEntry"
-                                   Placeholder="Position"/>
-
-                            <Entry x:Name="CitizenshipEntry"
-                                   Placeholder="Citizenship"/>
-
-                            <Entry x:Name="ResidenceEntry"
-                                   Placeholder="Residence"/>
-
-                            <Entry x:Name="ResidenceAirportEntry"
-                                   Placeholder="Nearest Airport"/>
-
-                            <Entry x:Name="DesiredWageEntry"
-                                   Placeholder="Desired Wage"
-                                   Keyboard="Numeric"/>
-
-                        </VerticalStackLayout>
-
-                    </Border>
-
-                </VerticalStackLayout>
-
-                <!-- RIGHT COLUMN -->
-
-                <VerticalStackLayout Grid.Column="1"
-                                     Spacing="18">
-
-                    <!-- PHOTO -->
-
-                    <Label Text="📸 PHOTO"
-                           Style="{StaticResource SectionTitleStyle}"/>
-
-                    <Border Style="{StaticResource DashboardCardStyle}">
-
-                        <VerticalStackLayout Spacing="14">
-
-                            <Image x:Name="PhotoImage"
-                                   HeightRequest="220"
-                                   WidthRequest="220"
-                                   Aspect="AspectFill"
-                                   HorizontalOptions="Center"/>
-
-                            <Button x:Name="PickPhotoButton"
-                                    Text="Choose Photo"
-                                    BackgroundColor="#00bfff"
-                                    TextColor="White"
-                                    Clicked="OnPickPhotoClicked"/>
-
-                        </VerticalStackLayout>
-
-                    </Border>
-
-                    <!-- PERSONAL -->
-
-                    <Label Text="👤 PERSONAL"
-                           Style="{StaticResource SectionTitleStyle}"/>
-
-                    <Border Style="{StaticResource DashboardCardStyle}">
-
-                        <VerticalStackLayout Spacing="12">
-
-                            <Entry x:Name="HeightEntry"
-                                   Placeholder="Height (cm)"
-                                   Keyboard="Numeric"/>
-
-                            <Entry x:Name="WeightEntry"
-                                   Placeholder="Weight (kg)"
-                                   Keyboard="Numeric"/>
-
-                            <Entry x:Name="ShoeSizeEntry"
-                                   Placeholder="Shoe Size"
-                                   Keyboard="Numeric"/>
-
-                            <Entry x:Name="OverallSizeEntry"
-                                   Placeholder="Overall Size"
-                                   Keyboard="Numeric"/>
-
-                            <Entry x:Name="HairColorEntry"
-                                   Placeholder="Hair Color"/>
-
-                            <Entry x:Name="EyeColorEntry"
-                                   Placeholder="Eye Color"/>
-
-                        </VerticalStackLayout>
-
-                    </Border>
-
-                    <!-- EDUCATION -->
-
-                    <Label Text="🎓 EDUCATION"
-                           Style="{StaticResource SectionTitleStyle}"/>
-
-                    <Border Style="{StaticResource DashboardCardStyle}">
-
-                        <VerticalStackLayout Spacing="12">
-
-                            <Entry x:Name="QualificationEntry"
-                                   Placeholder="Qualification"/>
-
-                            <Entry x:Name="EducationInstitutionEntry"
-                                   Placeholder="Institution"/>
-
-                            <Label Text="Graduation Date"
-                                   TextColor="White"
-                                   Margin="0,10,0,4"/>
-
-                            <DatePicker x:Name="GraduationDatePicker"
-                                        BackgroundColor="#1a1f2e"
-                                        TextColor="White"/>
-
-                        </VerticalStackLayout>
-
-                    </Border>
-
-                </VerticalStackLayout>
-
-            </Grid>
-
-        </ScrollView>
-
-    </Grid>
-
-</ContentPage>
+</ContentView>

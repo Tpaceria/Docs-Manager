@@ -7,28 +7,71 @@
     <Grid RowDefinitions="*" ColumnDefinitions="280,*" Padding="0">
 
         <!-- LEFT SIDEBAR -->
-        <VerticalStackLayout Grid.Row="0" Grid.Column="0" BackgroundColor="#0a1628" Padding="0" Spacing="0">
-            <VerticalStackLayout Padding="20,30,20,40" Spacing="5" BackgroundColor="#0f1f2e">
-                <Label Text="📋 Docs Manager" FontSize="18" FontAttributes="Bold" TextColor="#00d4ff"/>
-                <Label Text="Seafarer Profile" FontSize="12" TextColor="#7a8999"/>
+        <VerticalStackLayout Grid.Row="0"
+                             Grid.Column="0"
+                             BackgroundColor="#0a1628"
+                             Padding="0"
+                             Spacing="0">
+
+            <VerticalStackLayout Padding="20,30,20,40"
+                                 Spacing="5"
+                                 BackgroundColor="#0f1f2e">
+
+                <Label Text="📋 Docs Manager"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#00d4ff"/>
+
+                <Label Text="Seafarer Profile"
+                       FontSize="12"
+                       TextColor="#7a8999"/>
+
             </VerticalStackLayout>
 
             <ScrollView>
-                <VerticalStackLayout Padding="0" Spacing="8" Margin="10,0,10,0">
-                    <Button x:Name="PersonalBtn" Text="👤 Personal" Clicked="OnPersonalClicked"/>
-                    <Button x:Name="CertificatesBtn" Text="📄 Certificates" Clicked="OnCertificatesClicked"/>
-                    <Button x:Name="CocBtn" Text="📜 COC &amp; Endorsement" Clicked="OnCocClicked"/>
-                    <Button x:Name="DocumentsBtn" Text="📑 Documents" Clicked="OnDocumentsClicked"/>
-                    <Button x:Name="MedicineBtn" Text="💊 Medicine" Clicked="OnMedicineClicked"/>
-                    <Button x:Name="OtherBtn" Text="📋 Other" Clicked="OnOtherClicked"/>
-                    <Button x:Name="ExperienceBtn" Text="⚓ Experience" Clicked="OnExperienceClicked"/>
+
+                <VerticalStackLayout Padding="0"
+                                     Spacing="8"
+                                     Margin="10,0,10,0">
+
+                    <Button x:Name="PersonalBtn"
+                            Text="👤 Personal"
+                            Clicked="OnPersonalClicked"/>
+
+                    <Button x:Name="CertificatesBtn"
+                            Text="📄 Certificates"
+                            Clicked="OnCertificatesClicked"/>
+
+                    <Button x:Name="CocBtn"
+                            Text="📜 COC &amp; Endorsement"
+                            Clicked="OnCocClicked"/>
+
+                    <Button x:Name="DocumentsBtn"
+                            Text="📑 Documents"
+                            Clicked="OnDocumentsClicked"/>
+
+                    <Button x:Name="MedicineBtn"
+                            Text="💊 Medicine"
+                            Clicked="OnMedicineClicked"/>
+
+                    <Button x:Name="OtherBtn"
+                            Text="📋 Other"
+                            Clicked="OnOtherClicked"/>
+
+                    <Button x:Name="ExperienceBtn"
+                            Text="⚓ Experience"
+                            Clicked="OnExperienceClicked"/>
+
                 </VerticalStackLayout>
+
             </ScrollView>
+
         </VerticalStackLayout>
 
-        <!-- ✅ ВАЖНО: ContentPresenter -->
-        <ContentPresenter Grid.Column="1"
-                          x:Name="ContentArea"/>
+        <!-- RIGHT CONTENT -->
+        <Grid Grid.Column="1"
+              x:Name="ContentArea"/>
+
     </Grid>
 
 </ContentPage>

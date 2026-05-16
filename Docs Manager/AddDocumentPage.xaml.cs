@@ -3,14 +3,16 @@ using Docs_Manager.Models;
 
 namespace Docs_Manager.View;
 
-public partial class AddDocumentPage : ContentPage
+public partial class AddDocumentPage : ContentView
 {
     readonly DatabaseService _database;
 
     Certificate _certificate;
+
     string _selectedFilePath;
 
     private readonly DocumentsPage _parentPage;
+
     private readonly MainPage _mainPage;
 
     public AddDocumentPage(
@@ -24,6 +26,13 @@ public partial class AddDocumentPage : ContentPage
 
         _database = ServiceHelper.GetService<DatabaseService>()
             ?? throw new InvalidOperationException("DatabaseService not found");
+
+        if (_certificate == null)
+        {
+            IssueDatePicker.Date = DateTime.Today;
+
+            ExpiryDatePicker.Date = DateTime.Today.AddYears(5);
+        }
     }
 
     public AddDocumentPage(
@@ -43,7 +52,9 @@ public partial class AddDocumentPage : ContentPage
             return;
 
         DocumentEntry.Text = _certificate.Document;
+
         CountryEntry.Text = _certificate.Country ?? "";
+
         NumberEntry.Text = _certificate.Number;
 
         IssueDatePicker.Date =
@@ -74,21 +85,8 @@ public partial class AddDocumentPage : ContentPage
                 Color.FromArgb("#28A745");
         }
 
-        Title = "Edit Document";
-
         ExpiryStack.IsVisible =
             !_certificate.IsLifetime;
-    }
-
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-
-        if (_certificate == null)
-        {
-            IssueDatePicker.Date = DateTime.Today;
-            ExpiryDatePicker.Date = DateTime.Today.AddYears(5);
-        }
     }
 
     void OnLifetimeToggled(object sender, ToggledEventArgs e)
@@ -128,7 +126,10 @@ public partial class AddDocumentPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            await Application.Current.MainPage.DisplayAlert(
+                "Error",
+                ex.Message,
+                "OK");
         }
     }
 
@@ -138,7 +139,11 @@ public partial class AddDocumentPage : ContentPage
         {
             if (string.IsNullOrWhiteSpace(DocumentEntry.Text))
             {
-                await DisplayAlert("Error", "Enter document name", "OK");
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Enter document name",
+                    "OK");
+
                 return;
             }
 
@@ -160,7 +165,8 @@ public partial class AddDocumentPage : ContentPage
                         ? DateTime.MaxValue
                         : Convert.ToDateTime(ExpiryDatePicker.Date),
 
-                IsLifetime = LifetimeSwitch.IsToggled,
+                IsLifetime =
+                    LifetimeSwitch.IsToggled,
 
                 FilePath = _selectedFilePath,
 
@@ -182,7 +188,10 @@ public partial class AddDocumentPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            await Application.Current.MainPage.DisplayAlert(
+                "Error",
+                ex.Message,
+                "OK");
         }
     }
 

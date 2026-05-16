@@ -3,14 +3,16 @@ using Docs_Manager.Models;
 
 namespace Docs_Manager.View;
 
-public partial class AddCocPage : ContentPage
+public partial class AddCocPage : ContentView
 {
     readonly DatabaseService _database;
 
     Certificate _certificate;
+
     string _selectedFilePath;
 
     private readonly CocEndorsementPage _parentPage;
+
     private readonly MainPage _mainPage;
 
     public AddCocPage(
@@ -24,6 +26,12 @@ public partial class AddCocPage : ContentPage
 
         _database = ServiceHelper.GetService<DatabaseService>()
             ?? throw new InvalidOperationException("DatabaseService not found");
+
+        if (_certificate == null)
+        {
+            IssueDatePicker.Date = DateTime.Today;
+            ExpiryDatePicker.Date = DateTime.Today.AddYears(5);
+        }
     }
 
     public AddCocPage(
@@ -43,7 +51,9 @@ public partial class AddCocPage : ContentPage
             return;
 
         DocumentEntry.Text = _certificate.Document;
+
         CountryEntry.Text = _certificate.Country ?? "";
+
         NumberEntry.Text = _certificate.Number;
 
         IssueDatePicker.Date =
@@ -74,42 +84,8 @@ public partial class AddCocPage : ContentPage
                 Color.FromArgb("#28A745");
         }
 
-        Title = "Edit COC";
-
         ExpiryStack.IsVisible =
             !_certificate.IsLifetime;
-    }
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-
-        if (_certificate != null)
-        {
-            DocumentEntry.Text = _certificate.Document;
-            CountryEntry.Text = _certificate.Country ?? "";
-            NumberEntry.Text = _certificate.Number;
-            IssueDatePicker.Date = _certificate.IssueDate;
-            LifetimeSwitch.IsToggled = _certificate.IsLifetime;
-            ExpiryDatePicker.Date = _certificate.ExpiryDate;
-            _selectedFilePath = _certificate.FilePath;
-
-            if (!string.IsNullOrEmpty(_selectedFilePath))
-            {
-                FileInfoBorder.IsVisible = true;
-                FileNameLabel.Text = Path.GetFileName(_selectedFilePath);
-                FileSizeLabel.Text = $"Size: {FormatFileSize(new FileInfo(_selectedFilePath).Length)}";
-                PickFileButton.Text = "✅ File Selected";
-                PickFileButton.BackgroundColor = Color.FromArgb("#28A745");
-            }
-
-            Title = "Edit COC & Endorsement";
-            ExpiryStack.IsVisible = !_certificate.IsLifetime;
-        }
-        else
-        {
-            IssueDatePicker.Date = DateTime.Today;
-            ExpiryDatePicker.Date = DateTime.Today.AddYears(5);
-        }
     }
 
     void OnLifetimeToggled(object sender, ToggledEventArgs e)
@@ -129,19 +105,30 @@ public partial class AddCocPage : ContentPage
             if (result != null)
             {
                 _selectedFilePath = result.FullPath;
+
                 var fileInfo = new FileInfo(_selectedFilePath);
+
                 long fileSize = fileInfo.Length;
 
                 FileInfoBorder.IsVisible = true;
+
                 FileNameLabel.Text = result.FileName;
-                FileSizeLabel.Text = $"Size: {FormatFileSize(fileSize)}";
+
+                FileSizeLabel.Text =
+                    $"Size: {FormatFileSize(fileSize)}";
+
                 PickFileButton.Text = "✅ File Selected";
-                PickFileButton.BackgroundColor = Color.FromArgb("#28A745");
+
+                PickFileButton.BackgroundColor =
+                    Color.FromArgb("#28A745");
             }
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            await Application.Current.MainPage.DisplayAlert(
+                "Error",
+                ex.Message,
+                "OK");
         }
     }
 
@@ -151,20 +138,33 @@ public partial class AddCocPage : ContentPage
         {
             if (string.IsNullOrWhiteSpace(DocumentEntry.Text))
             {
-                await DisplayAlert("Error", "Enter document name", "OK");
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Enter document name",
+                    "OK");
+
                 return;
             }
 
             var certificate = new Certificate
             {
                 Id = _certificate?.Id ?? 0,
+
                 Document = DocumentEntry.Text,
+
                 Country = CountryEntry.Text ?? "",
+
                 Number = NumberEntry.Text ?? "",
-                IssueDate = IssueDatePicker.Date ?? DateTime.Today,
-                ExpiryDate = LifetimeSwitch.IsToggled ? DateTime.MaxValue : (ExpiryDatePicker.Date ?? DateTime.Today),
-                IsLifetime = LifetimeSwitch.IsToggled,
+
+                IssueDate = Convert.ToDateTime(IssueDatePicker.Date),
+                ExpiryDate = LifetimeSwitch.IsToggled
+    ? DateTime.MaxValue
+    : Convert.ToDateTime(ExpiryDatePicker.Date),
+                IsLifetime =
+                    LifetimeSwitch.IsToggled,
+
                 FilePath = _selectedFilePath,
+
                 Category = "COC"
             };
 
@@ -183,11 +183,14 @@ public partial class AddCocPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            await Application.Current.MainPage.DisplayAlert(
+                "Error",
+                ex.Message,
+                "OK");
         }
     }
 
-    async void OnCancelClicked(object sender, EventArgs e)
+    void OnCancelClicked(object sender, EventArgs e)
     {
         _mainPage.SetPage(new CocEndorsementPage(_mainPage));
     }
@@ -195,13 +198,18 @@ public partial class AddCocPage : ContentPage
     static string FormatFileSize(long bytes)
     {
         string[] sizes = { "B", "KB", "MB", "GB" };
+
         double len = bytes;
+
         int order = 0;
+
         while (len >= 1024 && order < sizes.Length - 1)
         {
             order++;
+
             len = len / 1024;
         }
+
         return $"{len:0.##} {sizes[order]}";
     }
 }

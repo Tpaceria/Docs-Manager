@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace Docs_Manager.View;
 
-public partial class ExperiencePage : ContentPage
+public partial class ExperiencePage : ContentView
 {
     private DatabaseService _database;
 
@@ -27,13 +27,6 @@ public partial class ExperiencePage : ContentPage
     public ExperiencePage(MainPage mainPage) : this()
     {
         _mainPage = mainPage;
-    }
-
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-
-        await LoadExperiences();
     }
 
     private async Task LoadExperiences()
@@ -73,7 +66,7 @@ public partial class ExperiencePage : ContentPage
             button.CommandParameter is Experience exp)
         {
             bool confirm =
-                await Application.Current.Windows[0].Page.DisplayAlertAsync(
+                await Application.Current.MainPage.DisplayAlert(
                     "Delete",
                     $"Delete experience on {exp.VesselName}?",
                     "Yes",

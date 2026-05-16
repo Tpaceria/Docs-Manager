@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace Docs_Manager.View;
 
-public partial class CertificatePage : ContentPage
+public partial class CertificatePage : ContentView
 {
     private DatabaseService _database;
     private ObservableCollection<Certificate> _allCertificates = new();
@@ -22,22 +22,26 @@ public partial class CertificatePage : ContentPage
             ?? throw new InvalidOperationException("DatabaseService not found");
 
         CertificateCollectionView.ItemsSource = Certificates;
+
+        _ = LoadCertificates();
     }
 
-    public CertificatePage(MainPage mainPage) : this()
+    public CertificatePage(MainPage mainPage)
     {
+        InitializeComponent();
+
         _mainPage = mainPage;
+
+        _database = ServiceHelper.GetService<DatabaseService>()
+            ?? throw new InvalidOperationException("DatabaseService not found");
+
+        CertificateCollectionView.ItemsSource = Certificates;
+
+        _ = LoadCertificates();
     }
 
     public async Task LoadCertificatesPublic()
     {
-        await LoadCertificates();
-    }
-
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-
         await LoadCertificates();
     }
 
@@ -52,6 +56,7 @@ public partial class CertificatePage : ContentPage
         {
             _allCertificates.Add(cert);
         }
+
         ApplyFilters();
     }
 
@@ -87,6 +92,7 @@ public partial class CertificatePage : ContentPage
     private async void OnRefreshing(object sender, EventArgs e)
     {
         await LoadCertificates();
+
         CertificateRefreshView.IsRefreshing = false;
     }
 

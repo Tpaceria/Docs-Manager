@@ -1,34 +1,43 @@
 namespace Docs_Manager.View;
 
-public partial class FilesPage : ContentPage
+public partial class FilesPage : ContentView
 {
-    public FilesPage()
+    private readonly MainPage _mainPage;
+
+    public FilesPage(MainPage mainPage)
     {
         InitializeComponent();
+
+        _mainPage = mainPage;
     }
 
-    async void OnCertificatesClicked(object sender, EventArgs e)
+    void OnCertificatesClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new CertificatePage());
+        _mainPage.SetPage(
+            new CertificatePage(_mainPage));
     }
 
-    async void OnCocClicked(object sender, EventArgs e)
+    void OnCocClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new CocEndorsementPage());
+        _mainPage.SetPage(
+            new CocEndorsementPage(_mainPage));
     }
 
-    async void OnDocumentsClicked(object sender, EventArgs e)
+    void OnDocumentsClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new DocumentsPage());
+        _mainPage.SetPage(
+            new DocumentsPage(_mainPage));
     }
 
-    async void OnMedicineClicked(object sender, EventArgs e)
+    void OnMedicineClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new MedicinePage());
+        _mainPage.SetPage(
+            new MedicinePage(_mainPage));
     }
 
-    async void OnOtherClicked(object sender, EventArgs e)
+    void OnOtherClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new OtherPage());
+        _mainPage.SetPage(
+            new OtherPage(_mainPage));
     }
 }

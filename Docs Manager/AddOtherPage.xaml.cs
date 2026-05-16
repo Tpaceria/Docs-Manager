@@ -3,14 +3,16 @@ using Docs_Manager.Models;
 
 namespace Docs_Manager.View;
 
-public partial class AddOtherPage : ContentPage
+public partial class AddOtherPage : ContentView
 {
     private readonly DatabaseService _database;
 
     private readonly OtherPage _parentPage;
+
     private readonly MainPage _mainPage;
 
     private Certificate _certificate;
+
     private string _selectedFilePath;
 
     public AddOtherPage(
@@ -23,9 +25,16 @@ public partial class AddOtherPage : ContentPage
             ?? throw new InvalidOperationException("DatabaseService not found");
 
         _parentPage = parentPage;
+
         _mainPage = mainPage;
 
-        Title = "Add Other";
+        if (_certificate == null)
+        {
+            IssueDatePicker.Date = DateTime.Today;
+
+            ExpiryDatePicker.Date =
+                DateTime.Today.AddYears(5);
+        }
     }
 
     public AddOtherPage(
@@ -44,7 +53,9 @@ public partial class AddOtherPage : ContentPage
             return;
 
         DocumentEntry.Text = _certificate.Document;
+
         CountryEntry.Text = _certificate.Country ?? "";
+
         NumberEntry.Text = _certificate.Number;
 
         IssueDatePicker.Date =
@@ -53,9 +64,11 @@ public partial class AddOtherPage : ContentPage
         ExpiryDatePicker.Date =
             Convert.ToDateTime(_certificate.ExpiryDate);
 
-        LifetimeSwitch.IsToggled = _certificate.IsLifetime;
+        LifetimeSwitch.IsToggled =
+            _certificate.IsLifetime;
 
-        _selectedFilePath = _certificate.FilePath;
+        _selectedFilePath =
+            _certificate.FilePath;
 
         if (!string.IsNullOrEmpty(_selectedFilePath))
         {
@@ -65,21 +78,8 @@ public partial class AddOtherPage : ContentPage
                 Path.GetFileName(_selectedFilePath);
         }
 
-        Title = "Edit Other";
-
-        ExpiryStack.IsVisible = !_certificate.IsLifetime;
-    }
-
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-
-        if (_certificate == null)
-        {
-            IssueDatePicker.Date = DateTime.Today;
-            ExpiryDatePicker.Date =
-                DateTime.Today.AddYears(5);
-        }
+        ExpiryStack.IsVisible =
+            !_certificate.IsLifetime;
     }
 
     private void OnLifetimeToggled(
@@ -114,7 +114,10 @@ public partial class AddOtherPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            await Application.Current.MainPage.DisplayAlert(
+                "Error",
+                ex.Message,
+                "OK");
         }
     }
 
@@ -126,7 +129,7 @@ public partial class AddOtherPage : ContentPage
         {
             if (string.IsNullOrWhiteSpace(DocumentEntry.Text))
             {
-                await DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     "Error",
                     "Enter document name",
                     "OK");
@@ -139,7 +142,9 @@ public partial class AddOtherPage : ContentPage
                 var cert = new Certificate
                 {
                     Document = DocumentEntry.Text,
+
                     Country = CountryEntry.Text,
+
                     Number = NumberEntry.Text,
 
                     IssueDate =
@@ -149,7 +154,8 @@ public partial class AddOtherPage : ContentPage
                         ? DateTime.MaxValue
                         : Convert.ToDateTime(ExpiryDatePicker.Date),
 
-                    IsLifetime = LifetimeSwitch.IsToggled,
+                    IsLifetime =
+                        LifetimeSwitch.IsToggled,
 
                     FilePath = _selectedFilePath,
 
@@ -160,17 +166,22 @@ public partial class AddOtherPage : ContentPage
             }
             else
             {
-                _certificate.Document = DocumentEntry.Text;
-                _certificate.Country = CountryEntry.Text;
-                _certificate.Number = NumberEntry.Text;
+                _certificate.Document =
+                    DocumentEntry.Text;
+
+                _certificate.Country =
+                    CountryEntry.Text;
+
+                _certificate.Number =
+                    NumberEntry.Text;
 
                 _certificate.IssueDate =
                     Convert.ToDateTime(IssueDatePicker.Date);
 
                 _certificate.ExpiryDate =
                     LifetimeSwitch.IsToggled
-                    ? DateTime.MaxValue
-                    : Convert.ToDateTime(ExpiryDatePicker.Date);
+                        ? DateTime.MaxValue
+                        : Convert.ToDateTime(ExpiryDatePicker.Date);
 
                 _certificate.IsLifetime =
                     LifetimeSwitch.IsToggled;
@@ -186,7 +197,7 @@ public partial class AddOtherPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert(
+            await Application.Current.MainPage.DisplayAlert(
                 "Error",
                 ex.Message,
                 "OK");

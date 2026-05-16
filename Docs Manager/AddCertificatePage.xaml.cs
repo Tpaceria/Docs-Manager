@@ -2,21 +2,31 @@ using Docs_Manager.Models;
 
 namespace Docs_Manager.View;
 
-public partial class AddCertificatePage : ContentPage
+public partial class AddCertificatePage : ContentView
 {
     private string _selectedFilePath;
+
     private readonly CertificatePage _parentPage;
+
     private readonly MainPage _mainPage;
+
     private Certificate _certificate;
 
-    public AddCertificatePage(CertificatePage parentPage, MainPage mainPage)
+    public AddCertificatePage(
+        CertificatePage parentPage,
+        MainPage mainPage)
     {
         InitializeComponent();
 
         _parentPage = parentPage;
         _mainPage = mainPage;
 
-        Title = "Add Certificate";
+
+        if (_certificate == null)
+        {
+            IssueDatePicker.Date = DateTime.Today;
+            ExpiryDatePicker.Date = DateTime.Today.AddYears(5);
+        }
     }
 
     public AddCertificatePage(
@@ -25,6 +35,7 @@ public partial class AddCertificatePage : ContentPage
         MainPage mainPage) : this(parentPage, mainPage)
     {
         _certificate = certificate;
+
         FillForm();
     }
 
@@ -34,33 +45,32 @@ public partial class AddCertificatePage : ContentPage
             return;
 
         DocumentEntry.Text = _certificate.Document;
+
         CountryEntry.Text = _certificate.Country ?? "";
+
         NumberEntry.Text = _certificate.Number;
 
-        IssueDatePicker.Date = Convert.ToDateTime(_certificate.IssueDate);
-        ExpiryDatePicker.Date = Convert.ToDateTime(_certificate.ExpiryDate);
+        IssueDatePicker.Date =
+            Convert.ToDateTime(_certificate.IssueDate);
 
-        LifetimeSwitch.IsToggled = _certificate.IsLifetime;
-        _selectedFilePath = _certificate.FilePath;
+        ExpiryDatePicker.Date =
+            Convert.ToDateTime(_certificate.ExpiryDate);
+
+        LifetimeSwitch.IsToggled =
+            _certificate.IsLifetime;
+
+        _selectedFilePath =
+            _certificate.FilePath;
 
         if (!string.IsNullOrEmpty(_selectedFilePath))
         {
-            FileNameLabel.Text = Path.GetFileName(_selectedFilePath);
+            FileNameLabel.Text =
+                Path.GetFileName(_selectedFilePath);
         }
 
-        Title = "Edit Certificate";
-        ExpiryStack.IsVisible = !_certificate.IsLifetime;
-    }
 
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-
-        if (_certificate == null)
-        {
-            IssueDatePicker.Date = DateTime.Today;
-            ExpiryDatePicker.Date = DateTime.Today.AddYears(5);
-        }
+        ExpiryStack.IsVisible =
+            !_certificate.IsLifetime;
     }
 
     private async void OnPickFileClicked(object sender, EventArgs e)
@@ -70,7 +80,9 @@ public partial class AddCertificatePage : ContentPage
         if (result != null)
         {
             _selectedFilePath = result.FullPath;
-            FileNameLabel.Text = Path.GetFileName(_selectedFilePath);
+
+            FileNameLabel.Text =
+                Path.GetFileName(_selectedFilePath);
         }
     }
 
@@ -83,7 +95,11 @@ public partial class AddCertificatePage : ContentPage
     {
         if (string.IsNullOrWhiteSpace(DocumentEntry.Text))
         {
-            await DisplayAlert("Error", "Document name is required", "OK");
+            await Application.Current.MainPage.DisplayAlert(
+                "Error",
+                "Document name is required",
+                "OK");
+
             return;
         }
 
@@ -92,13 +108,21 @@ public partial class AddCertificatePage : ContentPage
             var cert = new Certificate
             {
                 Document = DocumentEntry.Text,
+
                 Country = CountryEntry.Text,
+
                 Number = NumberEntry.Text,
-                IssueDate = Convert.ToDateTime(IssueDatePicker.Date),
+
+                IssueDate =
+                    Convert.ToDateTime(IssueDatePicker.Date),
+
                 ExpiryDate = LifetimeSwitch.IsToggled
                     ? DateTime.MaxValue
                     : Convert.ToDateTime(ExpiryDatePicker.Date),
-                IsLifetime = LifetimeSwitch.IsToggled,
+
+                IsLifetime =
+                    LifetimeSwitch.IsToggled,
+
                 FilePath = _selectedFilePath
             };
 
@@ -106,30 +130,37 @@ public partial class AddCertificatePage : ContentPage
         }
         else
         {
-            _certificate.Document = DocumentEntry.Text;
-            _certificate.Country = CountryEntry.Text;
-            _certificate.Number = NumberEntry.Text;
+            _certificate.Document =
+                DocumentEntry.Text;
+
+            _certificate.Country =
+                CountryEntry.Text;
+
+            _certificate.Number =
+                NumberEntry.Text;
 
             _certificate.IssueDate =
                 Convert.ToDateTime(IssueDatePicker.Date);
 
-            _certificate.ExpiryDate = LifetimeSwitch.IsToggled
-                ? DateTime.MaxValue
-                : Convert.ToDateTime(ExpiryDatePicker.Date);
+            _certificate.ExpiryDate =
+                LifetimeSwitch.IsToggled
+                    ? DateTime.MaxValue
+                    : Convert.ToDateTime(ExpiryDatePicker.Date);
 
-            _certificate.IsLifetime = LifetimeSwitch.IsToggled;
-            _certificate.FilePath = _selectedFilePath;
+            _certificate.IsLifetime =
+                LifetimeSwitch.IsToggled;
+
+            _certificate.FilePath =
+                _selectedFilePath;
 
             _parentPage.AddCertificate(_certificate);
         }
 
-        // ✅ возврат на список
         _mainPage.SetPage(new CertificatePage(_mainPage));
     }
 
     private void OnCancelClicked(object sender, EventArgs e)
     {
-        // ✅ возврат без сохранения
         _mainPage.SetPage(new CertificatePage(_mainPage));
     }
 }

@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace Docs_Manager.View;
 
-public partial class MedicinePage : ContentPage
+public partial class MedicinePage : ContentView
 {
     private DatabaseService _database;
     private ObservableCollection<Certificate> _allCertificates = new();
@@ -22,19 +22,13 @@ public partial class MedicinePage : ContentPage
             ?? throw new InvalidOperationException("DatabaseService not found");
 
         CertificateCollectionView.ItemsSource = Certificates;
+
         _ = LoadCertificates();
     }
 
     public MedicinePage(MainPage mainPage) : this()
     {
         _mainPage = mainPage;
-    }
-
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-
-        await LoadCertificates();
     }
 
     private async Task LoadCertificates()
@@ -48,6 +42,7 @@ public partial class MedicinePage : ContentPage
         {
             _allCertificates.Add(cert);
         }
+
         foreach (var cert in _allCertificates)
         {
             Certificates.Add(cert);
@@ -82,7 +77,7 @@ public partial class MedicinePage : ContentPage
             button.CommandParameter is Certificate cert)
         {
             bool confirm =
-                await Application.Current.Windows[0].Page.DisplayAlertAsync(
+                await Application.Current.MainPage.DisplayAlert(
                     "Delete",
                     $"Delete \"{cert.Document}\"?",
                     "Yes",
@@ -96,6 +91,7 @@ public partial class MedicinePage : ContentPage
             await LoadCertificates();
         }
     }
+
     public async void AddCertificate(Certificate cert)
     {
         await _database.SaveCertificateAsync(cert);
@@ -108,44 +104,45 @@ public partial class MedicinePage : ContentPage
         await LoadCertificates();
     }
 
-private async void OnViewCertificateClicked(object sender, EventArgs e)
-{
-    if (sender is Button button &&
-        button.CommandParameter is Certificate cert)
+    private async void OnViewCertificateClicked(object sender, EventArgs e)
     {
-        if (string.IsNullOrWhiteSpace(cert.FilePath) ||
-            !File.Exists(cert.FilePath))
+        if (sender is Button button &&
+            button.CommandParameter is Certificate cert)
         {
-            bool attachNow =
-                await Application.Current.Windows[0].Page.DisplayAlertAsync(
-                    "Файл не найден",
-                    "У записи нет прикрепленного файла.\nПрикрепить сейчас?",
-                    "Прикрепить",
-                    "Отмена");
-
-            if (!attachNow)
-                return;
-
-            var result = await FilePicker.Default.PickAsync();
-
-            if (result != null)
+            if (string.IsNullOrWhiteSpace(cert.FilePath) ||
+                !File.Exists(cert.FilePath))
             {
-                cert.FilePath = result.FullPath;
+                bool attachNow =
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Файл не найден",
+                        "У записи нет прикрепленного файла.\nПрикрепить сейчас?",
+                        "Прикрепить",
+                        "Отмена");
 
-                await _database.SaveCertificateAsync(cert);
+                if (!attachNow)
+                    return;
 
-                await Launcher.OpenAsync(new OpenFileRequest
+                var result = await FilePicker.Default.PickAsync();
+
+                if (result != null)
                 {
-                    File = new ReadOnlyFile(cert.FilePath)
-                });
+                    cert.FilePath = result.FullPath;
+
+                    await _database.SaveCertificateAsync(cert);
+
+                    await Launcher.OpenAsync(new OpenFileRequest
+                    {
+                        File = new ReadOnlyFile(cert.FilePath)
+                    });
+                }
+
+                return;
             }
 
-            return;
+            await Launcher.OpenAsync(new OpenFileRequest
+            {
+                File = new ReadOnlyFile(cert.FilePath)
+            });
         }
-
-        await Launcher.OpenAsync(new OpenFileRequest
-        {
-            File = new ReadOnlyFile(cert.FilePath)
-        });
     }
-}}
+}
