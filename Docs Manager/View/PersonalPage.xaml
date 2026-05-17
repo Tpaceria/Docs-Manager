@@ -1,81 +1,648 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <ContentView
+    x:Class="Docs_Manager.View.PersonalPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="Docs_Manager.View.PersonalPage"
-    BackgroundColor="#0a1628">
+    BackgroundColor="#071a2f">
 
     <ScrollView>
 
-        <VerticalStackLayout
-            Padding="25"
-            Spacing="20">
+        <Grid
+            Padding="16"
+            ColumnSpacing="16"
+            RowSpacing="16">
 
-            <Label
-                Text="Personal Information"
-                FontSize="22"
-                FontAttributes="Bold"
-                TextColor="#00d4ff"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-            <!-- FIRST NAME -->
-            <VerticalStackLayout Spacing="5">
+            <!-- ========================================= -->
+            <!-- LEFT COLUMN -->
+            <!-- ========================================= -->
 
-                <Label
-                    Text="First Name"
-                    TextColor="#7a8999"
-                    FontSize="12"/>
+            <VerticalStackLayout
+                Grid.Column="0"
+                Spacing="16">
 
-                <Entry
-                    x:Name="FirstNameEntry"
-                    Placeholder="Enter first name"
-                    TextColor="White"
-                    PlaceholderColor="#7a8999"
-                    BackgroundColor="#112033"/>
+                <!-- HEADER -->
 
-            </VerticalStackLayout>
+                <Border
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="14">
 
-            <!-- LAST NAME -->
-            <VerticalStackLayout Spacing="5">
+                    <VerticalStackLayout Spacing="4">
 
-                <Label
-                    Text="Last Name"
-                    TextColor="#7a8999"
-                    FontSize="12"/>
+                        <Label
+                            Text="⚓ Personal Dashboard"
+                            FontSize="26"
+                            FontAttributes="Bold"
+                            TextColor="#00d4ff"/>
 
-                <Entry
-                    x:Name="LastNameEntry"
-                    Placeholder="Enter last name"
-                    TextColor="White"
-                    PlaceholderColor="#7a8999"
-                    BackgroundColor="#112033"/>
+                        <Label
+                            Text="Manage personal seafarer information"
+                            FontSize="12"
+                            TextColor="#7a8999"/>
 
-            </VerticalStackLayout>
+                    </VerticalStackLayout>
 
-            <!-- DATE -->
-            <VerticalStackLayout Spacing="5">
+                </Border>
 
-                <Label
-                    Text="Birth Date"
-                    TextColor="#7a8999"
-                    FontSize="12"/>
+                <!-- BASIC INFORMATION -->
 
-                <DatePicker
-                    x:Name="BirthDatePicker"
-                    TextColor="White"
-                    BackgroundColor="#112033"/>
+                <Border
+    BackgroundColor="#102844"
+    Stroke="#173b63"
+    StrokeShape="RoundRectangle 14"
+    Padding="14">
 
-            </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="10">
 
-            <!-- SAVE -->
-            <Button
-                Text="Save Profile"
-                HeightRequest="50"
-                BackgroundColor="#00a86b"
+                        <Label
+            Text="📋 BASIC INFORMATION"
+            FontSize="18"
+            FontAttributes="Bold"
+            TextColor="#ff8c42"/>
+
+                        <!-- FIRST NAME -->
+
+                        <Entry
+            HeightRequest="42"
+            x:Name="FirstNameEntry"
+            Placeholder="First Name"
+            BackgroundColor="#1a2238"
+            TextColor="White"
+            PlaceholderColor="#7a8999"/>
+
+                        <!-- LAST NAME -->
+
+                        <Entry
+            HeightRequest="42"
+            x:Name="LastNameEntry"
+            Placeholder="Last Name"
+            BackgroundColor="#1a2238"
+            TextColor="White"
+            PlaceholderColor="#7a8999"/>
+
+                        <!-- DATE + GENDER + CITIZENSHIP -->
+
+                        <Grid
+    ColumnDefinitions="160,180,*"
+    ColumnSpacing="16">
+
+                            <!-- DATE -->
+
+                            <VerticalStackLayout
+        Grid.Column="0"
+        Spacing="4">
+
+                                <Label
+            Text="Date of birth"
+            FontSize="11"
+            TextColor="#7a8999"/>
+
+
+                                    <DatePicker
+                x:Name="BirthDatePicker"
+                HeightRequest="42"
+                BackgroundColor="Transparent"
+                TextColor="White"/>
+
+
+                            </VerticalStackLayout>
+
+                            <!-- GENDER -->
+
+                            <VerticalStackLayout
+        Grid.Column="1"
+        Spacing="4">
+
+                                <Label
+            Text="Gender"
+            FontSize="11"
+            TextColor="#7a8999"/>
+
+
+                                    <Picker
+                x:Name="GenderPicker"
+                BackgroundColor="Transparent"
                 TextColor="White"
-                Clicked="OnSaveClicked"/>
+                TitleColor="#7a8999">
 
-        </VerticalStackLayout>
+                                        <Picker.Items>
+                                            <x:String>Male</x:String>
+                                            <x:String>Female</x:String>
+                                        </Picker.Items>
+
+                                    </Picker>
+
+
+                            </VerticalStackLayout>
+
+                            <!-- CITIZENSHIP -->
+
+                            <VerticalStackLayout
+        Grid.Column="2"
+        Spacing="4">
+
+                                <Label
+            Text="Citizenship"
+            FontSize="11"
+            TextColor="#7a8999"/>
+
+
+                                    <Entry
+                x:Name="CitizenshipEntry"
+                HeightRequest="42"
+                Placeholder="Citizenship"
+                TextColor="White"
+                PlaceholderColor="#7a8999"
+                BackgroundColor="Transparent"/>
+
+
+                            </VerticalStackLayout>
+                        </Grid>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- CONTACTS -->
+
+                <Border
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="14">
+
+                    <VerticalStackLayout Spacing="10">
+
+                        <Label
+                            Text="📞 CONTACTS"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            TextColor="#ff8c42"/>
+
+                        <Entry
+                            HeightRequest="42"
+                            x:Name="PrimaryEmailEntry"
+                            Placeholder="Email"
+                            Keyboard="Email"
+                            BackgroundColor="#1a2238"
+                            TextColor="White"
+                            PlaceholderColor="#7a8999"/>
+
+                        <Entry
+                            HeightRequest="42"
+                            x:Name="PrimaryPhoneEntry"
+                            Placeholder="Phone"
+                            Keyboard="Telephone"
+                            BackgroundColor="#1a2238"
+                            TextColor="White"
+                            PlaceholderColor="#7a8999"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- ADDRESS -->
+
+                <Border
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="14">
+
+                    <VerticalStackLayout Spacing="10">
+
+                        <Label
+                            Text="📍 ADDRESS"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            TextColor="#ff8c42"/>
+
+                        <Entry
+                            HeightRequest="42"
+                            x:Name="ResidenceEntry"
+                            Placeholder="Residence"
+                            BackgroundColor="#1a2238"
+                            TextColor="White"
+                            PlaceholderColor="#7a8999"/>
+
+                        <Entry
+                            HeightRequest="42"
+                            x:Name="ResidenceAirportEntry"
+                            Placeholder="Nearest Airport"
+                            BackgroundColor="#1a2238"
+                            TextColor="White"
+                            PlaceholderColor="#7a8999"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- PROFESSIONAL -->
+
+                <Border
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="14">
+
+                    <VerticalStackLayout Spacing="10">
+
+                        <Label
+                            Text="⚙️ PROFESSIONAL"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            TextColor="#ff8c42"/>
+
+                        <Entry
+                            HeightRequest="42"
+                            x:Name="RankEntry"
+                            Placeholder="Current Rank"
+                            BackgroundColor="#1a2238"
+                            TextColor="White"
+                            PlaceholderColor="#7a8999"/>
+
+                        <Entry
+                            HeightRequest="42"
+                            x:Name="YearsAtSeaEntry"
+                            Placeholder="Years At Sea"
+                            Keyboard="Numeric"
+                            BackgroundColor="#1a2238"
+                            TextColor="White"
+                            PlaceholderColor="#7a8999"/>
+
+                        <Picker
+                            HeightRequest="42"
+                            x:Name="EnglishLevelPicker"
+                            Title="English Level"
+                            BackgroundColor="#1a2238"
+                            TextColor="White">
+
+                            <Picker.Items>
+                                <x:String>Basic</x:String>
+                                <x:String>Intermediate</x:String>
+                                <x:String>Good</x:String>
+                                <x:String>Fluent</x:String>
+                            </Picker.Items>
+
+                        </Picker>
+
+                        <Grid ColumnDefinitions="*,*"
+                              RowDefinitions="Auto,Auto,Auto"
+                              ColumnSpacing="10"
+                              RowSpacing="6">
+
+                            <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="6">
+                                <CheckBox x:Name="DPCheckBox"/>
+                                <Label Text="DP"
+                                       TextColor="White"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout Grid.Row="0" Grid.Column="1" Spacing="6">
+                                <CheckBox x:Name="TankerCheckBox"/>
+                                <Label Text="Tanker"
+                                       TextColor="White"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout Grid.Row="1" Grid.Column="0" Spacing="6">
+                                <CheckBox x:Name="CraneCheckBox"/>
+                                <Label Text="Crane"
+                                       TextColor="White"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout Grid.Row="1" Grid.Column="1" Spacing="6">
+                                <CheckBox x:Name="IceNavigationCheckBox"/>
+                                <Label Text="Ice"
+                                       TextColor="White"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout Grid.Row="2" Grid.Column="0" Spacing="6">
+                                <CheckBox x:Name="ETOCheckBox"/>
+                                <Label Text="ETO"
+                                       TextColor="White"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+
+                        </Grid>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- TRAVEL -->
+
+                <Border
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="14">
+
+                    <VerticalStackLayout Spacing="10">
+
+                        <Label
+                            Text="✈️ TRAVEL"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            TextColor="#ff8c42"/>
+
+                        <Entry
+                            HeightRequest="42"
+                            x:Name="VisaStatusEntry"
+                            Placeholder="Visa Status"
+                            BackgroundColor="#1a2238"
+                            TextColor="White"
+                            PlaceholderColor="#7a8999"/>
+
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            RowDefinitions="Auto,Auto"
+                            ColumnSpacing="10"
+                            RowSpacing="6">
+
+                            <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="6">
+                                <CheckBox x:Name="USVisaCheckBox"/>
+                                <Label Text="US Visa"
+                                       TextColor="White"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout Grid.Row="0" Grid.Column="1" Spacing="6">
+                                <CheckBox x:Name="SchengenCheckBox"/>
+                                <Label Text="Schengen"
+                                       TextColor="White"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout Grid.Row="1" Grid.Column="0" Spacing="6">
+                                <CheckBox x:Name="VaccinationCheckBox"/>
+                                <Label Text="Vaccination"
+                                       TextColor="White"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+
+                            <HorizontalStackLayout Grid.Row="1" Grid.Column="1" Spacing="6">
+                                <CheckBox x:Name="YellowFeverCheckBox"/>
+                                <Label Text="Yellow Fever"
+                                       TextColor="White"
+                                       VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+
+                        </Grid>
+
+                        <DatePicker
+                            HeightRequest="42"
+                            x:Name="AvailableFromPicker"
+                            BackgroundColor="#1a2238"
+                            TextColor="White"/>
+
+                        <HorizontalStackLayout Spacing="8">
+
+                            <CheckBox x:Name="ReadyToJoinCheckBox"/>
+
+                            <Label
+                                Text="Ready To Join"
+                                TextColor="White"
+                                VerticalOptions="Center"/>
+
+                        </HorizontalStackLayout>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+            </VerticalStackLayout>
+
+            <!-- ========================================= -->
+            <!-- RIGHT COLUMN -->
+            <!-- ========================================= -->
+
+            <VerticalStackLayout
+                Grid.Column="1"
+                Spacing="16">
+
+                <!-- SAVE -->
+
+                <Button
+                    x:Name="SaveButton"
+                    Text="💾 Save Profile"
+                    HeightRequest="42"
+                    CornerRadius="10"
+                    BackgroundColor="#28a745"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    Clicked="OnSaveClicked"/>
+
+                <!-- PHOTO -->
+
+                <Border
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="14">
+
+                    <VerticalStackLayout
+                        Spacing="14"
+                        HorizontalOptions="Center">
+
+                        <Label
+                            Text="📸 PHOTO"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            TextColor="#ff8c42"/>
+
+                        <Frame
+                            WidthRequest="180"
+                            HeightRequest="220"
+                            Padding="0"
+                            CornerRadius="12"
+                            BackgroundColor="#1a2238"
+                            HasShadow="False"
+                            BorderColor="#2d4d73">
+
+                            <Image
+                                x:Name="PhotoImage"
+                                Aspect="AspectFill"/>
+
+                        </Frame>
+
+                        <Button
+                            x:Name="PickPhotoButton"
+                            Text="Choose Photo"
+                            WidthRequest="180"
+                            HeightRequest="40"
+                            CornerRadius="10"
+                            BackgroundColor="#19b5ea"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            Clicked="OnPickPhotoClicked"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- PERSONAL -->
+
+                <Border
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="14">
+
+                    <VerticalStackLayout Spacing="10">
+
+                        <Label
+                            Text="👤 PERSONAL"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            TextColor="#ff8c42"/>
+
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            ColumnSpacing="10">
+
+                            <Entry
+                                Grid.Column="0"
+                                HeightRequest="42"
+                                x:Name="HeightEntry"
+                                Placeholder="Height"
+                                Keyboard="Numeric"
+                                BackgroundColor="#1a2238"
+                                TextColor="White"
+                                PlaceholderColor="#7a8999"/>
+
+                            <Entry
+                                Grid.Column="1"
+                                HeightRequest="42"
+                                x:Name="WeightEntry"
+                                Placeholder="Weight"
+                                Keyboard="Numeric"
+                                BackgroundColor="#1a2238"
+                                TextColor="White"
+                                PlaceholderColor="#7a8999"/>
+
+                        </Grid>
+
+                        <Grid
+                            ColumnDefinitions="*,*"
+                            ColumnSpacing="10">
+
+                            <Entry
+                                Grid.Column="0"
+                                HeightRequest="42"
+                                x:Name="ShoeSizeEntry"
+                                Placeholder="Shoe Size"
+                                Keyboard="Numeric"
+                                BackgroundColor="#1a2238"
+                                TextColor="White"
+                                PlaceholderColor="#7a8999"/>
+
+                            <Entry
+                                Grid.Column="1"
+                                HeightRequest="42"
+                                x:Name="OverallSizeEntry"
+                                Placeholder="Overall Size"
+                                Keyboard="Numeric"
+                                BackgroundColor="#1a2238"
+                                TextColor="White"
+                                PlaceholderColor="#7a8999"/>
+
+                        </Grid>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- EDUCATION -->
+
+                <Border
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="14">
+
+                    <VerticalStackLayout Spacing="10">
+
+                        <Label
+                            Text="🎓 EDUCATION"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            TextColor="#ff8c42"/>
+
+                        <Entry
+                            HeightRequest="42"
+                            x:Name="QualificationEntry"
+                            Placeholder="Qualification / Degree"
+                            BackgroundColor="#1a2238"
+                            TextColor="White"
+                            PlaceholderColor="#7a8999"/>
+
+                        <Entry
+                            HeightRequest="42"
+                            x:Name="EducationInstitutionEntry"
+                            Placeholder="University / Academy"
+                            BackgroundColor="#1a2238"
+                            TextColor="White"
+                            PlaceholderColor="#7a8999"/>
+
+                        <DatePicker
+                            HeightRequest="42"
+                            x:Name="GraduationDatePicker"
+                            BackgroundColor="#1a2238"
+                            TextColor="White"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- APPEARANCE -->
+
+                <Border
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="14">
+
+                    <VerticalStackLayout Spacing="10">
+
+                        <Label
+                            Text="👁 APPEARANCE"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            TextColor="#ff8c42"/>
+
+                        <Entry
+                            HeightRequest="42"
+                            x:Name="HairColorEntry"
+                            Placeholder="Hair Color"
+                            BackgroundColor="#1a2238"
+                            TextColor="White"
+                            PlaceholderColor="#7a8999"/>
+
+                        <Entry
+                            HeightRequest="42"
+                            x:Name="EyeColorEntry"
+                            Placeholder="Eye Color"
+                            BackgroundColor="#1a2238"
+                            TextColor="White"
+                            PlaceholderColor="#7a8999"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+            </VerticalStackLayout>
+
+        </Grid>
 
     </ScrollView>
 
