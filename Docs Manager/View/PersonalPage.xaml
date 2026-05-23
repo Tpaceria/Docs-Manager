@@ -173,41 +173,52 @@
                 <!-- CONTACTS -->
 
                 <Border
-                    BackgroundColor="#102844"
-                    Stroke="#173b63"
-                    StrokeShape="RoundRectangle 14"
-                    Padding="14">
+    BackgroundColor="#102844"
+    Stroke="#173b63"
+    StrokeShape="RoundRectangle 14"
+    Padding="14">
 
-                    <VerticalStackLayout Spacing="10">
+                    <VerticalStackLayout Spacing="12">
 
-                        <Label
-                            Text="📞 CONTACTS"
-                            FontSize="18"
-                            FontAttributes="Bold"
-                            TextColor="#ff8c42"/>
+                        <!-- HEADER -->
 
-                        <Entry
-                            HeightRequest="42"
-                            x:Name="PrimaryEmailEntry"
-                            Placeholder="Email"
-                            Keyboard="Email"
-                            BackgroundColor="#1a2238"
-                            TextColor="White"
-                            PlaceholderColor="#7a8999"/>
+                        <Grid ColumnDefinitions="*,Auto">
 
-                        <Entry
-                            HeightRequest="42"
-                            x:Name="PrimaryPhoneEntry"
-                            Placeholder="Phone"
-                            Keyboard="Telephone"
-                            BackgroundColor="#1a2238"
-                            TextColor="White"
-                            PlaceholderColor="#7a8999"/>
+                            <Label
+                Text="📞 CONTACTS"
+                FontSize="18"
+                FontAttributes="Bold"
+                TextColor="#ff8c42"/>
+
+                            <Button
+                Text="Edit"
+                Grid.Column="1"
+                HeightRequest="36"
+                WidthRequest="70"
+                CornerRadius="10"
+                BackgroundColor="#19b5ea"
+                TextColor="White"
+                FontAttributes="Bold"
+                Clicked="OnEditContactsClicked"/>
+
+                        </Grid>
+
+                        <!-- PHONE LIST -->
+
+                        <VerticalStackLayout
+            x:Name="PhoneListContainer"
+            Spacing="10"/>
+
+                        <!-- EMAIL LIST -->
+
+                        <VerticalStackLayout
+            x:Name="EmailListContainer"
+            Spacing="10"/>
 
                     </VerticalStackLayout>
 
+                
                 </Border>
-
                 <!-- ADDRESS -->
 
                 <Border
@@ -565,45 +576,45 @@
                 <!-- EDUCATION -->
 
                 <Border
-                    BackgroundColor="#102844"
-                    Stroke="#173b63"
-                    StrokeShape="RoundRectangle 14"
-                    Padding="14">
+    BackgroundColor="#102844"
+    Stroke="#173b63"
+    StrokeShape="RoundRectangle 14"
+    Padding="14">
 
-                    <VerticalStackLayout Spacing="10">
+                    <VerticalStackLayout Spacing="12">
 
-                        <Label
-                            Text="🎓 EDUCATION"
-                            FontSize="18"
-                            FontAttributes="Bold"
-                            TextColor="#ff8c42"/>
+                        <!-- HEADER -->
 
-                        <Entry
-                            HeightRequest="42"
-                            x:Name="QualificationEntry"
-                            Placeholder="Qualification / Degree"
-                            BackgroundColor="#1a2238"
-                            TextColor="White"
-                            PlaceholderColor="#7a8999"/>
+                        <Grid ColumnDefinitions="*,Auto">
 
-                        <Entry
-                            HeightRequest="42"
-                            x:Name="EducationInstitutionEntry"
-                            Placeholder="University / Academy"
-                            BackgroundColor="#1a2238"
-                            TextColor="White"
-                            PlaceholderColor="#7a8999"/>
+                            <Label
+                Text="🎓 EDUCATION"
+                FontSize="18"
+                FontAttributes="Bold"
+                TextColor="#ff8c42"/>
 
-                        <DatePicker
-                            HeightRequest="42"
-                            x:Name="GraduationDatePicker"
-                            BackgroundColor="#1a2238"
-                            TextColor="White"/>
+                            <Button
+                Text="Edit"
+                Grid.Column="1"
+                HeightRequest="36"
+                WidthRequest="70"
+                CornerRadius="10"
+                BackgroundColor="#19b5ea"
+                TextColor="White"
+                FontAttributes="Bold"
+                Clicked="OnEditEducationClicked"/>
+
+                        </Grid>
+
+                        <!-- EDUCATION LIST -->
+
+                        <VerticalStackLayout
+            x:Name="EducationContainer"
+            Spacing="10"/>
 
                     </VerticalStackLayout>
 
                 </Border>
-
                 <!-- APPEARANCE -->
 
                 <Border

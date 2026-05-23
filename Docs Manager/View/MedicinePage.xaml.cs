@@ -86,8 +86,7 @@ public partial class MedicinePage : ContentView
             if (!confirm)
                 return;
 
-            await _database.DeleteAsync(cert);
-
+            await _database.DeleteCertificateAsync(cert);
             await LoadCertificates();
         }
     }

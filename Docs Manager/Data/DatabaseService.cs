@@ -12,170 +12,297 @@ namespace Docs_Manager.Data
 
         public DatabaseService()
         {
-            var dbPath = Path.Combine(FileSystem.AppDataDirectory, "documents.db");
-            _database = new SQLiteAsyncConnection(dbPath);
+            var dbPath =
+                Path.Combine(
+                    FileSystem.AppDataDirectory,
+                    "documents.db");
 
-            // Создаём таблицы (убрал дублирование StoredFile)
+            _database =
+                new SQLiteAsyncConnection(dbPath);
+
+            // =========================
+            // TABLES
+            // =========================
+
             _database.CreateTableAsync<Document>().Wait();
+
             _database.CreateTableAsync<UserProfile>().Wait();
+
             _database.CreateTableAsync<Certificate>().Wait();
+
             _database.CreateTableAsync<StoredFile>().Wait();
+
             _database.CreateTableAsync<Experience>().Wait();
+
+            _database.CreateTableAsync<ContactInfo>().Wait();
+
+            _database.CreateTableAsync<EducationInfo>().Wait();
         }
 
-        // -------------------------
+        // =========================
         // DOCUMENTS
-        // -------------------------
+        // =========================
 
         public Task<List<Document>> GetDocumentsAsync()
         {
-            return _database.Table<Document>().ToListAsync();
+            return _database
+                .Table<Document>()
+                .ToListAsync();
         }
 
-        public Task<int> SaveDocumentAsync(Document document)
+        public Task<int> SaveDocumentAsync(
+            Document document)
         {
             if (document.Id != 0)
-                return _database.UpdateAsync(document);
-            else
-                return _database.InsertAsync(document);
+            {
+                return _database
+                    .UpdateAsync(document);
+            }
+
+            return _database
+                .InsertAsync(document);
         }
 
-        public Task<int> DeleteDocumentAsync(Document document)
+        public Task<int> DeleteDocumentAsync(
+            Document document)
         {
-            return _database.DeleteAsync(document);
+            return _database
+                .DeleteAsync(document);
         }
 
-        // -------------------------
+        // =========================
         // USER PROFILE
-        // -------------------------
+        // =========================
 
         public async Task<UserProfile?> GetUserProfileAsync()
         {
-            return await _database.Table<UserProfile>()
-                                  .Where(x => x.Id == 1)
-                                  .FirstOrDefaultAsync();
+            return await _database
+                .Table<UserProfile>()
+                .Where(x => x.Id == 1)
+                .FirstOrDefaultAsync();
         }
 
-        public async Task SaveUserProfileAsync(UserProfile profile)
+        public async Task SaveUserProfileAsync(
+            UserProfile profile)
         {
-            var existing = await GetUserProfileAsync();
+            var existing =
+                await GetUserProfileAsync();
 
             if (existing == null)
-                await _database.InsertAsync(profile);
+            {
+                await _database
+                    .InsertAsync(profile);
+            }
             else
-                await _database.UpdateAsync(profile);
+            {
+                await _database
+                    .UpdateAsync(profile);
+            }
         }
 
-        // -------------------------
+        // =========================
         // CERTIFICATES
-        // -------------------------
+        // =========================
 
         public Task<List<Certificate>> GetCertificatesAsync()
         {
-            return _database.Table<Certificate>().ToListAsync();
+            return _database
+                .Table<Certificate>()
+                .ToListAsync();
         }
 
-        public Task<int> SaveCertificateAsync(Certificate certificate)
+        public Task<int> SaveCertificateAsync(
+            Certificate certificate)
         {
             if (certificate.Id != 0)
-                return _database.UpdateAsync(certificate);
-            else
-                return _database.InsertAsync(certificate);
+            {
+                return _database
+                    .UpdateAsync(certificate);
+            }
+
+            return _database
+                .InsertAsync(certificate);
         }
 
-        public Task<int> DeleteCertificateAsync(Certificate certificate)
+        public Task<int> DeleteCertificateAsync(
+            Certificate certificate)
         {
-            return _database.DeleteAsync(certificate);
+            return _database
+                .DeleteAsync(certificate);
         }
 
-        // -------------------------
-        // STORED FILES / FILES
-        // -------------------------
+        // =========================
+        // STORED FILES
+        // =========================
 
         public Task<List<StoredFile>> GetStoredFilesAsync()
         {
-            return _database.Table<StoredFile>().ToListAsync();
+            return _database
+                .Table<StoredFile>()
+                .ToListAsync();
         }
 
-        public async Task<StoredFile?> GetStoredFileAsync(int fileId)
+        public async Task<StoredFile?> GetStoredFileAsync(
+            int fileId)
         {
-            return await _database.Table<StoredFile>()
-                                  .Where(x => x.Id == fileId)
-                                  .FirstOrDefaultAsync();
+            return await _database
+                .Table<StoredFile>()
+                .Where(x => x.Id == fileId)
+                .FirstOrDefaultAsync();
         }
 
-        public Task<int> SaveStoredFileAsync(StoredFile file)
+        public Task<int> SaveStoredFileAsync(
+            StoredFile file)
         {
             if (file.Id != 0)
-                return _database.UpdateAsync(file);
-            else
-                return _database.InsertAsync(file);
+            {
+                return _database
+                    .UpdateAsync(file);
+            }
+
+            return _database
+                .InsertAsync(file);
         }
 
-        public Task<int> DeleteStoredFileAsync(StoredFile file)
+        public Task<int> DeleteStoredFileAsync(
+            StoredFile file)
         {
-            return _database.DeleteAsync(file);
+            return _database
+                .DeleteAsync(file);
         }
 
-        // Alias методы для удобства
-        public Task<List<StoredFile>> GetFilesByCategoryAsync(string category)
+        // =========================
+        // FILE HELPERS
+        // =========================
+
+        public Task<List<StoredFile>> GetFilesByCategoryAsync(
+            string category)
         {
-            return _database.Table<StoredFile>()
+            return _database
+                .Table<StoredFile>()
                 .Where(f => f.Category == category)
                 .ToListAsync();
         }
 
         public Task<List<StoredFile>> GetAllFilesAsync()
         {
-            return _database.Table<StoredFile>().ToListAsync();
+            return _database
+                .Table<StoredFile>()
+                .ToListAsync();
         }
 
-        public Task<int> SaveFileAsync(StoredFile file)
+        public Task<int> SaveFileAsync(
+            StoredFile file)
         {
             return SaveStoredFileAsync(file);
         }
 
-        public Task<int> DeleteFileAsync(StoredFile file)
+        public Task<int> DeleteFileAsync(
+            StoredFile file)
         {
             return DeleteStoredFileAsync(file);
         }
 
-        // -------------------------
+        // =========================
         // EXPERIENCE
-        // -------------------------
+        // =========================
 
         public async Task<List<Experience>> GetExperiencesAsync()
         {
-            return await _database.Table<Experience>().ToListAsync();
+            return await _database
+                .Table<Experience>()
+                .ToListAsync();
         }
 
-        public async Task<Experience?> GetExperienceAsync(int id)
+        public async Task<Experience?> GetExperienceAsync(
+            int id)
         {
-            return await _database.Table<Experience>()
+            return await _database
+                .Table<Experience>()
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<int> SaveExperienceAsync(Experience experience)
+        public async Task<int> SaveExperienceAsync(
+            Experience experience)
         {
             if (experience.Id == 0)
-                return await _database.InsertAsync(experience);
-            else
-                return await _database.UpdateAsync(experience);
+            {
+                return await _database
+                    .InsertAsync(experience);
+            }
+
+            return await _database
+                .UpdateAsync(experience);
         }
 
-        public async Task<int> DeleteExperienceAsync(Experience experience)
+        public async Task<int> DeleteExperienceAsync(
+            Experience experience)
         {
-            return await _database.DeleteAsync(experience);
+            return await _database
+                .DeleteAsync(experience);
         }
-        public async Task<int> AddCertificateAsync(Certificate cert)
+
+        // =========================
+        // CONTACTS
+        // =========================
+
+        public Task<List<ContactInfo>> GetContactsAsync()
         {
-            return await _database.InsertAsync(cert);
+            return _database
+                .Table<ContactInfo>()
+                .ToListAsync();
         }
-        public async Task<int> DeleteAsync(Certificate cert)
+
+        public Task<int> SaveContactAsync(
+            ContactInfo contact)
         {
-            return await _database.DeleteAsync(cert);
+            if (contact.Id != 0)
+            {
+                return _database
+                    .UpdateAsync(contact);
+            }
+
+            return _database
+                .InsertAsync(contact);
+        }
+
+        public Task<int> DeleteContactAsync(
+            ContactInfo contact)
+        {
+            return _database
+                .DeleteAsync(contact);
+        }
+
+        // =========================
+        // EDUCATION
+        // =========================
+
+        public Task<List<EducationInfo>> GetEducationAsync()
+        {
+            return _database
+                .Table<EducationInfo>()
+                .ToListAsync();
+        }
+
+        public Task<int> SaveEducationAsync(
+            EducationInfo education)
+        {
+            if (education.Id != 0)
+            {
+                return _database
+                    .UpdateAsync(education);
+            }
+
+            return _database
+                .InsertAsync(education);
+        }
+
+        public Task<int> DeleteEducationAsync(
+            EducationInfo education)
+        {
+            return _database
+                .DeleteAsync(education);
         }
     }
-
 }
