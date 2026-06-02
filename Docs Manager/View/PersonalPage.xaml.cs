@@ -1,5 +1,6 @@
 using Docs_Manager.Data;
 using Docs_Manager.Models;
+using Microsoft.Maui.Controls.Shapes;
 
 namespace Docs_Manager.View;
 
@@ -13,22 +14,11 @@ public partial class PersonalPage : ContentView
     {
         InitializeComponent();
 
-        BirthDatePicker.Date = DateTime.Today;
+        BirthDatePicker.Date =
+            DateTime.Today;
 
         _ = LoadProfileAsync();
-
         Loaded += PersonalPage_Loaded;
-    }
-
-    // =====================================
-    // PAGE LOADED
-    // =====================================
-
-    private async void PersonalPage_Loaded(
-        object? sender,
-        EventArgs e)
-    {
-        await LoadContactsAsync();
     }
 
     // =====================================
@@ -51,167 +41,256 @@ public partial class PersonalPage : ContentView
         object sender,
         EventArgs e)
     {
-        var page = new AddContactPage();
+        var page =
+            new AddContactPage();
 
         page.Disappearing += async (s, e2) =>
         {
-            await LoadContactsAsync();
+            await LoadContactsPreview();
         };
 
         await Navigation.PushModalAsync(page);
     }
 
-    private async Task LoadContactsAsync()
+    private async Task LoadContactsPreview()
     {
         try
         {
-            PhoneListContainer.Children.Clear();
-
-            EmailListContainer.Children.Clear();
-
             var contacts =
                 await GetDatabase().GetContactsAsync();
 
+            ContactsPreviewContainer.Clear();
+
             foreach (var contact in contacts)
             {
-                // PHONE
-
-                if (contact.ContactType == "phone")
-                {
-                    string messengers = "";
-
-                    if (contact.WhatsApp)
-                        messengers += "WhatsApp • ";
-
-                    if (contact.Telegram)
-                        messengers += "Telegram • ";
-
-                    if (contact.Viber)
-                        messengers += "Viber • ";
-
-                    messengers =
-                        messengers.TrimEnd(' ', '•');
-
-                    var frame = new Frame
+                var border =
+                    new Border
                     {
                         BackgroundColor =
                             Color.FromArgb("#1a2238"),
 
-                        BorderColor =
-                            Color.FromArgb("#2d4d73"),
+                        Stroke =
+                            Color.FromArgb("#224b75"),
 
-                        CornerRadius = 10,
+                        StrokeShape =
+                            new RoundRectangle
+                            {
+                                CornerRadius = 10
+                            },
 
                         Padding = 10,
 
-                        HasShadow = false,
-
-                        Content = new VerticalStackLayout
-                        {
-                            Spacing = 4,
-
-                            Children =
-                            {
-                                new Label
-                                {
-                                    Text = "Phone",
-                                    FontSize = 11,
-                                    TextColor =
-                                        Color.FromArgb("#7a8999")
-                                },
-
-                                new Label
-                                {
-                                    Text = contact.Value,
-                                    FontSize = 22,
-                                    FontAttributes =
-                                        FontAttributes.Bold,
-                                    TextColor = Colors.White
-                                },
-
-                                new Label
-                                {
-                                    Text = messengers,
-                                    FontSize = 12,
-                                    TextColor =
-                                        Color.FromArgb("#00d4ff")
-                                }
-                            }
-                        }
+                        Margin =
+                            new Thickness(0, 0, 0, 10)
                     };
 
-                    PhoneListContainer.Children.Add(frame);
+                var layout =
+                    new VerticalStackLayout
+                    {
+                        Spacing = 4
+                    };
+
+                // PHONE
+
+                if (contact.ContactType == "phone")
+                {
+                    layout.Add(
+                        new Label
+                        {
+                            Text = "Phone",
+                            FontSize = 12,
+                            TextColor =
+                                Color.FromArgb("#8ea9c7")
+                        });
+
+                    layout.Add(
+                        new Label
+                        {
+                            Text = contact.Value,
+                            FontSize = 18,
+                            FontAttributes =
+                                FontAttributes.Bold,
+                            TextColor = Colors.White
+                        });
+
+                    var messengers =
+                        new List<string>();
+
+                    if (contact.WhatsApp)
+                        messengers.Add("WhatsApp");
+
+                    if (contact.Telegram)
+                        messengers.Add("Telegram");
+
+                    if (contact.Viber)
+                        messengers.Add("Viber");
+
+                    if (messengers.Count > 0)
+                    {
+                        layout.Add(
+                            new Label
+                            {
+                                Text =
+                                    string.Join(
+                                        " • ",
+                                        messengers),
+
+                                FontSize = 12,
+
+                                TextColor =
+                                    Color.FromArgb("#19b5ea")
+                            });
+                    }
                 }
 
                 // EMAIL
 
                 if (contact.ContactType == "email")
                 {
-                    var frame = new Frame
-                    {
-                        BackgroundColor =
-                            Color.FromArgb("#1a2238"),
-
-                        BorderColor =
-                            Color.FromArgb("#2d4d73"),
-
-                        CornerRadius = 10,
-
-                        Padding = 10,
-
-                        HasShadow = false,
-
-                        Content = new VerticalStackLayout
+                    layout.Add(
+                        new Label
                         {
-                            Spacing = 4,
+                            Text = "Email",
 
-                            Children =
-                            {
-                                new Label
-                                {
-                                    Text = "Email",
-                                    FontSize = 11,
-                                    TextColor =
-                                        Color.FromArgb("#7a8999")
-                                },
+                            FontSize = 12,
 
-                                new Label
-                                {
-                                    Text = contact.Value,
-                                    FontSize = 22,
-                                    FontAttributes =
-                                        FontAttributes.Bold,
-                                    TextColor = Colors.White
-                                }
-                            }
-                        }
-                    };
+                            Margin =
+                                new Thickness(0, 8, 0, 0),
 
-                    EmailListContainer.Children.Add(frame);
+                            TextColor =
+                                Color.FromArgb("#8ea9c7")
+                        });
+
+                    layout.Add(
+                        new Label
+                        {
+                            Text = contact.Value,
+
+                            FontSize = 16,
+
+                            FontAttributes =
+                                FontAttributes.Bold,
+
+                            TextColor = Colors.White
+                        });
                 }
+
+                border.Content = layout;
+
+                ContactsPreviewContainer.Add(border);
             }
         }
-        catch (Exception ex)
+        catch
         {
-            await Application.Current.MainPage.DisplayAlert(
-                "Error",
-                ex.Message,
-                "OK");
+
         }
     }
-
     // =====================================
     // EDUCATION
     // =====================================
 
-    private async void OnAddEducationClicked(
+    private async void OnEditEducationClicked(
         object sender,
         EventArgs e)
     {
-        await Application.Current.MainPage.DisplayAlert(
-            "Education",
-            "Add Education popup coming soon",
-            "OK");
+        var page =
+            new AddEducationPage();
+
+        page.Disappearing += async (s, e2) =>
+        {
+            await LoadEducationPreview();
+        };
+
+        await Navigation.PushModalAsync(page);
+    }
+
+    private async Task LoadEducationPreview()
+    {
+        try
+        {
+            var educationList =
+                await GetDatabase().GetEducationAsync();
+
+            EducationPreviewContainer.Clear();
+
+            foreach (var education in educationList)
+            {
+                var border =
+                    new Border
+                    {
+                        BackgroundColor =
+                            Color.FromArgb("#1a2238"),
+
+                        Stroke =
+                            Color.FromArgb("#224b75"),
+
+                        StrokeShape =
+                            new RoundRectangle
+                            {
+                                CornerRadius = 10
+                            },
+
+                        Padding = 10,
+
+                        Margin = new Thickness(0, 0, 0, 10)
+                    };
+
+                var layout =
+                    new VerticalStackLayout
+                    {
+                        Spacing = 3
+                    };
+
+                layout.Add(
+                    new Label
+                    {
+                        Text =
+                            education.Qualification,
+
+                        FontSize = 17,
+
+                        FontAttributes =
+                            FontAttributes.Bold,
+
+                        TextColor =
+                            Colors.White
+                    });
+
+                layout.Add(
+                    new Label
+                    {
+                        Text =
+                            education.Institution,
+
+                        FontSize = 13,
+
+                        TextColor =
+                            Color.FromArgb("#9bb4d1")
+                    });
+
+                layout.Add(
+                    new Label
+                    {
+                        Text =
+                            education.GraduationDate
+                                .Year
+                                .ToString(),
+
+                        FontSize = 12,
+
+                        TextColor =
+                            Color.FromArgb("#19b5ea")
+                    });
+
+                border.Content = layout;
+
+                EducationPreviewContainer.Add(border);
+            }
+        }
+        catch
+        {
+
+        }
     }
 
     // =====================================
@@ -223,12 +302,11 @@ public partial class PersonalPage : ContentView
         try
         {
             var profile =
-                await GetDatabase().GetUserProfileAsync();
+                await GetDatabase()
+                    .GetUserProfileAsync();
 
             if (profile == null)
                 return;
-
-            // BASIC
 
             FirstNameEntry.Text =
                 profile.FirstName;
@@ -245,63 +323,68 @@ public partial class PersonalPage : ContentView
             CitizenshipEntry.Text =
                 profile.Citizenship;
 
-            // ADDRESS
-
             ResidenceEntry.Text =
                 profile.Residence;
 
             ResidenceAirportEntry.Text =
                 profile.ResidenceAirport;
 
-            // PHOTO
-
-            if (!string.IsNullOrEmpty(profile.PhotoPath)
+            if (!string.IsNullOrEmpty(
+                profile.PhotoPath)
                 && File.Exists(profile.PhotoPath))
             {
                 _photoPath =
                     profile.PhotoPath;
 
                 PhotoImage.Source =
-                    ImageSource.FromFile(_photoPath);
+                    ImageSource.FromFile(
+                        _photoPath);
             }
 
-            // PERSONAL
-
             HeightEntry.Text =
-                profile.Height == 0
-                    ? ""
-                    : profile.Height.ToString();
+                profile.Height.ToString();
 
             WeightEntry.Text =
-                profile.Weight == 0
-                    ? ""
-                    : profile.Weight.ToString();
+                profile.Weight.ToString();
 
             ShoeSizeEntry.Text =
-                profile.ShoeSize == 0
-                    ? ""
-                    : profile.ShoeSize.ToString();
+                profile.ShoeSize.ToString();
 
             OverallSizeEntry.Text =
-                profile.OverallSize == 0
-                    ? ""
-                    : profile.OverallSize.ToString();
-
-            // APPEARANCE
+                profile.OverallSize.ToString();
 
             HairColorEntry.Text =
                 profile.HairColor;
 
+
             EyeColorEntry.Text =
                 profile.EyeColor;
+
+            KinNameEntry.Text =
+    profile.KinName;
+
+            KinRelationEntry.Text =
+                profile.KinRelation;
+
+            KinPhoneEntry.Text =
+                profile.KinPhone;
+
+            KinEmailEntry.Text =
+                profile.KinEmail;
+
+            KinAddressEditor.Text =
+                profile.KinAddress;
         }
         catch (Exception ex)
         {
-            await Application.Current.MainPage.DisplayAlert(
-                "Error",
-                ex.Message,
-                "OK");
+            await Application.Current
+                .MainPage
+                .DisplayAlert(
+                    "Error",
+                    ex.Message,
+                    "OK");
         }
+
     }
 
     // =====================================
@@ -315,13 +398,16 @@ public partial class PersonalPage : ContentView
         try
         {
             var result =
-                await FilePicker.Default.PickAsync(
-                    new PickOptions
-                    {
-                        PickerTitle = "Select Photo",
-                        FileTypes =
-                            FilePickerFileType.Images
-                    });
+                await FilePicker.Default
+                    .PickAsync(
+                        new PickOptions
+                        {
+                            PickerTitle =
+                                "Select Photo",
+
+                            FileTypes =
+                                FilePickerFileType.Images
+                        });
 
             if (result != null)
             {
@@ -329,15 +415,18 @@ public partial class PersonalPage : ContentView
                     result.FullPath;
 
                 PhotoImage.Source =
-                    ImageSource.FromFile(_photoPath);
+                    ImageSource.FromFile(
+                        _photoPath);
             }
         }
         catch (Exception ex)
         {
-            await Application.Current.MainPage.DisplayAlert(
-                "Error",
-                ex.Message,
-                "OK");
+            await Application.Current
+                .MainPage
+                .DisplayAlert(
+                    "Error",
+                    ex.Message,
+                    "OK");
         }
     }
 
@@ -351,20 +440,20 @@ public partial class PersonalPage : ContentView
     {
         try
         {
-            var db = GetDatabase();
+            var db =
+                GetDatabase();
 
             var profile =
                 await db.GetUserProfileAsync();
 
             if (profile == null)
             {
-                profile = new UserProfile
-                {
-                    Id = 1
-                };
+                profile =
+                    new UserProfile
+                    {
+                        Id = 1
+                    };
             }
-
-            // BASIC
 
             profile.FirstName =
                 FirstNameEntry.Text ?? "";
@@ -374,14 +463,12 @@ public partial class PersonalPage : ContentView
 
             profile.BirthDate =
                 BirthDatePicker.Date ?? DateTime.Today;
-
             profile.Gender =
-                GenderPicker.SelectedItem?.ToString() ?? "";
+                GenderPicker.SelectedItem?
+                    .ToString() ?? "";
 
             profile.Citizenship =
                 CitizenshipEntry.Text ?? "";
-
-            // ADDRESS
 
             profile.Residence =
                 ResidenceEntry.Text ?? "";
@@ -389,37 +476,33 @@ public partial class PersonalPage : ContentView
             profile.ResidenceAirport =
                 ResidenceAirportEntry.Text ?? "";
 
-            // PERSONAL
-
             profile.Height =
                 int.TryParse(
                     HeightEntry.Text,
                     out var height)
-                        ? height
-                        : 0;
+                    ? height
+                    : 0;
 
             profile.Weight =
                 int.TryParse(
                     WeightEntry.Text,
                     out var weight)
-                        ? weight
-                        : 0;
+                    ? weight
+                    : 0;
 
             profile.ShoeSize =
                 int.TryParse(
                     ShoeSizeEntry.Text,
                     out var shoe)
-                        ? shoe
-                        : 0;
+                    ? shoe
+                    : 0;
 
             profile.OverallSize =
                 int.TryParse(
                     OverallSizeEntry.Text,
                     out var overall)
-                        ? overall
-                        : 0;
-
-            // APPEARANCE
+                    ? overall
+                    : 0;
 
             profile.HairColor =
                 HairColorEntry.Text ?? "";
@@ -427,7 +510,20 @@ public partial class PersonalPage : ContentView
             profile.EyeColor =
                 EyeColorEntry.Text ?? "";
 
-            // PHOTO
+            profile.KinName =
+    KinNameEntry.Text ?? "";
+
+            profile.KinRelation =
+                KinRelationEntry.Text ?? "";
+
+            profile.KinPhone =
+                KinPhoneEntry.Text ?? "";
+
+            profile.KinEmail =
+                KinEmailEntry.Text ?? "";
+
+            profile.KinAddress =
+                KinAddressEditor.Text ?? "";
 
             profile.PhotoPath =
                 _photoPath;
@@ -435,109 +531,34 @@ public partial class PersonalPage : ContentView
             profile.UpdatedDate =
                 DateTime.Now;
 
-            // SAVE
+            await db.SaveUserProfileAsync(
+                profile);
 
-            await db.SaveUserProfileAsync(profile);
-
-            await Application.Current.MainPage.DisplayAlert(
-                "Saved",
-                "Profile saved successfully",
-                "OK");
+            await Application.Current
+                .MainPage
+                .DisplayAlert(
+                    "Saved",
+                    "Profile saved successfully",
+                    "OK");
         }
         catch (Exception ex)
         {
-            await Application.Current.MainPage.DisplayAlert(
-                "Error",
-                ex.ToString(),
-                "OK");
+            await Application.Current
+                .MainPage
+                .DisplayAlert(
+                    "Error",
+                    ex.ToString(),
+                    "OK");
         }
     }
-    private async void OnEditEducationClicked(
-    object sender,
+
+
+    private async void PersonalPage_Loaded(
+    object? sender,
     EventArgs e)
     {
-        var page = new AddEducationPage();
+        await LoadContactsPreview();
 
-        page.Disappearing += async (s, e2) =>
-        {
-            await LoadEducationAsync();
-        };
-
-        await Navigation.PushModalAsync(page);
-    }
-
-    private async Task LoadEducationAsync()
-    {
-        try
-        {
-            EducationContainer.Children.Clear();
-
-            var educationList =
-                await GetDatabase().GetEducationAsync();
-
-            foreach (var education in educationList)
-            {
-                var frame = new Frame
-                {
-                    BackgroundColor =
-                        Color.FromArgb("#1a2238"),
-
-                    BorderColor =
-                        Color.FromArgb("#2d4d73"),
-
-                    CornerRadius = 10,
-
-                    Padding = 10,
-
-                    HasShadow = false,
-
-                    Content = new VerticalStackLayout
-                    {
-                        Spacing = 4,
-
-                        Children =
-                    {
-                        new Label
-                        {
-                            Text = education.Qualification,
-                            FontSize = 18,
-                            FontAttributes =
-                                FontAttributes.Bold,
-                            TextColor = Colors.White
-                        },
-
-                        new Label
-                        {
-                            Text = education.Institution,
-                            FontSize = 13,
-                            TextColor =
-                                Color.FromArgb("#00d4ff")
-                        },
-
-                        new Label
-                        {
-                            Text =
-                                education.GraduationDate
-                                .ToString("dd.MM.yyyy"),
-
-                            FontSize = 12,
-
-                            TextColor =
-                                Color.FromArgb("#7a8999")
-                        }
-                    }
-                    }
-                };
-
-                EducationContainer.Children.Add(frame);
-            }
-        }
-        catch (Exception ex)
-        {
-            await Application.Current.MainPage.DisplayAlert(
-                "Error",
-                ex.Message,
-                "OK");
-        }
+        await LoadEducationPreview();
     }
 }

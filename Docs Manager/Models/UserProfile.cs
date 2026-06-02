@@ -43,6 +43,20 @@ public class UserProfile
     // ===== ДОПОЛНИТЕЛЬНО =====
     public DateTime UpdatedDate { get; set; }
 
+    // =====================================
+    // NEXT OF KIN
+    // =====================================
+
+    public string KinName { get; set; } = "";
+
+    public string KinRelation { get; set; } = "";
+
+    public string KinPhone { get; set; } = "";
+
+    public string KinEmail { get; set; } = "";
+
+    public string KinAddress { get; set; } = "";
+
     // ПРИМЕЧАНИЕ: Документы хранятся в StoredFile (категория "documents")
     // Сертификаты - в Certificate (категория "certificates")
     // COC & Endorsement - в StoredFile (категория "coc")
