@@ -37,6 +37,9 @@ namespace Docs_Manager.Data
             _database.CreateTableAsync<ContactInfo>().Wait();
 
             _database.CreateTableAsync<EducationInfo>().Wait();
+
+            _database.CreateTableAsync<VisaModel>().Wait();
+
         }
 
         // =========================
@@ -303,6 +306,37 @@ namespace Docs_Manager.Data
         {
             return _database
                 .DeleteAsync(education);
+        }
+
+        // =========================
+        // VISA
+        // =========================
+
+        public Task<List<VisaModel>> GetVisasAsync()
+        {
+            return _database
+                .Table<VisaModel>()
+                .ToListAsync();
+        }
+
+        public Task<int> SaveVisaAsync(
+            VisaModel visa)
+        {
+            if (visa.Id != 0)
+            {
+                return _database
+                    .UpdateAsync(visa);
+            }
+
+            return _database
+                .InsertAsync(visa);
+        }
+
+        public Task<int> DeleteVisaAsync(
+            VisaModel visa)
+        {
+            return _database
+                .DeleteAsync(visa);
         }
     }
 }

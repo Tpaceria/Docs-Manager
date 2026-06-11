@@ -46,6 +46,24 @@ public partial class AddContactPage : ContentPage
                 }
             }
 
+            var residence =
+    contacts.FirstOrDefault(
+        x => x.ContactType == "residence");
+
+            if (residence != null)
+            {
+                ResidenceEntry.Text = residence.Value;
+            }
+
+            var airport =
+                contacts.FirstOrDefault(
+                    x => x.ContactType == "airport");
+
+            if (airport != null)
+            {
+                NearestAirportEntry.Text = airport.Value;
+            }
+
             // ЕСЛИ НЕТ КОНТАКТОВ
 
             if (PhoneContainer.Children.Count == 0)
@@ -398,6 +416,31 @@ public partial class AddContactPage : ContentPage
                 }
             }
 
+            // SAVE RESIDENCE
+
+            if (!string.IsNullOrWhiteSpace(ResidenceEntry.Text))
+            {
+                await _database.SaveContactAsync(
+                    new ContactInfo
+                    {
+                        ContactType = "residence",
+                        Value = ResidenceEntry.Text
+                    });
+            }
+
+            // SAVE AIRPORT
+
+            if (!string.IsNullOrWhiteSpace(NearestAirportEntry.Text))
+            {
+                await _database.SaveContactAsync(
+                    new ContactInfo
+                    {
+                        ContactType = "airport",
+                        Value = NearestAirportEntry.Text
+                    });
+            }
+        
+
             await DisplayAlert(
                 "Saved",
                 "Contacts saved successfully",
@@ -412,5 +455,6 @@ public partial class AddContactPage : ContentPage
                 ex.Message,
                 "OK");
         }
+
     }
 }

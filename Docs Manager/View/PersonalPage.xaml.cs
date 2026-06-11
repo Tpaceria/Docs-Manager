@@ -52,6 +52,21 @@ public partial class PersonalPage : ContentView
         await Navigation.PushModalAsync(page);
     }
 
+    private async void OnEditVisaClicked(
+    object sender,
+    EventArgs e)
+    {
+        var page =
+            new AddVisaPage();
+
+        page.Disappearing += async (s, e2) =>
+        {
+            await LoadVisaPreview();
+        };
+
+        await Navigation.PushModalAsync(page);
+    }
+
     private async Task LoadContactsPreview()
     {
         try
@@ -61,35 +76,32 @@ public partial class PersonalPage : ContentView
 
             ContactsPreviewContainer.Clear();
 
+            var border =
+                new Border
+                {
+                    BackgroundColor =
+                        Color.FromArgb("#1a2238"),
+
+                    Stroke =
+                        Color.FromArgb("#224b75"),
+
+                    StrokeShape =
+                        new RoundRectangle
+                        {
+                            CornerRadius = 10
+                        },
+
+                    Padding = 10
+                };
+
+            var layout =
+                new VerticalStackLayout
+                {
+                    Spacing = 4
+                };
+
             foreach (var contact in contacts)
             {
-                var border =
-                    new Border
-                    {
-                        BackgroundColor =
-                            Color.FromArgb("#1a2238"),
-
-                        Stroke =
-                            Color.FromArgb("#224b75"),
-
-                        StrokeShape =
-                            new RoundRectangle
-                            {
-                                CornerRadius = 10
-                            },
-
-                        Padding = 10,
-
-                        Margin =
-                            new Thickness(0, 0, 0, 10)
-                    };
-
-                var layout =
-                    new VerticalStackLayout
-                    {
-                        Spacing = 4
-                    };
-
                 // PHONE
 
                 if (contact.ContactType == "phone")
@@ -141,6 +153,14 @@ public partial class PersonalPage : ContentView
                                     Color.FromArgb("#19b5ea")
                             });
                     }
+
+                    layout.Add(
+                        new BoxView
+                        {
+                            HeightRequest = 1,
+                            Margin = new Thickness(0, 6),
+                            Color = Color.FromArgb("#224b75")
+                        });
                 }
 
                 // EMAIL
@@ -151,9 +171,38 @@ public partial class PersonalPage : ContentView
                         new Label
                         {
                             Text = "Email",
-
                             FontSize = 12,
+                            TextColor =
+                                Color.FromArgb("#8ea9c7")
+                        });
 
+                    layout.Add(
+                        new Label
+                        {
+                            Text = contact.Value,
+                            FontSize = 16,
+                            FontAttributes =
+                                FontAttributes.Bold,
+                            TextColor = Colors.White
+                        });
+                    layout.Add(
+    new BoxView
+    {
+        HeightRequest = 1,
+        Margin = new Thickness(0, 6),
+        Color = Color.FromArgb("#224b75")
+    });
+                }
+
+                // RESIDENCE
+
+                if (contact.ContactType == "residence")
+                {
+                    layout.Add(
+                        new Label
+                        {
+                            Text = "Residence",
+                            FontSize = 12,
                             Margin =
                                 new Thickness(0, 8, 0, 0),
 
@@ -165,27 +214,57 @@ public partial class PersonalPage : ContentView
                         new Label
                         {
                             Text = contact.Value,
-
                             FontSize = 16,
-
                             FontAttributes =
                                 FontAttributes.Bold,
+                            TextColor = Colors.White
+                        });
+                    layout.Add(
+    new BoxView
+    {
+        HeightRequest = 1,
+        Margin = new Thickness(0, 6),
+        Color = Color.FromArgb("#224b75")
+    });
+                }
 
+                // AIRPORT
+
+                if (contact.ContactType == "airport")
+                {
+                    layout.Add(
+                        new Label
+                        {
+                            Text = "Nearest Airport",
+                            FontSize = 12,
+                            Margin =
+                                new Thickness(0, 8, 0, 0),
+
+                            TextColor =
+                                Color.FromArgb("#8ea9c7")
+                        });
+
+                    layout.Add(
+                        new Label
+                        {
+                            Text = contact.Value,
+                            FontSize = 16,
+                            FontAttributes =
+                                FontAttributes.Bold,
                             TextColor = Colors.White
                         });
                 }
-
-                border.Content = layout;
-
-                ContactsPreviewContainer.Add(border);
             }
+
+            border.Content = layout;
+
+            ContactsPreviewContainer.Add(border);
         }
         catch
         {
 
         }
-    }
-    // =====================================
+    }    // =====================================
     // EDUCATION
     // =====================================
 
@@ -311,6 +390,9 @@ public partial class PersonalPage : ContentView
             FirstNameEntry.Text =
                 profile.FirstName;
 
+            MiddleNameEntry.Text =
+    profile.MiddleName;
+
             LastNameEntry.Text =
                 profile.LastName;
 
@@ -322,12 +404,6 @@ public partial class PersonalPage : ContentView
 
             CitizenshipEntry.Text =
                 profile.Citizenship;
-
-            ResidenceEntry.Text =
-                profile.Residence;
-
-            ResidenceAirportEntry.Text =
-                profile.ResidenceAirport;
 
             if (!string.IsNullOrEmpty(
                 profile.PhotoPath)
@@ -377,14 +453,76 @@ public partial class PersonalPage : ContentView
         }
         catch (Exception ex)
         {
-            await Application.Current
-                .MainPage
-                .DisplayAlert(
-                    "Error",
-                    ex.Message,
-                    "OK");
+            System.Diagnostics.Debug.WriteLine(
+        $"ERROR: {ex}");
         }
 
+    }
+
+    private async Task LoadVisaPreview()
+    {
+        try
+        {
+            var visas =
+                await GetDatabase()
+                    .GetVisasAsync();
+
+            VisaPreviewContainer.Clear();
+
+            foreach (var visa in visas)
+            {
+                var grid =
+                    new Grid
+                    {
+                        ColumnDefinitions =
+                        {
+                        new ColumnDefinition
+                        {
+                            Width = GridLength.Star
+                        },
+                        new ColumnDefinition
+                        {
+                            Width = GridLength.Star
+                        },
+                        new ColumnDefinition
+                        {
+                            Width = GridLength.Auto
+                        }
+                        }
+                    };
+
+                grid.Add(
+                    new Label
+                    {
+                        Text = visa.Type,
+                        TextColor = Colors.White
+                    }, 0, 0);
+
+                grid.Add(
+                    new Label
+                    {
+                        Text = visa.Country,
+                        TextColor = Colors.White
+                    }, 1, 0);
+
+                grid.Add(
+                    new Label
+                    {
+                        Text =
+                            visa.ExpiryDate
+                                .Year
+                                .ToString(),
+
+                        TextColor =
+                            Color.FromArgb("#19b5ea")
+                    }, 2, 0);
+
+                VisaPreviewContainer.Add(grid);
+            }
+        }
+        catch
+        {
+        }
     }
 
     // =====================================
@@ -458,23 +596,21 @@ public partial class PersonalPage : ContentView
             profile.FirstName =
                 FirstNameEntry.Text ?? "";
 
+            profile.MiddleName =
+                MiddleNameEntry.Text ?? "";
+
             profile.LastName =
                 LastNameEntry.Text ?? "";
 
             profile.BirthDate =
                 BirthDatePicker.Date ?? DateTime.Today;
+
             profile.Gender =
                 GenderPicker.SelectedItem?
                     .ToString() ?? "";
 
             profile.Citizenship =
                 CitizenshipEntry.Text ?? "";
-
-            profile.Residence =
-                ResidenceEntry.Text ?? "";
-
-            profile.ResidenceAirport =
-                ResidenceAirportEntry.Text ?? "";
 
             profile.Height =
                 int.TryParse(
@@ -554,11 +690,16 @@ public partial class PersonalPage : ContentView
 
 
     private async void PersonalPage_Loaded(
-    object? sender,
-    EventArgs e)
+        object? sender,
+        EventArgs e)
     {
+        await LoadProfileAsync();
+
         await LoadContactsPreview();
 
         await LoadEducationPreview();
+
+        await LoadVisaPreview();
     }
+
 }

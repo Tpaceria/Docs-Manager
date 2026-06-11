@@ -109,6 +109,38 @@
 
             </Border>
 
+            <!-- ADDRESS -->
+
+            <Border
+    BackgroundColor="#102844"
+    Stroke="#173b63"
+    StrokeShape="RoundRectangle 12"
+    Padding="14">
+
+                <VerticalStackLayout Spacing="12">
+
+                    <Label
+            Text="Address Information"
+            FontSize="16"
+            FontAttributes="Bold"
+            TextColor="White"/>
+
+                    <Entry
+            x:Name="ResidenceEntry"
+            Placeholder="Residence"
+            BackgroundColor="#1a2238"
+            TextColor="White"/>
+
+                    <Entry
+            x:Name="NearestAirportEntry"
+            Placeholder="Nearest Airport"
+            BackgroundColor="#1a2238"
+            TextColor="White"/>
+
+                </VerticalStackLayout>
+
+            </Border>
+            
             <!-- SAVE -->
 
             <Button
