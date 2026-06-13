@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    x:Class="Docs_Manager.View.AddNextOfKinPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Next Of Kin"
+    BackgroundColor="#071a2d">
+
+    <ScrollView>
+
+        <VerticalStackLayout
+            Padding="20"
+            Spacing="15">
+
+            <Grid ColumnDefinitions="*,Auto">
+
+                <Label
+                    Text="👨‍👩‍👧 Next Of Kin"
+                    FontSize="24"
+                    FontAttributes="Bold"
+                    TextColor="#ff9933"/>
+
+                <Button
+                    Grid.Column="1"
+                    Text="✕"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    CornerRadius="20"
+                    BackgroundColor="#ff4d6d"
+                    TextColor="White"
+                    Clicked="OnCloseClicked"/>
+
+            </Grid>
+
+            <Label
+                Text="Full Name"
+                TextColor="White"/>
+
+            <Entry
+                x:Name="NameEntry"/>
+
+            <Label
+                Text="Relation"
+                TextColor="White"/>
+
+            <Entry
+                x:Name="RelationEntry"/>
+
+            <Label
+                Text="Phone"
+                TextColor="White"/>
+
+            <Entry
+                x:Name="PhoneEntry"/>
+
+            <Label
+                Text="Email"
+                TextColor="White"/>
+
+            <Entry
+                x:Name="EmailEntry"/>
+
+            <Label
+                Text="Address"
+                TextColor="White"/>
+
+            <Editor
+                x:Name="AddressEditor"
+                HeightRequest="80"/>
+
+            <Button
+                Text="SAVE"
+                HeightRequest="45"
+                FontAttributes="Bold"
+                BackgroundColor="#22c55e"
+                TextColor="White"
+                Clicked="OnSaveClicked"/>
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+
+</ContentPage>

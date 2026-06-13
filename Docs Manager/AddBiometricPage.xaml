@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    x:Class="Docs_Manager.View.AddBiometricPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Biometric"
+    BackgroundColor="#071a2d">
+
+    <ScrollView>
+
+        <VerticalStackLayout
+            Padding="20"
+            Spacing="15">
+
+            <!-- Header -->
+
+            <Grid ColumnDefinitions="*,Auto">
+
+                <Label
+                    Text="🧬 Biometric"
+                    FontSize="24"
+                    FontAttributes="Bold"
+                    TextColor="#ff9933"
+                    VerticalOptions="Center"/>
+
+                <Button
+                    Grid.Column="1"
+                    Text="✕"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    CornerRadius="20"
+                    BackgroundColor="#ff4d6d"
+                    TextColor="White"
+                    Clicked="OnCloseClicked"/>
+
+            </Grid>
+
+            <Label
+                Text="Height (cm)"
+                FontSize="12"
+                TextColor="White"/>
+
+            <Entry
+                x:Name="HeightEntry"
+                Keyboard="Numeric"/>
+
+            <Label
+                Text="Weight (kg)"
+                FontSize="12"
+                TextColor="White"/>
+
+            <Entry
+                x:Name="WeightEntry"
+                Keyboard="Numeric"/>
+
+            <Label
+                Text="Shoe Size"
+                FontSize="12"
+                TextColor="White"/>
+
+            <Entry
+                x:Name="ShoeSizeEntry"
+                Keyboard="Numeric"/>
+
+            <Label
+                Text="Overall Size"
+                FontSize="12"
+                TextColor="White"/>
+
+            <Entry
+                x:Name="OverallSizeEntry"
+                Keyboard="Numeric"/>
+
+            <Label
+    Text="Hair Color"
+    FontSize="12"
+    TextColor="White"/>
+
+            <Picker x:Name="HairColorPicker">
+                <Picker.Items>
+                    <x:String>Black</x:String>
+                    <x:String>Brown</x:String>
+                    <x:String>Blonde</x:String>
+                    <x:String>Grey</x:String>
+                    <x:String>Red</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Label
+    Text="Eye Color"
+    FontSize="12"
+    TextColor="White"/>
+
+            <Picker x:Name="EyeColorPicker">
+                <Picker.Items>
+                    <x:String>Brown</x:String>
+                    <x:String>Blue</x:String>
+                    <x:String>Green</x:String>
+                    <x:String>Grey</x:String>
+                    <x:String>Hazel</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Button
+    Text="SAVE"
+    HeightRequest="45"
+    FontAttributes="Bold"
+    BackgroundColor="#22c55e"
+    TextColor="White"
+    Clicked="OnSaveClicked"/>
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+
+</ContentPage>

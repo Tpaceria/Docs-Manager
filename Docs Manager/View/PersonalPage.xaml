@@ -548,35 +548,41 @@
                 <!-- SKILLS & LANGUAGES -->
 
                 <Border
-        BackgroundColor="#102844"
-        Stroke="#173b63"
-        StrokeShape="RoundRectangle 10"
-        Padding="8">
+    BackgroundColor="#102844"
+    Stroke="#173b63"
+    StrokeShape="RoundRectangle 10"
+    Padding="8">
 
-                    <VerticalStackLayout Spacing="6">
+                    <VerticalStackLayout Spacing="8">
 
-                        <Label
+                        <Grid ColumnDefinitions="*,Auto">
+
+                            <Label
                 Text="🌍 SKILLS &amp; LANGUAGES"
                 FontSize="16"
                 FontAttributes="Bold"
                 TextColor="#ff8c42"/>
 
-                        <Entry
-                Placeholder="English Level"
+                            <Button
+                Grid.Column="1"
+                Text="Edit"
+                WidthRequest="70"
                 HeightRequest="30"
-                BackgroundColor="#1a2238"
-                TextColor="White"/>
+                CornerRadius="6"
+                FontSize="12"
+                BackgroundColor="#19b5ea"
+                TextColor="White"
+                Clicked="OnEditSkillsClicked"/>
 
-                        <Entry
-                Placeholder="Marlins Test"
-                HeightRequest="30"
-                BackgroundColor="#1a2238"
-                TextColor="White"/>
+                        </Grid>
+
+                        <VerticalStackLayout
+            x:Name="SkillsPreviewContainer"
+            Spacing="6"/>
 
                     </VerticalStackLayout>
 
                 </Border>
-
                 <!-- VISA -->
 
                 <Border
@@ -648,203 +654,77 @@
     StrokeShape="RoundRectangle 10"
     Padding="8">
 
-                    <VerticalStackLayout Spacing="6">
+                    <VerticalStackLayout Spacing="8">
 
-                        <Label
-            Text="🧬 BIOMETRIC"
-            FontSize="16"
-            FontAttributes="Bold"
-            TextColor="#ff8c42"/>
+                        <Grid ColumnDefinitions="*,Auto">
 
-                        <Grid
-            ColumnDefinitions="*,*"
-            RowDefinitions="Auto,Auto,Auto"
-            ColumnSpacing="10"
-            RowSpacing="4">
+                            <Label
+                Text="🧬 BIOMETRIC"
+                FontSize="16"
+                FontAttributes="Bold"
+                TextColor="#ff8c42"/>
 
-                            <!-- Height -->
-
-                            <VerticalStackLayout
-                Grid.Row="0"
-                Grid.Column="0"
-                Spacing="2">
-
-                                <Label
-                    Text="Height"
-                    FontSize="12"
-                    TextColor="White"/>
-
-                                <Entry
-                    x:Name="HeightEntry"
-                    HeightRequest="30"
-                    FontSize="16"/>
-                            </VerticalStackLayout>
-
-                            <!-- Weight -->
-
-                            <VerticalStackLayout
-                Grid.Row="0"
+                            <Button
                 Grid.Column="1"
-                Spacing="2">
-
-                                <Label
-                    Text="Weight"
-                    FontSize="12"
-                    TextColor="White"/>
-
-                                <Entry
-                    x:Name="WeightEntry"
-                    HeightRequest="30"
-                    FontSize="16"/>
-                            </VerticalStackLayout>
-
-                            <!-- Shoe Size -->
-
-                            <VerticalStackLayout
-                Grid.Row="1"
-                Grid.Column="0"
-                Spacing="2">
-
-                                <Label
-                    Text="Shoe Size"
-                    FontSize="12"
-                    TextColor="White"/>
-
-                                <Entry
-                    x:Name="ShoeSizeEntry"
-                    HeightRequest="30"
-                    FontSize="16"/>
-                            </VerticalStackLayout>
-
-                            <!-- Overall Size -->
-
-                            <VerticalStackLayout
-                Grid.Row="1"
-                Grid.Column="1"
-                Spacing="2">
-
-                                <Label
-                    Text="Overall Size"
-                    FontSize="12"
-                    TextColor="White"/>
-
-                                <Entry
-                    x:Name="OverallSizeEntry"
-                    HeightRequest="30"
-                    FontSize="16"/>
-                            </VerticalStackLayout>
-
-                            <!-- Hair Color -->
-
-                            <VerticalStackLayout
-                Grid.Row="2"
-                Grid.Column="0"
-                Spacing="2">
-
-                                <Label
-                    Text="Hair Color"
-                    FontSize="12"
-                    TextColor="White"/>
-
-                                <Entry
-                    x:Name="HairColorEntry"
-                    HeightRequest="30"
-                    FontSize="16"/>
-                            </VerticalStackLayout>
-
-                            <!-- Eye Color -->
-
-                            <VerticalStackLayout
-                Grid.Row="2"
-                Grid.Column="1"
-                Spacing="2">
-
-                                <Label
-                    Text="Eye Color"
-                    FontSize="12"
-                    TextColor="White"/>
-
-                                <Entry
-                    x:Name="EyeColorEntry"
-                    HeightRequest="30"
-                    FontSize="16"/>
-                            </VerticalStackLayout>
+                Text="Edit"
+                WidthRequest="70"
+                HeightRequest="30"
+                CornerRadius="6"
+                FontSize="12"
+                BackgroundColor="#19b5ea"
+                TextColor="White"
+                Clicked="OnEditBiometricClicked"/>
 
                         </Grid>
 
+                        <VerticalStackLayout
+            x:Name="BiometricPreviewContainer"
+            Spacing="6"/>
+
                     </VerticalStackLayout>
 
                 </Border>
+                
                 <!-- NEXT OF KIN -->
-
                 <Border
-    BackgroundColor="#102844"
-    Stroke="#173b63"
-    StrokeShape="RoundRectangle 10"
-    Padding="8">
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="8">
 
-                    <VerticalStackLayout Spacing="4">
+                    <VerticalStackLayout Spacing="8">
 
-                        <Label
-            Text="👨‍👩‍👧 NEXT OF KIN"
-            FontSize="16"
-            FontAttributes="Bold"
-            TextColor="#ff8c42"/>
+                        <Grid ColumnDefinitions="*,Auto">
 
-                        <Label
-            Text="Full Name"
-            FontSize="12"
-            TextColor="White"/>
+                            <Label
+                                Text="👨‍👩‍👧 NEXT OF KIN"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                TextColor="#ff8c42"/>
 
-                        <Entry
-            x:Name="KinNameEntry"
-            HeightRequest="30"
-            FontSize="16"/>
+                            <Button
+                                Grid.Column="1"
+                                Text="Edit"
+                                WidthRequest="70"
+                                HeightRequest="30"
+                                CornerRadius="6"
+                                FontSize="12"
+                                BackgroundColor="#19b5ea"
+                                TextColor="White"
+                                Clicked="OnEditNextOfKinClicked"/>
 
-                        <Label
-            Text="Relation"
-            FontSize="12"
-            TextColor="White"/>
+                        </Grid>
 
-                        <Entry
-            x:Name="KinRelationEntry"
-            HeightRequest="30"
-            FontSize="16"/>
-
-                        <Label
-            Text="Phone"
-            FontSize="12"
-            TextColor="White"/>
-
-                        <Entry
-            x:Name="KinPhoneEntry"
-            HeightRequest="30"
-            FontSize="16"/>
-
-                        <Label
-            Text="Email"
-            FontSize="12"
-            TextColor="White"/>
-
-                        <Entry
-            x:Name="KinEmailEntry"
-            HeightRequest="30"
-            FontSize="16"/>
-
-                        <Label
-            Text="Address"
-            FontSize="12"
-            TextColor="White"/>
-
-                        <Editor
-            x:Name="KinAddressEditor"
-            HeightRequest="60"
-            FontSize="16"/>
+                        <VerticalStackLayout
+                            x:Name="NextOfKinPreviewContainer"
+                            Spacing="6"/>
 
                     </VerticalStackLayout>
 
                 </Border>
+
             </VerticalStackLayout>
+
         </Grid>
 
     </ScrollView>

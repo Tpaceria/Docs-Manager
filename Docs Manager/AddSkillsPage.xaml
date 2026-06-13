@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    x:Class="Docs_Manager.View.AddSkillsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Skills"
+    BackgroundColor="#071a2d">
+
+    <ScrollView>
+
+        <VerticalStackLayout
+            Padding="20"
+            Spacing="15">
+
+            <!-- Header -->
+
+            <Grid ColumnDefinitions="*,Auto">
+
+                <Label
+                    Text="🌍 Skills &amp; Languages"
+                    FontSize="24"
+                    FontAttributes="Bold"
+                    TextColor="#ff9933"
+                    VerticalOptions="Center"/>
+
+                <Button
+                    Grid.Column="1"
+                    Text="✕"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    CornerRadius="20"
+                    BackgroundColor="#ff4d6d"
+                    TextColor="White"
+                    Clicked="OnCloseClicked"/>
+
+            </Grid>
+
+            <!-- English Level -->
+
+            <Label
+                Text="English Level"
+                FontSize="12"
+                TextColor="White"/>
+
+            <Picker
+                x:Name="EnglishLevelPicker"
+                Title="Select Level">
+
+                <Picker.Items>
+                    <x:String>Basic</x:String>
+                    <x:String>Intermediate</x:String>
+                    <x:String>Upper Intermediate</x:String>
+                    <x:String>Advanced</x:String>
+                    <x:String>Fluent</x:String>
+                </Picker.Items>
+
+            </Picker>
+
+            <!-- Marlins -->
+
+            <Label
+                Text="Marlins Test (%)"
+                FontSize="12"
+                TextColor="White"/>
+
+            <Entry
+                x:Name="MarlinsEntry"
+                HeightRequest="30"
+                FontSize="16"
+                Keyboard="Numeric"
+                Placeholder="95"/>
+
+            <!-- CES -->
+
+            <Label
+                Text="CES Score (%)"
+                FontSize="12"
+                TextColor="White"/>
+
+            <Entry
+                x:Name="CesEntry"
+                HeightRequest="30"
+                FontSize="16"
+                Keyboard="Numeric"
+                Placeholder="80"/>
+
+            <!-- Languages -->
+
+            <Label
+                Text="Additional Languages"
+                FontSize="12"
+                TextColor="White"/>
+
+            <Editor
+                x:Name="LanguagesEditor"
+                HeightRequest="80"
+                FontSize="16"
+                Placeholder="English, Norwegian, Polish"/>
+
+            <!-- Save -->
+
+            <Button
+                Text="SAVE"
+                HeightRequest="45"
+                FontAttributes="Bold"
+                BackgroundColor="#22c55e"
+                TextColor="White"
+                Clicked="OnSaveClicked"/>
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+
+</ContentPage>

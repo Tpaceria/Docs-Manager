@@ -74,6 +74,9 @@
 		<Compile Update="AddOtherPage.xaml.cs">
 		  <DependentUpon>AddOtherPage.xaml</DependentUpon>
 		</Compile>
+		<Compile Update="AddNextOfKinPage.xaml.cs">
+		  <DependentUpon>AddNextOfKinPage.xaml</DependentUpon>
+		</Compile>
 		<Compile Update="View\DocumentsPage.xaml.cs">
 			<DependentUpon>DocumentsPage.xaml</DependentUpon>
 		</Compile>
@@ -113,6 +116,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<MauiXaml Update="AddBiometricPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="AddCertificatePage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
@@ -126,6 +132,9 @@
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="AddMedicinePage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="AddSkillsPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="AddVisaPage.xaml">
@@ -144,6 +153,9 @@
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="AddOtherPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="AddNextOfKinPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="View\CocEndorsementPage.xaml">

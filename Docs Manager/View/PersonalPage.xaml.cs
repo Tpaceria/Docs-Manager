@@ -264,7 +264,8 @@ public partial class PersonalPage : ContentView
         {
 
         }
-    }    // =====================================
+    }   
+    // =====================================
     // EDUCATION
     // =====================================
 
@@ -372,6 +373,20 @@ public partial class PersonalPage : ContentView
         }
     }
 
+    private async void OnEditSkillsClicked(
+        object sender,
+        EventArgs e)
+    {
+        var page =
+            new AddSkillsPage();
+
+        page.Disappearing += async (s, e2) =>
+        {
+            await LoadSkillsPreview();
+        };
+
+        await Navigation.PushModalAsync(page);
+    }
     // =====================================
     // LOAD PROFILE
     // =====================================
@@ -383,7 +398,6 @@ public partial class PersonalPage : ContentView
             var profile =
                 await GetDatabase()
                     .GetUserProfileAsync();
-
             if (profile == null)
                 return;
 
@@ -391,7 +405,7 @@ public partial class PersonalPage : ContentView
                 profile.FirstName;
 
             MiddleNameEntry.Text =
-    profile.MiddleName;
+                profile.MiddleName;
 
             LastNameEntry.Text =
                 profile.LastName;
@@ -417,44 +431,11 @@ public partial class PersonalPage : ContentView
                         _photoPath);
             }
 
-            HeightEntry.Text =
-                profile.Height.ToString();
-
-            WeightEntry.Text =
-                profile.Weight.ToString();
-
-            ShoeSizeEntry.Text =
-                profile.ShoeSize.ToString();
-
-            OverallSizeEntry.Text =
-                profile.OverallSize.ToString();
-
-            HairColorEntry.Text =
-                profile.HairColor;
-
-
-            EyeColorEntry.Text =
-                profile.EyeColor;
-
-            KinNameEntry.Text =
-    profile.KinName;
-
-            KinRelationEntry.Text =
-                profile.KinRelation;
-
-            KinPhoneEntry.Text =
-                profile.KinPhone;
-
-            KinEmailEntry.Text =
-                profile.KinEmail;
-
-            KinAddressEditor.Text =
-                profile.KinAddress;
         }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine(
-        $"ERROR: {ex}");
+                $"ERROR: {ex}");
         }
 
     }
@@ -603,7 +584,7 @@ public partial class PersonalPage : ContentView
                 LastNameEntry.Text ?? "";
 
             profile.BirthDate =
-                BirthDatePicker.Date ?? DateTime.Today;
+               BirthDatePicker.Date ?? DateTime.Today;
 
             profile.Gender =
                 GenderPicker.SelectedItem?
@@ -612,54 +593,6 @@ public partial class PersonalPage : ContentView
             profile.Citizenship =
                 CitizenshipEntry.Text ?? "";
 
-            profile.Height =
-                int.TryParse(
-                    HeightEntry.Text,
-                    out var height)
-                    ? height
-                    : 0;
-
-            profile.Weight =
-                int.TryParse(
-                    WeightEntry.Text,
-                    out var weight)
-                    ? weight
-                    : 0;
-
-            profile.ShoeSize =
-                int.TryParse(
-                    ShoeSizeEntry.Text,
-                    out var shoe)
-                    ? shoe
-                    : 0;
-
-            profile.OverallSize =
-                int.TryParse(
-                    OverallSizeEntry.Text,
-                    out var overall)
-                    ? overall
-                    : 0;
-
-            profile.HairColor =
-                HairColorEntry.Text ?? "";
-
-            profile.EyeColor =
-                EyeColorEntry.Text ?? "";
-
-            profile.KinName =
-    KinNameEntry.Text ?? "";
-
-            profile.KinRelation =
-                KinRelationEntry.Text ?? "";
-
-            profile.KinPhone =
-                KinPhoneEntry.Text ?? "";
-
-            profile.KinEmail =
-                KinEmailEntry.Text ?? "";
-
-            profile.KinAddress =
-                KinAddressEditor.Text ?? "";
 
             profile.PhotoPath =
                 _photoPath;
@@ -688,7 +621,6 @@ public partial class PersonalPage : ContentView
         }
     }
 
-
     private async void PersonalPage_Loaded(
         object? sender,
         EventArgs e)
@@ -700,6 +632,298 @@ public partial class PersonalPage : ContentView
         await LoadEducationPreview();
 
         await LoadVisaPreview();
+
+        await LoadSkillsPreview();
+
+        await LoadBiometricPreview();
+
+        await LoadNextOfKinPreview();
     }
 
+    private async Task LoadSkillsPreview()
+    {
+        try
+        {
+            var skills =
+                await GetDatabase()
+                    .GetSkillsAsync();
+
+            SkillsPreviewContainer.Clear();
+
+            var skill =
+                skills.FirstOrDefault();
+
+            if (skill == null)
+                return;
+
+            SkillsPreviewContainer.Add(
+                new Label
+                {
+                    Text =
+                        $"English Level: {skill.EnglishLevel}",
+                    TextColor = Colors.White
+                });
+
+            SkillsPreviewContainer.Add(
+                new Label
+                {
+                    Text =
+                        $"Marlins Test: {skill.MarlinsScore}%",
+                    TextColor = Colors.White
+                });
+
+            SkillsPreviewContainer.Add(
+                new Label
+                {
+                    Text =
+                        $"CES Score: {skill.CesScore}%",
+                    TextColor = Colors.White
+                });
+
+            SkillsPreviewContainer.Add(
+                new Label
+                {
+                    Text =
+                        $"Languages: {skill.AdditionalLanguages}",
+                    TextColor = Colors.White
+                });
+        }
+        catch
+        {
+        }
+    }
+
+    private async void OnEditBiometricClicked(
+        object sender,
+        EventArgs e)
+    {
+        var page =
+            new AddBiometricPage();
+
+        page.Disappearing += async (s, e2) =>
+        {
+            await LoadBiometricPreview();
+        };
+
+        await Navigation.PushModalAsync(page);
+    }
+
+    private async Task LoadBiometricPreview()
+    {
+        try
+        {
+            var biometric =
+                (await GetDatabase()
+                    .GetBiometricAsync())
+                    .FirstOrDefault();
+
+            BiometricPreviewContainer.Clear();
+
+            if (biometric == null)
+                return;
+
+            var grid = new Grid
+            {
+                ColumnDefinitions =
+            {
+                new ColumnDefinition(GridLength.Star),
+                new ColumnDefinition(GridLength.Star)
+            },
+
+                RowDefinitions =
+            {
+                new RowDefinition(GridLength.Auto),
+                new RowDefinition(GridLength.Auto),
+
+                new RowDefinition(GridLength.Auto),
+                new RowDefinition(GridLength.Auto),
+
+                new RowDefinition(GridLength.Auto),
+                new RowDefinition(GridLength.Auto)
+            },
+
+                ColumnSpacing = 10,
+                RowSpacing = 4
+            };
+
+            // HEIGHT / WEIGHT
+
+            grid.Add(new Label
+            {
+                Text = "Height",
+                FontSize = 12,
+                TextColor = Color.FromArgb("#8ea9c7")
+            }, 0, 0);
+
+            grid.Add(new Label
+            {
+                Text = "Weight",
+                FontSize = 12,
+                TextColor = Color.FromArgb("#8ea9c7")
+            }, 1, 0);
+
+            grid.Add(new Label
+            {
+                Text = $"{biometric.Height} cm",
+                FontSize = 16,
+                FontAttributes = FontAttributes.Bold,
+                TextColor = Colors.White
+            }, 0, 1);
+
+            grid.Add(new Label
+            {
+                Text = $"{biometric.Weight} kg",
+                FontSize = 16,
+                FontAttributes = FontAttributes.Bold,
+                TextColor = Colors.White
+            }, 1, 1);
+
+            // SHOE / OVERALL
+
+            grid.Add(new Label
+            {
+                Text = "Shoe Size",
+                FontSize = 12,
+                TextColor = Color.FromArgb("#8ea9c7")
+            }, 0, 2);
+
+            grid.Add(new Label
+            {
+                Text = "Overall Size",
+                FontSize = 12,
+                TextColor = Color.FromArgb("#8ea9c7")
+            }, 1, 2);
+
+            grid.Add(new Label
+            {
+                Text = biometric.ShoeSize.ToString(),
+                FontSize = 16,
+                FontAttributes = FontAttributes.Bold,
+                TextColor = Colors.White
+            }, 0, 3);
+
+            grid.Add(new Label
+            {
+                Text = biometric.OverallSize.ToString(),
+                FontSize = 16,
+                FontAttributes = FontAttributes.Bold,
+                TextColor = Colors.White
+            }, 1, 3);
+
+            // HAIR / EYES
+
+            grid.Add(new Label
+            {
+                Text = "Hair Color",
+                FontSize = 12,
+                TextColor = Color.FromArgb("#8ea9c7")
+            }, 0, 4);
+
+            grid.Add(new Label
+            {
+                Text = "Eye Color",
+                FontSize = 12,
+                TextColor = Color.FromArgb("#8ea9c7")
+            }, 1, 4);
+
+            grid.Add(new Label
+            {
+                Text = biometric.HairColor,
+                FontSize = 16,
+                FontAttributes = FontAttributes.Bold,
+                TextColor = Colors.White
+            }, 0, 5);
+
+            grid.Add(new Label
+            {
+                Text = biometric.EyeColor,
+                FontSize = 16,
+                FontAttributes = FontAttributes.Bold,
+                TextColor = Colors.White
+            }, 1, 5);
+
+            BiometricPreviewContainer.Add(grid);
+        }
+        catch
+        {
+        }
+    }
+    private async void OnEditNextOfKinClicked(
+    object sender,
+    EventArgs e)
+    {
+        var page =
+            new AddNextOfKinPage();
+
+        page.Disappearing += async (s, e2) =>
+        {
+            await LoadNextOfKinPreview();
+        };
+
+        await Navigation.PushModalAsync(page);
+    }
+    private async Task LoadNextOfKinPreview()
+    {
+        try
+        {
+            var profile =
+                await GetDatabase()
+                    .GetUserProfileAsync();
+
+            NextOfKinPreviewContainer.Clear();
+
+            if (profile == null)
+                return;
+
+            AddPreviewItem(
+                "Full Name",
+                profile.KinName);
+
+            AddPreviewItem(
+                "Relation",
+                profile.KinRelation);
+
+            AddPreviewItem(
+                "Phone",
+                profile.KinPhone);
+
+            AddPreviewItem(
+                "Email",
+                profile.KinEmail);
+
+            AddPreviewItem(
+                "Address",
+                profile.KinAddress);
+        }
+        catch
+        {
+        }
+    }
+
+    private void AddPreviewItem(
+        string title,
+        string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return;
+
+        NextOfKinPreviewContainer.Add(
+            new Label
+            {
+                Text = title,
+                FontSize = 12,
+                TextColor =
+                    Color.FromArgb("#8ea9c7")
+            });
+
+        NextOfKinPreviewContainer.Add(
+            new Label
+            {
+                Text = value,
+                FontSize = 15,
+                FontAttributes =
+                    FontAttributes.Bold,
+                TextColor = Colors.White
+            });
+    }
 }

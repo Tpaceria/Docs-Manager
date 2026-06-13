@@ -40,6 +40,11 @@ namespace Docs_Manager.Data
 
             _database.CreateTableAsync<VisaModel>().Wait();
 
+            _database.CreateTableAsync<SkillsModel>().Wait();
+
+            _database.CreateTableAsync<BiometricModel>().Wait();    
+
+
         }
 
         // =========================
@@ -338,5 +343,63 @@ namespace Docs_Manager.Data
             return _database
                 .DeleteAsync(visa);
         }
+
+        // =========================
+        // Skills Model
+        // =========================
+        public Task<List<SkillsModel>> GetSkillsAsync()
+        {
+            return _database
+                .Table<SkillsModel>()
+                .ToListAsync();
+        }
+
+        public Task<int> SaveSkillsAsync(
+            SkillsModel skills)
+        {
+            if (skills.Id != 0)
+            {
+                return _database.UpdateAsync(skills);
+            }
+
+            return _database.InsertAsync(skills);
+        }
+
+        public Task<int> DeleteSkillsAsync(
+            SkillsModel skills)
+        {
+            return _database.DeleteAsync(skills);
+        }
+        // =========================
+        // BIOMETRIC
+        // =========================
+
+        public Task<List<BiometricModel>> GetBiometricAsync()
+        {
+            return _database
+                .Table<BiometricModel>()
+                .ToListAsync();
+        }
+
+        public Task<int> SaveBiometricAsync(
+            BiometricModel biometric)
+        {
+            if (biometric.Id != 0)
+            {
+                return _database.UpdateAsync(
+                    biometric);
+            }
+
+            return _database.InsertAsync(
+                biometric);
+        }
+
+        public Task<int> DeleteBiometricAsync(
+            BiometricModel biometric)
+        {
+            return _database.DeleteAsync(
+                biometric);
+        }
+
     }
 }
