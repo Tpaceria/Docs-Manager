@@ -527,8 +527,8 @@
                             <Button
                     Grid.Column="1"
                     Text="Edit"
-                    WidthRequest="70"
-                    HeightRequest="30"
+                    WidthRequest="55"
+                    HeightRequest="28"
                     CornerRadius="6"
                     FontSize="12"
                     BackgroundColor="#19b5ea"
@@ -548,10 +548,10 @@
                 <!-- SKILLS & LANGUAGES -->
 
                 <Border
-    BackgroundColor="#102844"
-    Stroke="#173b63"
-    StrokeShape="RoundRectangle 10"
-    Padding="8">
+                BackgroundColor="#102844"
+                Stroke="#173b63"
+                StrokeShape="RoundRectangle 10"
+                Padding="8">
 
                     <VerticalStackLayout Spacing="8">
 
@@ -566,8 +566,8 @@
                             <Button
                 Grid.Column="1"
                 Text="Edit"
-                WidthRequest="70"
-                HeightRequest="30"
+                WidthRequest="55"
+                HeightRequest="28"
                 CornerRadius="6"
                 FontSize="12"
                 BackgroundColor="#19b5ea"
@@ -577,8 +577,8 @@
                         </Grid>
 
                         <VerticalStackLayout
-            x:Name="SkillsPreviewContainer"
-            Spacing="6"/>
+                        x:Name="SkillsPreviewContainer"
+                        Spacing="6"/>
 
                     </VerticalStackLayout>
 
@@ -586,33 +586,35 @@
                 <!-- VISA -->
 
                 <Border
-    BackgroundColor="#102844"
-    Stroke="#173b63"
-    StrokeShape="RoundRectangle 10"
-    Padding="8">
+                BackgroundColor="#102844"
+                Stroke="#173b63"
+                StrokeShape="RoundRectangle 10"
+                Padding="8">
 
                     <VerticalStackLayout Spacing="6">
 
                         <Grid ColumnDefinitions="*,Auto">
 
                             <Label
-        Text="🛂 VISA"
-        FontSize="16"
-        FontAttributes="Bold"
-        TextColor="#ff8c42"
-        VerticalOptions="Center"/>
+                            Text="🛂 VISA"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            TextColor="#ff8c42"
+                            VerticalOptions="Center"/>
 
                             <Button
-        Grid.Column="1"
-        Text="Edit"
-        Clicked="OnEditVisaClicked"
-        HeightRequest="28"
-        WidthRequest="55"
-        FontSize="12"
-        BackgroundColor="#19b5ea"
-        TextColor="White"/>
+                            Grid.Column="1"
+                            Text="Edit"
+                            WidthRequest="55"
+                            HeightRequest="28"
+                            CornerRadius="6"
+                            FontSize="12"
+                            BackgroundColor="#19b5ea"
+                            TextColor="White"
+                            Clicked="OnEditVisaClicked"/>
 
-        </Grid>
+
+                        </Grid>
 
         <!-- Заголовок таблицы -->
 
@@ -667,8 +669,8 @@
                             <Button
                 Grid.Column="1"
                 Text="Edit"
-                WidthRequest="70"
-                HeightRequest="30"
+                WidthRequest="55"
+                HeightRequest="28"
                 CornerRadius="6"
                 FontSize="12"
                 BackgroundColor="#19b5ea"
@@ -705,8 +707,8 @@
                             <Button
                                 Grid.Column="1"
                                 Text="Edit"
-                                WidthRequest="70"
-                                HeightRequest="30"
+                                WidthRequest="55"
+                                HeightRequest="28"
                                 CornerRadius="6"
                                 FontSize="12"
                                 BackgroundColor="#19b5ea"
