@@ -21,18 +21,21 @@ public partial class AddCertificatePage : ContentView
         _parentPage = parentPage;
         _mainPage = mainPage;
 
-
         if (_certificate == null)
         {
-            IssueDatePicker.Date = DateTime.Today;
-            ExpiryDatePicker.Date = DateTime.Today.AddYears(5);
+            IssueDateControl.SelectedDate =
+                DateTime.Today;
+
+            ExpiryDateControl.SelectedDate =
+                DateTime.Today.AddYears(1);
         }
     }
 
     public AddCertificatePage(
         Certificate certificate,
         CertificatePage parentPage,
-        MainPage mainPage) : this(parentPage, mainPage)
+        MainPage mainPage)
+        : this(parentPage, mainPage)
     {
         _certificate = certificate;
 
@@ -44,17 +47,20 @@ public partial class AddCertificatePage : ContentView
         if (_certificate == null)
             return;
 
-        DocumentEntry.Text = _certificate.Document;
+        DocumentEntry.Text =
+            _certificate.Document;
 
-        CountryEntry.Text = _certificate.Country ?? "";
+        CountryEntry.Text =
+            _certificate.Country ?? "";
 
-        NumberEntry.Text = _certificate.Number;
+        NumberEntry.Text =
+            _certificate.Number;
 
-        IssueDatePicker.Date =
-            Convert.ToDateTime(_certificate.IssueDate);
+        IssueDateControl.SelectedDate =
+            _certificate.IssueDate;
 
-        ExpiryDatePicker.Date =
-            Convert.ToDateTime(_certificate.ExpiryDate);
+        ExpiryDateControl.SelectedDate =
+            _certificate.ExpiryDate;
 
         LifetimeSwitch.IsToggled =
             _certificate.IsLifetime;
@@ -68,34 +74,43 @@ public partial class AddCertificatePage : ContentView
                 Path.GetFileName(_selectedFilePath);
         }
 
-
         ExpiryStack.IsVisible =
             !_certificate.IsLifetime;
     }
 
-    private async void OnPickFileClicked(object sender, EventArgs e)
+    private async void OnPickFileClicked(
+        object sender,
+        EventArgs e)
     {
-        var result = await FilePicker.Default.PickAsync();
+        var result =
+            await FilePicker.Default.PickAsync();
 
         if (result != null)
         {
-            _selectedFilePath = result.FullPath;
+            _selectedFilePath =
+                result.FullPath;
 
             FileNameLabel.Text =
                 Path.GetFileName(_selectedFilePath);
         }
     }
 
-    private void OnLifetimeToggled(object sender, ToggledEventArgs e)
+    private void OnLifetimeToggled(
+        object sender,
+        ToggledEventArgs e)
     {
-        ExpiryStack.IsVisible = !e.Value;
+        ExpiryStack.IsVisible =
+            !e.Value;
     }
 
-    private async void OnSaveClicked(object sender, EventArgs e)
+    private void OnSaveClicked(
+        object sender,
+        EventArgs e)
     {
-        if (string.IsNullOrWhiteSpace(DocumentEntry.Text))
+        if (string.IsNullOrWhiteSpace(
+            DocumentEntry.Text))
         {
-            await Application.Current.MainPage.DisplayAlert(
+            Application.Current.MainPage.DisplayAlert(
                 "Error",
                 "Document name is required",
                 "OK");
@@ -105,26 +120,32 @@ public partial class AddCertificatePage : ContentView
 
         if (_certificate == null)
         {
-            var cert = new Certificate
-            {
-                Document = DocumentEntry.Text,
+            var cert =
+                new Certificate
+                {
+                    Document =
+                        DocumentEntry.Text,
 
-                Country = CountryEntry.Text,
+                    Country =
+                        CountryEntry.Text,
 
-                Number = NumberEntry.Text,
+                    Number =
+                        NumberEntry.Text,
 
-                IssueDate =
-                    Convert.ToDateTime(IssueDatePicker.Date),
+                    IssueDate =
+                        IssueDateControl.SelectedDate,
 
-                ExpiryDate = LifetimeSwitch.IsToggled
-                    ? DateTime.MaxValue
-                    : Convert.ToDateTime(ExpiryDatePicker.Date),
+                    ExpiryDate =
+                        LifetimeSwitch.IsToggled
+                            ? DateTime.MaxValue
+                            : ExpiryDateControl.SelectedDate,
 
-                IsLifetime =
-                    LifetimeSwitch.IsToggled,
+                    IsLifetime =
+                        LifetimeSwitch.IsToggled,
 
-                FilePath = _selectedFilePath
-            };
+                    FilePath =
+                        _selectedFilePath
+                };
 
             _parentPage.AddCertificate(cert);
         }
@@ -140,12 +161,12 @@ public partial class AddCertificatePage : ContentView
                 NumberEntry.Text;
 
             _certificate.IssueDate =
-                Convert.ToDateTime(IssueDatePicker.Date);
+                IssueDateControl.SelectedDate;
 
             _certificate.ExpiryDate =
                 LifetimeSwitch.IsToggled
                     ? DateTime.MaxValue
-                    : Convert.ToDateTime(ExpiryDatePicker.Date);
+                    : ExpiryDateControl.SelectedDate;
 
             _certificate.IsLifetime =
                 LifetimeSwitch.IsToggled;
@@ -153,14 +174,21 @@ public partial class AddCertificatePage : ContentView
             _certificate.FilePath =
                 _selectedFilePath;
 
-            _parentPage.AddCertificate(_certificate);
+            _parentPage.AddCertificate(
+                _certificate);
         }
 
-        _mainPage.SetPage(new CertificatePage(_mainPage));
+        _mainPage.SetPage(
+            new CertificatePage(
+                _mainPage));
     }
 
-    private void OnCancelClicked(object sender, EventArgs e)
+    private void OnCancelClicked(
+        object sender,
+        EventArgs e)
     {
-        _mainPage.SetPage(new CertificatePage(_mainPage));
+        _mainPage.SetPage(
+            new CertificatePage(
+                _mainPage));
     }
 }

@@ -305,26 +305,9 @@
 
                         <!-- ROW -->
 
-                        <Grid
-                ColumnDefinitions="3*,2*,2*"
-                Padding="0,2">
-
-                            <Label
-                    Text="COC Master"
-                    TextColor="White"/>
-
-                            <Label
-                    Grid.Column="1"
-                    Text="12345"
-                    TextColor="White"/>
-
-                            <Label
-                    Grid.Column="2"
-                    Text="2029"
-                    TextColor="#00d4ff"/>
-
-                        </Grid>
-
+                        <VerticalStackLayout
+    x:Name="CocPreviewContainer"
+    Spacing="4"/>
                     </VerticalStackLayout>
 
                 </Border>
@@ -373,26 +356,9 @@
 
                         <!-- ROWS -->
 
-                        <Grid
-                ColumnDefinitions="3*,2*,2*"
-                Padding="0,2">
-
-                            <Label
-                    Text="Advanced Fire Fighting"
-                    TextColor="White"/>
-
-                            <Label
-                    Grid.Column="1"
-                    Text="UK"
-                    TextColor="White"/>
-
-                            <Label
-                    Grid.Column="2"
-                    Text="2028"
-                    TextColor="#00d4ff"/>
-
-                        </Grid>
-
+                        <VerticalStackLayout
+    x:Name="CertificatesPreviewContainer"
+    Spacing="4"/>
                         <Grid
                 ColumnDefinitions="3*,2*,2*"
                 Padding="0,2">
@@ -467,31 +433,9 @@
 
                         <!-- ROW -->
 
-                        <Grid
-                ColumnDefinitions="2*,2*,2*,2*"
-                Padding="0,2">
-
-                            <Label
-                    Text="Bulk Carrier"
-                    TextColor="White"/>
-
-                            <Label
-                    Grid.Column="1"
-                    Text="Chief Officer"
-                    TextColor="White"/>
-
-                            <Label
-                    Grid.Column="2"
-                    Text="V.Group"
-                    TextColor="White"/>
-
-                            <Label
-                    Grid.Column="3"
-                    Text="2023-2025"
-                    TextColor="#00d4ff"/>
-
-                        </Grid>
-
+                        <VerticalStackLayout
+    x:Name="ExperiencePreviewContainer"
+    Spacing="4"/>
                     </VerticalStackLayout>
 
                 </Border>

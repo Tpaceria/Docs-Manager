@@ -1,37 +1,60 @@
 <?xml version="1.0" encoding="utf-8" ?>
+
 <ContentView
     x:Class="Docs_Manager.View.EditCertificatePage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    >
+    xmlns:controls="clr-namespace:Docs_Manager.Controls">
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
 
-            <Entry x:Name="NameEntry"
-                   Placeholder="Название сертификата" />
+        <VerticalStackLayout
+            Padding="20"
+            Spacing="15">
 
-            <Entry x:Name="NumberEntry"
-                   Placeholder="Номер" />
+            <Entry
+                x:Name="NameEntry"
+                Placeholder="Название сертификата" />
 
-            <DatePicker x:Name="IssueDatePicker" />
+            <Entry
+                x:Name="NumberEntry"
+                Placeholder="Номер" />
 
-            <DatePicker x:Name="ExpiryDatePicker" />
+            <Label
+                Text="Дата выдачи" />
 
-            <HorizontalStackLayout Spacing="10">
-                <Label Text="Бессрочный"
-                       VerticalOptions="Center"/>
-                <Switch x:Name="LifetimeSwitch"/>
+            <controls:DateSelector
+                x:Name="IssueDateControl" />
+
+            <Label
+                Text="Дата окончания" />
+
+            <controls:DateSelector
+                x:Name="ExpiryDateControl" />
+
+            <HorizontalStackLayout
+                Spacing="10">
+
+                <Label
+                    Text="Бессрочный"
+                    VerticalOptions="Center"/>
+
+                <Switch
+                    x:Name="LifetimeSwitch"/>
+
             </HorizontalStackLayout>
 
-            <Button Text="Сохранить"
-                    Clicked="OnSaveClicked"/>
+            <Button
+                Text="Сохранить"
+                Clicked="OnSaveClicked"/>
 
-            <Button Text="Удалить"
-                    BackgroundColor="#F44336"
-                    Clicked="OnDeleteClicked"/>
+            <Button
+                Text="Удалить"
+                BackgroundColor="#F44336"
+                Clicked="OnDeleteClicked"/>
 
         </VerticalStackLayout>
+
     </ScrollView>
 
 </ContentView>

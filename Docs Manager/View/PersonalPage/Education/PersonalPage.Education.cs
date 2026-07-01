@@ -54,14 +54,14 @@ public partial class PersonalPage
                 var layout =
                     new VerticalStackLayout
                     {
-                        Spacing = 3
+                        Spacing = 4
                     };
 
+                // Qualification
                 layout.Add(
                     new Label
                     {
-                        Text =
-                            education.Qualification,
+                        Text = $" {education.Qualification}",
 
                         FontSize = 17,
 
@@ -72,6 +72,7 @@ public partial class PersonalPage
                             Colors.White
                     });
 
+                // Institution
                 layout.Add(
                     new Label
                     {
@@ -84,13 +85,12 @@ public partial class PersonalPage
                             Color.FromArgb("#9bb4d1")
                     });
 
+                // Country • Year
                 layout.Add(
                     new Label
                     {
                         Text =
-                            education.GraduationDate
-                                .Year
-                                .ToString(),
+                            $"{education.Country} • {education.GraduationDate:yyyy}",
 
                         FontSize = 12,
 

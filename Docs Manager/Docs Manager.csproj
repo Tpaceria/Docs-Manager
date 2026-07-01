@@ -70,6 +70,9 @@
 		<Compile Update="App.xaml.cs">
 		  <DependentUpon>App.xaml</DependentUpon>
 		</Compile>
+		<Compile Update="Controls\DateSelector.xaml.cs">
+		  <DependentUpon>DateSelector.xaml</DependentUpon>
+		</Compile>
 		<Compile Update="MainPage.xaml.cs">
 		  <DependentUpon>MainPage.xaml</DependentUpon>
 		</Compile>
@@ -121,6 +124,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<MauiXaml Update="Controls\DateSelector.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="View\PersonalPage\Biometric\AddBiometricPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

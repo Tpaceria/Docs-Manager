@@ -35,15 +35,15 @@ public partial class PersonalPage : ContentView
         await LoadProfileAsync();
 
         await LoadContactsPreview();
-
         await LoadEducationPreview();
 
+        await LoadCocPreview();
+        await LoadCertificatesPreview();
+        await LoadExperiencePreview();
+
         await LoadVisaPreview();
-
         await LoadSkillsPreview();
-
         await LoadBiometricPreview();
-
         await LoadNextOfKinPreview();
     }
 }

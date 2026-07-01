@@ -1,5 +1,6 @@
 using Docs_Manager.Data;
 using Docs_Manager.Models;
+using Docs_Manager.Controls;
 using Microsoft.Maui.Controls.Shapes;
 
 namespace Docs_Manager.View;
@@ -7,6 +8,27 @@ namespace Docs_Manager.View;
 public partial class AddEducationPage : ContentPage
 {
     private readonly DatabaseService _database;
+    private class EducationBlock
+    {
+        public Border Border { get; set; } = null!;
+
+        public Entry QualificationEntry { get; set; } = null!;
+
+        public Entry InstitutionEntry { get; set; } = null!;
+
+        public Entry CountryEntry { get; set; } = null!;
+
+        public Picker InstitutionTypePicker { get; set; } = null!;
+
+        public DateSelector GraduationSelector { get; set; } = null!;
+
+        public Button FileButton { get; set; } = null!;
+
+        public string? FilePath { get; set; }
+
+        public int Id { get; set; }
+    }
+    private readonly List<EducationBlock> _blocks = new();
 
     public AddEducationPage()
     {
@@ -63,59 +85,97 @@ public partial class AddEducationPage : ContentPage
         AddEducationBlock();
     }
 
-    private void AddEducationBlock(
-        EducationInfo? education = null)
+    private void AddEducationBlock(EducationInfo? education = null)
     {
-        var qualificationEntry =
-            new Entry
-            {
-                Placeholder = "Qualification / Degree",
+        var block = new EducationBlock();
 
-                BackgroundColor =
-                    Color.FromArgb("#1a2238"),
+        block.Id = education?.Id ?? 0;
 
-                TextColor =
-                    Colors.White,
+        block.FilePath = education?.FilePath;
 
-                PlaceholderColor =
-                    Color.FromArgb("#7a8999"),
+        block.QualificationEntry = new Entry
+        {
+            Placeholder = "Qualification / Degree",
+            Text = education?.Qualification,
+            BackgroundColor = Color.FromArgb("#1a2238"),
+            TextColor = Colors.White,
+            PlaceholderColor = Color.FromArgb("#7a8999")
+        };
 
-                Text =
-                    education?.Qualification
-            };
+        block.InstitutionEntry = new Entry
+        {
+            Placeholder = "Institution",
+            Text = education?.Institution,
+            BackgroundColor = Color.FromArgb("#1a2238"),
+            TextColor = Colors.White,
+            PlaceholderColor = Color.FromArgb("#7a8999")
+        };
 
-        var institutionEntry =
-            new Entry
-            {
-                Placeholder = "University / Academy",
+        block.CountryEntry = new Entry
+        {
+            Placeholder = "Country",
+            Text = education?.Country,
+            BackgroundColor = Color.FromArgb("#1a2238"),
+            TextColor = Colors.White,
+            PlaceholderColor = Color.FromArgb("#7a8999")
+        };
 
-                BackgroundColor =
-                    Color.FromArgb("#1a2238"),
+        block.InstitutionTypePicker = new Picker
+        {
+            BackgroundColor = Color.FromArgb("#1a2238"),
+            TextColor = Colors.White
+        };
 
-                TextColor =
-                    Colors.White,
+        block.InstitutionTypePicker.Items.Add("Maritime Academy");
+        block.InstitutionTypePicker.Items.Add("University");
+        block.InstitutionTypePicker.Items.Add("College");
+        block.InstitutionTypePicker.Items.Add("Training Center");
+        block.InstitutionTypePicker.Items.Add("School");
+        block.InstitutionTypePicker.Items.Add("Other");
 
-                PlaceholderColor =
-                    Color.FromArgb("#7a8999"),
+        if (!string.IsNullOrWhiteSpace(education?.InstitutionType))
+        {
+            block.InstitutionTypePicker.SelectedItem =
+                education.InstitutionType;
+        }
 
-                Text =
-                    education?.Institution
-            };
 
-        var graduationPicker =
-            new DatePicker
-            {
-                BackgroundColor =
-                    Color.FromArgb("#1a2238"),
+        block.GraduationSelector = new DateSelector
+        {
+            SelectedDate =
+                education?.GraduationDate ??
+                DateTime.Today
+        };
 
-                TextColor =
-                    Colors.White,
+        block.FileButton = new Button
+        {
+            Text =
+                string.IsNullOrWhiteSpace(block.FilePath)
+                    ? "📎 Choose Diploma"
+                    : "📎 Diploma Selected",
 
-                Date =
-                    education != null
-                        ? education.GraduationDate
-                        : DateTime.Today
-            };
+            BackgroundColor =
+                Color.FromArgb("#00709f"),
+
+            TextColor = Colors.White,
+
+            CornerRadius = 8
+        };
+
+        block.FileButton.Clicked += async (s, e) =>
+        {
+            var result =
+                await FilePicker.Default.PickAsync();
+
+            if (result == null)
+                return;
+
+            block.FilePath =
+                result.FullPath;
+
+            block.FileButton.Text =
+                "📎 Diploma Selected";
+        };
 
         var deleteButton =
             new Button
@@ -123,6 +183,7 @@ public partial class AddEducationPage : ContentPage
                 Text = "🗑",
 
                 WidthRequest = 38,
+
                 HeightRequest = 38,
 
                 CornerRadius = 19,
@@ -130,11 +191,87 @@ public partial class AddEducationPage : ContentPage
                 BackgroundColor =
                     Color.FromArgb("#ff4d6d"),
 
-                TextColor =
-                    Colors.White
+                TextColor = Colors.White
+            };
+        deleteButton.Clicked += async (s, e) =>
+        {
+            bool confirm = await DisplayAlert(
+                "Delete",
+                "Delete education record?",
+                "Yes",
+                "Cancel");
+
+            if (!confirm)
+                return;
+
+            if (block.Id != 0)
+            {
+                await _database.DeleteEducationAsync(
+                    new EducationInfo { Id = block.Id });
+            }
+
+            _blocks.Remove(block);
+
+            EducationContainer.Remove(block.Border);
+
+            if (EducationContainer.Count == 0)
+            {
+                AddEducationBlock();
+            }
+        };
+
+        var header =
+            new Grid
+            {
+                ColumnDefinitions =
+                {
+                    new ColumnDefinition(GridLength.Star),
+                    new ColumnDefinition(GridLength.Auto)
+                }
             };
 
-        var border =
+        header.Add(
+            new Label
+            {
+                Text = $"Education #{_blocks.Count + 1}",
+
+                FontSize = 16,
+
+                FontAttributes = FontAttributes.Bold,
+
+                TextColor = Colors.White
+            });
+
+        header.Add(deleteButton);
+
+        Grid.SetColumn(deleteButton, 1);
+
+        var layout =
+            new VerticalStackLayout
+            {
+                Spacing = 12
+            };
+
+        layout.Add(header);
+
+        layout.Add(SectionLabel("Country"));
+        layout.Add(block.CountryEntry);
+
+        layout.Add(SectionLabel("Institution Type"));
+        layout.Add(block.InstitutionTypePicker);
+
+        layout.Add(SectionLabel("Institution"));
+        layout.Add(block.InstitutionEntry);
+
+        layout.Add(SectionLabel("Degree / Qualification"));
+        layout.Add(block.QualificationEntry);
+
+        layout.Add(SectionLabel("Graduation"));
+        layout.Add(block.GraduationSelector);
+
+        layout.Add(SectionLabel("Diploma"));
+        layout.Add(block.FileButton);
+        block.Border =
             new Border
             {
                 BackgroundColor =
@@ -149,115 +286,25 @@ public partial class AddEducationPage : ContentPage
                         CornerRadius = 12
                     },
 
-                Padding = 12
+                Padding = 12,
+
+                Content = layout
             };
 
-        var layout =
-            new VerticalStackLayout
-            {
-                Spacing = 12
-            };
+        _blocks.Add(block);
 
-        // =====================================
-        // IDS
-        // =====================================
-
-        string educationId =
-            education?.Id.ToString() ?? "0";
-
-        qualificationEntry.ClassId =
-            educationId;
-
-        institutionEntry.ClassId =
-            educationId;
-
-        graduationPicker.ClassId =
-            educationId;
-
-        // =====================================
-        // DELETE
-        // =====================================
-
-        deleteButton.Clicked += async (s, e) =>
-        {
-            bool confirm =
-                await DisplayAlert(
-                    "Delete",
-                    "Delete education record?",
-                    "Yes",
-                    "Cancel");
-
-            if (!confirm)
-                return;
-
-            if (education != null)
-            {
-                await _database.DeleteEducationAsync(
-                    education);
-            }
-
-            EducationContainer.Remove(border);
-
-            if (EducationContainer.Count == 0)
-            {
-                AddEducationBlock();
-            }
-        };
-
-        // =====================================
-        // HEADER
-        // =====================================
-
-        var header =
-            new Grid
-            {
-                ColumnDefinitions =
-                {
-                    new ColumnDefinition(
-                        GridLength.Star),
-
-                    new ColumnDefinition(
-                        GridLength.Auto)
-                }
-            };
-
-        var titleLabel =
-            new Label
-            {
-                Text = "Education",
-
-                FontSize = 16,
-
-                FontAttributes =
-                    FontAttributes.Bold,
-
-                TextColor =
-                    Colors.White
-            };
-
-        header.Add(titleLabel);
-
-        header.Add(deleteButton);
-
-        Grid.SetColumn(deleteButton, 1);
-
-        // =====================================
-        // CONTENT
-        // =====================================
-
-        layout.Add(header);
-
-        layout.Add(qualificationEntry);
-
-        layout.Add(institutionEntry);
-
-        layout.Add(graduationPicker);
-
-        border.Content = layout;
-
-        EducationContainer.Add(border);
+        EducationContainer.Add(block.Border);
     }
-
+    private Label SectionLabel(string text)
+    {
+        return new Label
+        {
+            Text = text,
+            FontSize = 13,
+            FontAttributes = FontAttributes.Bold,
+            TextColor = Color.FromArgb("#9FB4CC")
+        };
+    }
     // =====================================
     // SAVE
     // =====================================
@@ -268,60 +315,36 @@ public partial class AddEducationPage : ContentPage
     {
         try
         {
-            foreach (var item in EducationContainer)
+            foreach (var block in _blocks)
             {
-                if (item is not Border border)
-                    continue;
-
-                if (border.Content is not VerticalStackLayout layout)
-                    continue;
-
-                var entries =
-                    layout.Children
-                        .OfType<Entry>()
-                        .ToList();
-
-                var qualificationEntry =
-                    entries.ElementAtOrDefault(0);
-
-                var institutionEntry =
-                    entries.ElementAtOrDefault(1);
-
-                var graduationPicker =
-                    layout.Children
-                        .OfType<DatePicker>()
-                        .FirstOrDefault();
-
-                if (qualificationEntry == null ||
-                    institutionEntry == null ||
-                    graduationPicker == null)
-                {
-                    continue;
-                }
-
                 if (string.IsNullOrWhiteSpace(
-                    qualificationEntry.Text))
+                    block.QualificationEntry.Text))
                 {
                     continue;
                 }
-
-                int.TryParse(
-                    qualificationEntry.ClassId,
-                    out int educationId);
 
                 var education =
                     new EducationInfo
                     {
-                        Id = educationId,
+                        Id = block.Id,
 
-                        Qualification =
-                            qualificationEntry.Text ?? "",
+                        Country =
+    block.CountryEntry.Text ?? "",
+
+                        InstitutionType =
+    block.InstitutionTypePicker.SelectedItem?.ToString() ?? "",
 
                         Institution =
-                            institutionEntry.Text ?? "",
+    block.InstitutionEntry.Text ?? "",
+
+                        Qualification =
+    block.QualificationEntry.Text ?? "",
 
                         GraduationDate =
-    graduationPicker?.Date ?? DateTime.Today
+                            block.GraduationSelector.SelectedDate,
+
+                        FilePath =
+                            block.FilePath
                     };
 
                 await _database.SaveEducationAsync(
@@ -343,7 +366,6 @@ public partial class AddEducationPage : ContentPage
                 "OK");
         }
     }
-
     // =====================================
     // CLOSE
     // =====================================

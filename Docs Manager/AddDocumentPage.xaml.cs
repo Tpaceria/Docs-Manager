@@ -29,9 +29,9 @@ public partial class AddDocumentPage : ContentView
 
         if (_certificate == null)
         {
-            IssueDatePicker.Date = DateTime.Today;
+            IssueDateControl.SelectedDate = DateTime.Today;
 
-            ExpiryDatePicker.Date = DateTime.Today.AddYears(5);
+            ExpiryDateControl.SelectedDate = DateTime.Today.AddYears(5);
         }
     }
 
@@ -57,10 +57,10 @@ public partial class AddDocumentPage : ContentView
 
         NumberEntry.Text = _certificate.Number;
 
-        IssueDatePicker.Date =
+        IssueDateControl.SelectedDate =
             Convert.ToDateTime(_certificate.IssueDate);
 
-        ExpiryDatePicker.Date =
+        ExpiryDateControl.SelectedDate =
             Convert.ToDateTime(_certificate.ExpiryDate);
 
         LifetimeSwitch.IsToggled =
@@ -158,12 +158,12 @@ public partial class AddDocumentPage : ContentView
                 Number = NumberEntry.Text ?? "",
 
                 IssueDate =
-                    Convert.ToDateTime(IssueDatePicker.Date),
+                    IssueDateControl.SelectedDate,
 
                 ExpiryDate =
                     LifetimeSwitch.IsToggled
                         ? DateTime.MaxValue
-                        : Convert.ToDateTime(ExpiryDatePicker.Date),
+                        : Convert.ToDateTime(ExpiryDateControl.SelectedDate),
 
                 IsLifetime =
                     LifetimeSwitch.IsToggled,

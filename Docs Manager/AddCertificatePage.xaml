@@ -1,43 +1,77 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView  
+
+<ContentView
     x:Class="Docs_Manager.View.AddCertificatePage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Docs_Manager.Controls">
+
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="12">
 
-            <Entry x:Name="DocumentEntry" Placeholder="Document name" />
-            <Entry x:Name="CountryEntry" Placeholder="Country" />
-            <Entry x:Name="NumberEntry" Placeholder="Number" />
+        <VerticalStackLayout
+            Padding="20"
+            Spacing="12">
 
-            <DatePicker x:Name="IssueDatePicker" />
+            <Entry
+                x:Name="DocumentEntry"
+                Placeholder="Document name" />
+
+            <Entry
+                x:Name="CountryEntry"
+                Placeholder="Country" />
+
+            <Entry
+                x:Name="NumberEntry"
+                Placeholder="Number" />
+
+            <Label
+                Text="Issue Date" />
+
+            <controls:DateSelector
+                x:Name="IssueDateControl" />
 
             <HorizontalStackLayout>
-                <Label Text="Lifetime" VerticalOptions="Center" />
-                <Switch x:Name="LifetimeSwitch"
-                        Toggled="OnLifetimeToggled" />
+
+                <Label
+                    Text="Lifetime"
+                    VerticalOptions="Center" />
+
+                <Switch
+                    x:Name="LifetimeSwitch"
+                    Toggled="OnLifetimeToggled" />
+
             </HorizontalStackLayout>
 
-            <VerticalStackLayout x:Name="ExpiryStack">
-                <Label Text="Expiry date" />
-                <DatePicker x:Name="ExpiryDatePicker" />
+            <VerticalStackLayout
+                x:Name="ExpiryStack">
+
+                <Label
+                    Text="Expiry Date" />
+
+                <controls:DateSelector
+                    x:Name="ExpiryDateControl" />
+
             </VerticalStackLayout>
 
-            <Button Text="Pick File"
-                    x:Name="PickFileButton"
-                    Clicked="OnPickFileClicked" />
+            <Button
+                Text="Pick File"
+                x:Name="PickFileButton"
+                Clicked="OnPickFileClicked" />
 
-            <Label x:Name="FileNameLabel" />
+            <Label
+                x:Name="FileNameLabel" />
 
-            <Button Text="Save"
-                    x:Name="SaveButton"
-                    Clicked="OnSaveClicked" />
+            <Button
+                Text="Save"
+                x:Name="SaveButton"
+                Clicked="OnSaveClicked" />
 
-            <Button Text="Cancel"
-                    Clicked="OnCancelClicked" />
+            <Button
+                Text="Cancel"
+                Clicked="OnCancelClicked" />
 
         </VerticalStackLayout>
+
     </ScrollView>
 
 </ContentView>

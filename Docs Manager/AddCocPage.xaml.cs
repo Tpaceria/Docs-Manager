@@ -29,8 +29,8 @@ public partial class AddCocPage : ContentView
 
         if (_certificate == null)
         {
-            IssueDatePicker.Date = DateTime.Today;
-            ExpiryDatePicker.Date = DateTime.Today.AddYears(5);
+            IssueDateControl.SelectedDate = DateTime.Today;
+            ExpiryDateControl.SelectedDate = DateTime.Today.AddYears(5);
         }
     }
 
@@ -56,10 +56,10 @@ public partial class AddCocPage : ContentView
 
         NumberEntry.Text = _certificate.Number;
 
-        IssueDatePicker.Date =
+        IssueDateControl.SelectedDate =
             Convert.ToDateTime(_certificate.IssueDate);
 
-        ExpiryDatePicker.Date =
+        ExpiryDateControl.SelectedDate =
             Convert.ToDateTime(_certificate.ExpiryDate);
 
         LifetimeSwitch.IsToggled =
@@ -156,10 +156,10 @@ public partial class AddCocPage : ContentView
 
                 Number = NumberEntry.Text ?? "",
 
-                IssueDate = Convert.ToDateTime(IssueDatePicker.Date),
+                IssueDate = IssueDateControl.SelectedDate,
                 ExpiryDate = LifetimeSwitch.IsToggled
     ? DateTime.MaxValue
-    : Convert.ToDateTime(ExpiryDatePicker.Date),
+    : Convert.ToDateTime(ExpiryDateControl.SelectedDate),
                 IsLifetime =
                     LifetimeSwitch.IsToggled,
 

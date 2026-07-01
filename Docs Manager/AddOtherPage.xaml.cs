@@ -30,9 +30,9 @@ public partial class AddOtherPage : ContentView
 
         if (_certificate == null)
         {
-            IssueDatePicker.Date = DateTime.Today;
+            IssueDateControl.SelectedDate = DateTime.Today;
 
-            ExpiryDatePicker.Date =
+            ExpiryDateControl.SelectedDate =
                 DateTime.Today.AddYears(5);
         }
     }
@@ -58,10 +58,10 @@ public partial class AddOtherPage : ContentView
 
         NumberEntry.Text = _certificate.Number;
 
-        IssueDatePicker.Date =
+        IssueDateControl.SelectedDate =
             Convert.ToDateTime(_certificate.IssueDate);
 
-        ExpiryDatePicker.Date =
+        ExpiryDateControl.SelectedDate =
             Convert.ToDateTime(_certificate.ExpiryDate);
 
         LifetimeSwitch.IsToggled =
@@ -148,11 +148,11 @@ public partial class AddOtherPage : ContentView
                     Number = NumberEntry.Text,
 
                     IssueDate =
-                        Convert.ToDateTime(IssueDatePicker.Date),
+                        IssueDateControl.SelectedDate,
 
                     ExpiryDate = LifetimeSwitch.IsToggled
                         ? DateTime.MaxValue
-                        : Convert.ToDateTime(ExpiryDatePicker.Date),
+                        : Convert.ToDateTime(ExpiryDateControl.SelectedDate),
 
                     IsLifetime =
                         LifetimeSwitch.IsToggled,
@@ -176,12 +176,12 @@ public partial class AddOtherPage : ContentView
                     NumberEntry.Text;
 
                 _certificate.IssueDate =
-                    Convert.ToDateTime(IssueDatePicker.Date);
+                    IssueDateControl.SelectedDate;
 
                 _certificate.ExpiryDate =
                     LifetimeSwitch.IsToggled
                         ? DateTime.MaxValue
-                        : Convert.ToDateTime(ExpiryDatePicker.Date);
+                        : Convert.ToDateTime(ExpiryDateControl.SelectedDate);
 
                 _certificate.IsLifetime =
                     LifetimeSwitch.IsToggled;

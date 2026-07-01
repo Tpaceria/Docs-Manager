@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Docs_Manager.View.AddCocPage"
-             >
-    
+
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Docs_Manager.Controls"
+    x:Class="Docs_Manager.View.AddCocPage">
+
     <ScrollView BackgroundColor="#0a1628">
-        <VerticalStackLayout Padding="20" Spacing="15" BackgroundColor="#0a1628">
+
+        <VerticalStackLayout
+            Padding="20"
+            Spacing="15"
+            BackgroundColor="#0a1628">
 
             <!-- Header -->
-            <Label Text="Add COC &amp; Endorsement" FontSize="18" FontAttributes="Bold" TextColor="#00d4ff" Margin="0,0,0,10"/>
-
+            <Label
+                Text="Add COC &amp; Endorsement"
+                FontSize="18"
+                FontAttributes="Bold"
+                TextColor="#00d4ff"
+                Margin="0,0,0,10"/>
             <!-- Document Name -->
             <VerticalStackLayout Spacing="5">
                 <Label Text="Document Name" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
@@ -50,10 +60,8 @@
             <VerticalStackLayout Spacing="5">
                 <Label Text="Issue Date" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
                 <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
-                    <DatePicker x:Name="IssueDatePicker"
-                                BackgroundColor="Transparent"
-                                TextColor="#ffffff"
-                                Format="dd.MM.yyyy"/>
+                    <controls:DateSelector
+    x:Name="IssueDateControl"/>
                 </Border>
             </VerticalStackLayout>
 
@@ -70,10 +78,8 @@
             <VerticalStackLayout x:Name="ExpiryStack" Spacing="5">
                 <Label Text="Expiry Date" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
                 <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
-                    <DatePicker x:Name="ExpiryDatePicker"
-                                BackgroundColor="Transparent"
-                                TextColor="#ffffff"
-                                Format="dd.MM.yyyy"/>
+                    <controls:DateSelector
+    x:Name="ExpiryDateControl"/>
                 </Border>
             </VerticalStackLayout>
 

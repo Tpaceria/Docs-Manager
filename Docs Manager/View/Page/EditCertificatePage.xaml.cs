@@ -36,9 +36,9 @@ public partial class EditCertificatePage : ContentView
 
         NumberEntry.Text = certificate.Number;
 
-        IssueDatePicker.Date = certificate.IssueDate;
+        IssueDateControl.SelectedDate = certificate.IssueDate;
 
-        ExpiryDatePicker.Date = certificate.ExpiryDate;
+        ExpiryDateControl.SelectedDate = certificate.ExpiryDate;
 
         LifetimeSwitch.IsToggled = certificate.IsLifetime;
     }
@@ -50,9 +50,9 @@ public partial class EditCertificatePage : ContentView
         _certificate.Number = NumberEntry.Text ?? "";
 
         _certificate.IssueDate =
-            Convert.ToDateTime(IssueDatePicker.Date);
+            IssueDateControl.SelectedDate;
         _certificate.ExpiryDate =
-            Convert.ToDateTime(ExpiryDatePicker.Date);
+            Convert.ToDateTime(ExpiryDateControl.SelectedDate);
         _certificate.IsLifetime = LifetimeSwitch.IsToggled;
 
         await _database.SaveCertificateAsync(_certificate);
