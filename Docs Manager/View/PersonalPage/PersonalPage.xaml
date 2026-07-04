@@ -264,46 +264,58 @@
                 <!-- COC TABLE -->
 
                 <Border
-        BackgroundColor="#102844"
-        Stroke="#173b63"
-        StrokeShape="RoundRectangle 10"
-        Padding="8">
+    BackgroundColor="#102844"
+    Stroke="#173b63"
+    StrokeShape="RoundRectangle 10"
+    Padding="8">
 
-                    <VerticalStackLayout
-            Spacing="6">
+                    <VerticalStackLayout Spacing="6">
 
                         <Label
-                Text="📘 COC"
-                FontSize="16"
-                FontAttributes="Bold"
-                TextColor="#ff8c42"/>
+            Text="📘 COC"
+            FontSize="16"
+            FontAttributes="Bold"
+            TextColor="#ff8c42"/>
 
                         <!-- TABLE HEADER -->
 
-                        <Grid
-                ColumnDefinitions="3*,2*,2*"
-                Padding="0,0,0,4">
+                        <Grid Padding="0,0,0,8">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="160" />
+                                <ColumnDefinition Width="120" />
+                            </Grid.ColumnDefinitions>
 
                             <Label
-                    Text="Document"
-                    FontAttributes="Bold"
-                    TextColor="#19b5ea"/>
+        Grid.Column="0"
+        Text="Document"
+        FontAttributes="Bold"
+        TextColor="#19b5ea"/>
 
                             <Label
-                    Grid.Column="1"
-                    Text="Number"
-                    FontAttributes="Bold"
-                    TextColor="#19b5ea"/>
+        Grid.Column="1"
+        Text="Number"
+        FontAttributes="Bold"
+        TextColor="#19b5ea"
+        HorizontalOptions="Fill"
+        HorizontalTextAlignment="End"/>
 
                             <Label
-                    Grid.Column="2"
-                    Text="Expiry"
-                    FontAttributes="Bold"
-                    TextColor="#19b5ea"/>
+        Grid.Column="2"
+        Text="Expiry"
+        FontAttributes="Bold"
+        TextColor="#19b5ea"
+        HorizontalOptions="Fill"
+        HorizontalTextAlignment="End"/>
 
                         </Grid>
 
-                        <!-- ROW -->
+                        <BoxView
+    HeightRequest="1"
+    BackgroundColor="#224b75"
+    Opacity="0.45"
+    Margin="0,0,0,6"/>
 
                         <VerticalStackLayout
     x:Name="CocPreviewContainer"
@@ -311,137 +323,143 @@
                     </VerticalStackLayout>
 
                 </Border>
-
-                <!-- CERTIFICATES -->
-
+                
                 <Border
-        BackgroundColor="#102844"
-        Stroke="#173b63"
-        StrokeShape="RoundRectangle 10"
-        Padding="8">
+    BackgroundColor="#102844"
+    Stroke="#173b63"
+    StrokeShape="RoundRectangle 10"
+    Padding="8">
 
-                    <VerticalStackLayout
-            Spacing="6">
+                    <VerticalStackLayout Spacing="6">
 
                         <Label
-                Text="📜 CERTIFICATES"
-                FontSize="16"
+            Text="📜 CERTIFICATES"
+            FontSize="16"
+            FontAttributes="Bold"
+            TextColor="#ff8c42"/>
+
+                        <Grid Padding="0,0,0,8">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="160" />
+                                <ColumnDefinition Width="120" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                Grid.Column="0"
+                Text="Document"
                 FontAttributes="Bold"
-                TextColor="#ff8c42"/>
-
-                        <!-- TABLE HEADER -->
-
-                        <Grid
-                ColumnDefinitions="3*,2*,2*"
-                Padding="0,0,0,4">
+                TextColor="#19b5ea"/>
 
                             <Label
-                    Text="Certificate"
-                    FontAttributes="Bold"
-                    TextColor="#19b5ea"/>
+                Grid.Column="1"
+                Text="Country"
+                FontAttributes="Bold"
+                TextColor="#19b5ea"
+                HorizontalOptions="Fill"
+                HorizontalTextAlignment="End"/>
 
                             <Label
-                    Grid.Column="1"
-                    Text="Country"
-                    FontAttributes="Bold"
-                    TextColor="#19b5ea"/>
-
-                            <Label
-                    Grid.Column="2"
-                    Text="Expiry"
-                    FontAttributes="Bold"
-                    TextColor="#19b5ea"/>
+                Grid.Column="2"
+                Text="Expiry"
+                FontAttributes="Bold"
+                TextColor="#19b5ea"
+                HorizontalOptions="Fill"
+                HorizontalTextAlignment="End"/>
 
                         </Grid>
 
-                        <!-- ROWS -->
+                        <BoxView
+            HeightRequest="1"
+            BackgroundColor="#224b75"
+            Opacity="0.45"
+            Margin="0,0,0,6"/>
 
                         <VerticalStackLayout
-    x:Name="CertificatesPreviewContainer"
-    Spacing="4"/>
-                        <Grid
-                ColumnDefinitions="3*,2*,2*"
-                Padding="0,2">
-
-                            <Label
-                    Text="Medical Care"
-                    TextColor="White"/>
-
-                            <Label
-                    Grid.Column="1"
-                    Text="NO"
-                    TextColor="White"/>
-
-                            <Label
-                    Grid.Column="2"
-                    Text="2027"
-                    TextColor="#00d4ff"/>
-
-                        </Grid>
+            x:Name="CertificatesPreviewContainer"
+            Spacing="4"/>
 
                     </VerticalStackLayout>
 
                 </Border>
-
                 <!-- EXPERIENCE -->
 
                 <Border
-        BackgroundColor="#102844"
-        Stroke="#173b63"
-        StrokeShape="RoundRectangle 10"
-        Padding="8">
+    BackgroundColor="#102844"
+    Stroke="#173b63"
+    StrokeShape="RoundRectangle 10"
+    Padding="8">
 
-                    <VerticalStackLayout
-            Spacing="6">
+                    <VerticalStackLayout Spacing="6">
 
                         <Label
-                Text="⚙ EXPERIENCE"
-                FontSize="16"
+            Text="⚙ EXPERIENCE"
+            FontSize="16"
+            FontAttributes="Bold"
+            TextColor="#ff8c42"/>
+
+                        <!-- TABLE HEADER -->
+
+                        <Grid Padding="0,0,0,6">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="170" />
+                                <ColumnDefinition Width="90" />
+                                <ColumnDefinition Width="120" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                Grid.Column="0"
+                Text="Vessel"
                 FontAttributes="Bold"
-                TextColor="#ff8c42"/>
-
-                        <!-- HEADER -->
-
-                        <Grid
-                ColumnDefinitions="2*,2*,2*,2*"
-                Padding="0,0,0,4">
+                TextColor="#19b5ea"/>
 
                             <Label
-                    Text="Vessel"
-                    FontAttributes="Bold"
-                    TextColor="#19b5ea"/>
+                Grid.Column="1"
+                Text="Rank"
+                FontAttributes="Bold"
+                TextColor="#19b5ea"/>
 
                             <Label
-                    Grid.Column="1"
-                    Text="Rank"
-                    FontAttributes="Bold"
-                    TextColor="#19b5ea"/>
+                Grid.Column="2"
+                Text="Type of Vessel"
+                FontAttributes="Bold"
+                TextColor="#19b5ea"/>
 
                             <Label
-                    Grid.Column="2"
-                    Text="Company"
-                    FontAttributes="Bold"
-                    TextColor="#19b5ea"/>
+                Grid.Column="3"
+                Text="DWT"
+                FontAttributes="Bold"
+                TextColor="#19b5ea"
+                HorizontalOptions="End"/>
 
                             <Label
-                    Grid.Column="3"
-                    Text="Period"
-                    FontAttributes="Bold"
-                    TextColor="#19b5ea"/>
+                Grid.Column="4"
+                Text="Period"
+                FontAttributes="Bold"
+                TextColor="#19b5ea"
+                HorizontalOptions="End"/>
 
                         </Grid>
 
-                        <!-- ROW -->
+                        <BoxView
+            HeightRequest="1"
+            BackgroundColor="#224b75"
+            Opacity="0.8"
+            Margin="0,0,0,6"/>
 
                         <VerticalStackLayout
-    x:Name="ExperiencePreviewContainer"
-    Spacing="4"/>
+            x:Name="ExperiencePreviewContainer"
+            Spacing="4"/>
+
                     </VerticalStackLayout>
 
                 </Border>
 
             </VerticalStackLayout>
-
             <!-- ===================================== -->
             <!-- RIGHT COLUMN -->
             <!-- ===================================== -->

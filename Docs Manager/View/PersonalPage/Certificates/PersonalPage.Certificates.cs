@@ -9,61 +9,30 @@ public partial class PersonalPage
         try
         {
             var certificates =
-                await GetDatabase()
-                    .GetCertificatesAsync();
+                (await GetDatabase()
+                    .GetCertificatesAsync())
+                .Where(x => x.Category == "CERTIFICATES")
+                .ToList();
 
-            CertificatesPreviewContainer.Clear();
+            var rows = new List<Grid>();
 
-            foreach (var certificate in certificates)
+            foreach (var cert in certificates)
             {
-                var row =
-                    new Grid
-                    {
-                        ColumnDefinitions =
-                        {
-                            new ColumnDefinition(GridLength.Star),
-                            new ColumnDefinition(GridLength.Star),
-                            new ColumnDefinition(GridLength.Auto)
-                        },
-
-                        Padding =
-                            new Thickness(0, 2)
-                    };
-
-                row.Add(
-                    new Label
-                    {
-                        Text =
-                            certificate.Document,
-
-                        TextColor =
-                            Colors.White
-                    }, 0, 0);
-
-                row.Add(
-                    new Label
-                    {
-                        Text =
-                            certificate.Country,
-
-                        TextColor =
-                            Colors.White
-                    }, 1, 0);
-
-                row.Add(
-                    new Label
-                    {
-                        Text =
-                            certificate.IsLifetime
-                                ? "Lifetime"
-                                : certificate.ExpiryDate.Year.ToString(),
-
-                        TextColor =
-                            Color.FromArgb("#00d4ff")
-                    }, 2, 0);
-
-                CertificatesPreviewContainer.Add(row);
+                rows.Add(
+                    CreateThreeColumnRow(
+                        cert.Document,
+                        string.IsNullOrWhiteSpace(cert.Country)
+                            ? "—"
+                            : cert.Country,
+                        cert.IsLifetime
+                            ? "No Expiry"
+                            : cert.ExpiryDate.ToString("dd.MM.yyyy"),
+                        Color.FromArgb("#00d4ff")));
             }
+
+            BuildTable(
+                CertificatesPreviewContainer,
+                rows);
         }
         catch
         {

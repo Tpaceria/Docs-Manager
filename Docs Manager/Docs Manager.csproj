@@ -76,7 +76,7 @@
 		<Compile Update="MainPage.xaml.cs">
 		  <DependentUpon>MainPage.xaml</DependentUpon>
 		</Compile>
-		<Compile Update="AddCocPage.xaml.cs">
+		<Compile Update="View\PersonalPage\Coc\AddCocPage.xaml.cs">
 		  <DependentUpon>AddCocPage.xaml</DependentUpon>
 		</Compile>
 		<Compile Update="AddOtherPage.xaml.cs">
@@ -160,7 +160,7 @@
 		<MauiXaml Update="MainPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="AddCocPage.xaml">
+		<MauiXaml Update="View\PersonalPage\Coc\AddCocPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="AddOtherPage.xaml">

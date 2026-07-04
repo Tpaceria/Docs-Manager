@@ -12,67 +12,25 @@ public partial class PersonalPage
                 await GetDatabase()
                     .GetExperiencesAsync();
 
-            ExperiencePreviewContainer.Clear();
+            var rows = new List<Grid>();
 
             foreach (var experience in experiences)
             {
-                var row =
-                    new Grid
-                    {
-                        ColumnDefinitions =
-                        {
-                            new ColumnDefinition(GridLength.Star),
-                            new ColumnDefinition(GridLength.Star),
-                            new ColumnDefinition(GridLength.Star),
-                            new ColumnDefinition(GridLength.Star)
-                        },
+                rows.Add(
+                    CreateFiveColumnRow(
+                        experience.VesselName ?? "",
+                        experience.Position,
+                        experience.VesselType ?? "",
+                        experience.DWT == 0
+                            ? "—"
+                            : experience.DWT.ToString("N0"),
+                        $"{experience.SignOnDate:dd.MM.yyyy} - {experience.SignOffDate:dd.MM.yyyy}"));
 
-                        Padding =
-                            new Thickness(0, 2)
-                    };
-
-                row.Add(
-                    new Label
-                    {
-                        Text =
-                            experience.VesselName,
-
-                        TextColor =
-                            Colors.White
-                    }, 0, 0);
-
-                row.Add(
-                    new Label
-                    {
-                        Text =
-                            experience.Position,
-
-                        TextColor =
-                            Colors.White
-                    }, 1, 0);
-
-                row.Add(
-                    new Label
-                    {
-                        Text =
-                            experience.CrewingAgency,
-
-                        TextColor =
-                            Colors.White
-                    }, 2, 0);
-
-                row.Add(
-                    new Label
-                    {
-                        Text =
-                            $"{experience.SignOnDate:yyyy}-{experience.SignOffDate:yyyy}",
-
-                        TextColor =
-                            Color.FromArgb("#00d4ff")
-                    }, 3, 0);
-
-                ExperiencePreviewContainer.Add(row);
             }
+
+            BuildTable(
+                ExperiencePreviewContainer,
+                rows);
         }
         catch
         {
