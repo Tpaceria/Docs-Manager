@@ -28,9 +28,8 @@ public partial class EditExperiencePage : ContentView
 
         if (_experience == null)
         {
-            SignOnDatePicker.Date = DateTime.Today;
-
-            SignOffDatePicker.Date = DateTime.Today;
+            SignOnDateControl.SelectedDate = DateTime.Today;
+            SignOffDateControl.SelectedDate = DateTime.Today;
         }
     }
 
@@ -52,11 +51,29 @@ public partial class EditExperiencePage : ContentView
 
         VesselNameEntry.Text = _experience.VesselName;
 
-        SignOnDatePicker.Date =
-            Convert.ToDateTime(_experience.SignOnDate);
+        DWTEntry.Text = _experience.DWT.ToString();
 
-        SignOffDatePicker.Date =
-            Convert.ToDateTime(_experience.SignOffDate);
+        PositionPicker.SelectedItem = _experience.Position;
+
+        VesselTypePicker.SelectedItem = _experience.VesselType;
+
+        FlagPicker.SelectedItem = _experience.Flag;
+
+        YearEntry.Text = _experience.YearOfBuilt.ToString();
+
+        SignOnDateControl.SelectedDate = _experience.SignOnDate;
+
+        SignOffDateControl.SelectedDate = _experience.SignOffDate;
+
+        MainEngineEntry.Text = _experience.MainEngineKW.ToString();
+
+        METypePicker.SelectedItem = _experience.METype;
+
+        ShipownerEntry.Text = _experience.Shipowner;
+
+        CrewingAgencyEntry.Text = _experience.CrewingAgency;
+
+        IMOEntry.Text = _experience.IMO;
     }
 
     private async void OnSaveClicked(object sender, EventArgs e)
@@ -79,13 +96,35 @@ public partial class EditExperiencePage : ContentView
 
                 VesselName = VesselNameEntry.Text,
 
-                SignOnDate =
-                    Convert.ToDateTime(SignOnDatePicker.Date),
+                DWT = int.TryParse(DWTEntry.Text, out int dwt)
+                    ? dwt
+                    : 0,
 
-                SignOffDate =
-                    Convert.ToDateTime(SignOffDatePicker.Date)
+                Position = PositionPicker.SelectedItem?.ToString() ?? "",
+
+                VesselType = VesselTypePicker.SelectedItem?.ToString(),
+
+                Flag = FlagPicker.SelectedItem?.ToString(),
+
+                YearOfBuilt = int.TryParse(YearEntry.Text, out int year)
+    ? year
+    : 0,
+
+                SignOnDate = SignOnDateControl.SelectedDate,
+
+                SignOffDate = SignOffDateControl.SelectedDate,
+
+                MainEngineKW = int.TryParse(MainEngineEntry.Text, out int kw)
+    ? kw
+    : 0,
+                METype = METypePicker.SelectedItem?.ToString(),
+
+                Shipowner = ShipownerEntry.Text,
+
+                CrewingAgency = CrewingAgencyEntry.Text,
+
+                IMO = IMOEntry.Text
             };
-
             await _database.SaveExperienceAsync(exp);
 
             _parentPage.RefreshList();

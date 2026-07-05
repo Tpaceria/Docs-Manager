@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Docs_Manager.View.EditExperiencePage">
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Docs_Manager.Controls"
+    x:Class="Docs_Manager.View.EditExperiencePage"> 
     
     <ScrollView BackgroundColor="#0a1628">
         <VerticalStackLayout Padding="20" Spacing="15" BackgroundColor="#0a1628">
@@ -122,27 +124,24 @@
             <Label Text="SERVICE PERIOD" FontSize="12" FontAttributes="Bold" TextColor="#7a8999" Margin="0,10,0,5"/>
 
             <!-- Sign On & Sign Off Dates -->
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
-                <VerticalStackLayout Grid.Column="0" Spacing="5">
-                    <Label Text="Sign On Date" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
-                    <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
-                        <DatePicker x:Name="SignOnDatePicker" 
-                                    BackgroundColor="Transparent"
-                                    TextColor="#ffffff"
-                                    Format="dd.MM.yyyy"/>
-                    </Border>
-                </VerticalStackLayout>
-                <VerticalStackLayout Grid.Column="1" Spacing="5">
-                    <Label Text="Sign Off Date" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
-                    <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
-                        <DatePicker x:Name="SignOffDatePicker" 
-                                    BackgroundColor="Transparent"
-                                    TextColor="#ffffff"
-                                    Format="dd.MM.yyyy"/>
-                    </Border>
-                </VerticalStackLayout>
-            </Grid>
+            <Label
+    Text="Sign On Date"
+    FontSize="12"
+    FontAttributes="Bold"
+    TextColor="#7a8999"/>
 
+            <controls:DateSelector
+    x:Name="SignOnDateControl"/>
+
+            <Label
+    Text="Sign Off Date"
+    FontSize="12"
+    FontAttributes="Bold"
+    TextColor="#7a8999"/>
+
+            <controls:DateSelector
+    x:Name="SignOffDateControl"/>
+            
             <!-- ENGINE DETAILS -->
             <Label Text="ENGINE DETAILS" FontSize="12" FontAttributes="Bold" TextColor="#7a8999" Margin="0,10,0,5"/>
 

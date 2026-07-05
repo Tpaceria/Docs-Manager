@@ -22,200 +22,200 @@
             <!-- ===================================== -->
 
             <VerticalStackLayout
-    Grid.Column="0"
-    Spacing="10">
+                Grid.Column="0"
+                Spacing="10">
 
                 <!-- HEADER -->
 
                 <Border
-    BackgroundColor="#102844"
-    Stroke="#173b63"
-    StrokeShape="RoundRectangle 10"
-    Padding="8">
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="8">
 
-        <Grid
+                    <Grid
+                        ColumnDefinitions="130,4.2*,2.8*"
+                        ColumnSpacing="12">
 
-            ColumnDefinitions="130,4.2*,2.8*"
-            ColumnSpacing="12">
                         <!-- PHOTO -->
 
                         <VerticalStackLayout
-            Grid.Column="0"
-            Spacing="6">
+                            Grid.Column="0"
+                            Spacing="6">
 
                             <Frame
-                WidthRequest="110"
-                HeightRequest="140"
-                Padding="0"
-                CornerRadius="8"
-                BackgroundColor="#1a2238"
-                BorderColor="#2d4d73"
-                HasShadow="False">
+                                WidthRequest="110"
+                                HeightRequest="140"
+                                Padding="0"
+                                CornerRadius="8"
+                                BackgroundColor="#1a2238"
+                                BorderColor="#2d4d73"
+                                HasShadow="False">
 
                                 <Image
-                    x:Name="PhotoImage"
-                    Aspect="AspectFill"/>
+                                    x:Name="PhotoImage"
+                                    Aspect="AspectFill"/>
 
                             </Frame>
 
                             <Button
-                x:Name="PickPhotoButton"
-                Text="Choose Photo"
-                HeightRequest="28"
-                CornerRadius="6"
-                FontSize="11"
-                BackgroundColor="#19b5ea"
-                TextColor="White"
-                Clicked="OnPickPhotoClicked"/>
+                                x:Name="PickPhotoButton"
+                                Text="Choose Photo"
+                                HeightRequest="28"
+                                CornerRadius="6"
+                                FontSize="11"
+                                BackgroundColor="#19b5ea"
+                                TextColor="White"
+                                Clicked="OnPickPhotoClicked"/>
 
                             <Button
-    x:Name="SaveButton"
-    Text="💾 SAVE PROFILE"
-    HeightRequest="28"
-    CornerRadius="6"
-    FontSize="11"
-    BackgroundColor="#28a745"
-    TextColor="White"
-    FontAttributes="Bold"
-    Clicked="OnSaveClicked"/>
+                                x:Name="SaveButton"
+                                Text="💾 SAVE PROFILE"
+                                HeightRequest="28"
+                                CornerRadius="6"
+                                FontSize="11"
+                                BackgroundColor="#28a745"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                Clicked="OnSaveClicked"/>
 
                         </VerticalStackLayout>
 
                         <!-- PROFILE -->
 
                         <Grid
-    Grid.Column="1"
-    ColumnDefinitions="*,*"
-    RowDefinitions="Auto,Auto,Auto,Auto"
-    ColumnSpacing="20"
-    RowSpacing="1">
+                            Grid.Column="1"
+                            ColumnDefinitions="*,*"
+                            RowDefinitions="Auto,Auto,Auto,Auto"
+                            ColumnSpacing="20"
+                            RowSpacing="1">
 
                             <VerticalStackLayout
-        Grid.Row="0"
-        Grid.Column="0"
-        Spacing="2">
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Spacing="2">
 
                                 <Label
-            Text="First Name"
-            FontSize="12"
-            TextColor="White"/>
+                                    Text="First Name"
+                                    FontSize="12"
+                                    TextColor="White"/>
 
                                 <Entry
-            x:Name="FirstNameEntry"
-            HeightRequest="30"
-            FontSize="16"/>                    
+                                    x:Name="FirstNameEntry"
+                                    HeightRequest="30"
+                                    FontSize="16"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout
-        Grid.Row="0"
-        Grid.Column="1"
-        Spacing="2">
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Spacing="2">
 
                                 <Label
-            Text="Nationality"
-            FontSize="12"
-            TextColor="White"/>
+                                    Text="Nationality"
+                                    FontSize="12"
+                                    TextColor="White"/>
 
                                 <Entry
-            x:Name="NationalityEntry"
-            HeightRequest="30"
-            FontSize="16"/>
+                                    x:Name="NationalityEntry"
+                                    HeightRequest="30"
+                                    FontSize="16"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout
-        Grid.Row="1"
-        Grid.Column="0"
-        Spacing="2">
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Spacing="2">
 
                                 <Label
-            Text="Middle Name"
-            FontSize="12"
-            TextColor="White"/>
+                                    Text="Middle Name"
+                                    FontSize="12"
+                                    TextColor="White"/>
 
                                 <Entry
-            x:Name="MiddleNameEntry"
-            HeightRequest="30"
-            FontSize="16"/>
+                                    x:Name="MiddleNameEntry"
+                                    HeightRequest="30"
+                                    FontSize="16"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout
-        Grid.Row="1"
-        Grid.Column="1"
-        Spacing="2">
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Spacing="2">
 
                                 <Label
-            Text="Place of Birth"
-            FontSize="12"
-            TextColor="White"/>
+                                    Text="Place of Birth"
+                                    FontSize="12"
+                                    TextColor="White"/>
 
                                 <Entry
-            x:Name="PlaceOfBirthEntry"
-            HeightRequest="30"
-            FontSize="16"/>
+                                    x:Name="PlaceOfBirthEntry"
+                                    HeightRequest="30"
+                                    FontSize="16"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout
-        Grid.Row="2"
-        Grid.Column="0"
-        Spacing="2">
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Spacing="2">
 
                                 <Label
-            Text="Last Name"
-            FontSize="12"
-            TextColor="White"/>
+                                    Text="Last Name"
+                                    FontSize="12"
+                                    TextColor="White"/>
 
                                 <Entry
-            x:Name="LastNameEntry"
-            HeightRequest="30"
-            FontSize="16"/>
+                                    x:Name="LastNameEntry"
+                                    HeightRequest="30"
+                                    FontSize="16"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout
-        Grid.Row="2"
-        Grid.Column="1"
-        Spacing="2">
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Spacing="2">
 
                                 <Label
-            Text="Citizenship"
-            FontSize="12"
-            TextColor="White"/>
+                                    Text="Citizenship"
+                                    FontSize="12"
+                                    TextColor="White"/>
 
                                 <Entry
-            x:Name="CitizenshipEntry"
-            HeightRequest="30"
-            FontSize="16"/>
+                                    x:Name="CitizenshipEntry"
+                                    HeightRequest="30"
+                                    FontSize="16"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout
-        Grid.Row="3"
-        Grid.Column="0"
-        Spacing="2">
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                Spacing="2">
 
                                 <Label
-            Text="Date of Birth"
-            FontSize="12"
-            TextColor="White"/>
+                                    Text="Date of Birth"
+                                    FontSize="12"
+                                    TextColor="White"/>
 
                                 <DatePicker
-            x:Name="BirthDatePicker"
-            HeightRequest="30"
-            FontSize="16"/>
+                                    x:Name="BirthDatePicker"
+                                    HeightRequest="30"
+                                    FontSize="16"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout
-        Grid.Row="3"
-        Grid.Column="1"
-        Spacing="2">
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Spacing="2">
 
                                 <Label
-            Text="Gender"
-            FontSize="12"
-            TextColor="White"/>
+                                    Text="Gender"
+                                    FontSize="12"
+                                    TextColor="White"/>
 
                                 <Picker
-            x:Name="GenderPicker"
-            HeightRequest="30"
-            FontSize="16"/>
+                                    x:Name="GenderPicker"
+                                    HeightRequest="30"
+                                    FontSize="16"/>
                             </VerticalStackLayout>
 
                         </Grid>
@@ -224,284 +224,367 @@
 
                 </Border>
 
-                <!-- EDUCATION -->
-
-                <Border
-    BackgroundColor="#102844"
-    Stroke="#173b63"
-    StrokeShape="RoundRectangle 10"
-    Padding="8">
-
-                    <VerticalStackLayout Spacing="8">
-
-                        <Grid ColumnDefinitions="*,Auto">
-
-                            <Label
-                Text="🎓 EDUCATION"
-                FontSize="16"
-                FontAttributes="Bold"
-                TextColor="#ff8c42"/>
-
-<Button
-    Grid.Column="1"
-    Text="Edit"
-    HeightRequest="28"
-    WidthRequest="60"
-    CornerRadius="6"
-    FontSize="12"
-    BackgroundColor="#19b5ea"
-    TextColor="White"
-    Clicked="OnEditEducationClicked"/>
-                        </Grid>
-
-                        <VerticalStackLayout
-            x:Name="EducationPreviewContainer"
-            Spacing="6"/>
-
-                    </VerticalStackLayout>
-
-                </Border>
-                <!-- COC TABLE -->
-
-                <Border
-    BackgroundColor="#102844"
-    Stroke="#173b63"
-    StrokeShape="RoundRectangle 10"
-    Padding="8">
-
-                    <VerticalStackLayout Spacing="6">
-
-                        <Label
-            Text="📘 COC"
-            FontSize="16"
-            FontAttributes="Bold"
-            TextColor="#ff8c42"/>
-
-                        <!-- TABLE HEADER -->
-
-                        <Grid Padding="0,0,0,8">
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="160" />
-                                <ColumnDefinition Width="120" />
-                            </Grid.ColumnDefinitions>
-
-                            <Label
-        Grid.Column="0"
-        Text="Document"
-        FontAttributes="Bold"
-        TextColor="#19b5ea"/>
-
-                            <Label
-        Grid.Column="1"
-        Text="Number"
-        FontAttributes="Bold"
-        TextColor="#19b5ea"
-        HorizontalOptions="Fill"
-        HorizontalTextAlignment="End"/>
-
-                            <Label
-        Grid.Column="2"
-        Text="Expiry"
-        FontAttributes="Bold"
-        TextColor="#19b5ea"
-        HorizontalOptions="Fill"
-        HorizontalTextAlignment="End"/>
-
-                        </Grid>
-
-                        <BoxView
-    HeightRequest="1"
-    BackgroundColor="#224b75"
-    Opacity="0.45"
-    Margin="0,0,0,6"/>
-
-                        <VerticalStackLayout
-    x:Name="CocPreviewContainer"
-    Spacing="4"/>
-                    </VerticalStackLayout>
-
-                </Border>
-                
-                <Border
-    BackgroundColor="#102844"
-    Stroke="#173b63"
-    StrokeShape="RoundRectangle 10"
-    Padding="8">
-
-                    <VerticalStackLayout Spacing="6">
-
-                        <Label
-            Text="📜 CERTIFICATES"
-            FontSize="16"
-            FontAttributes="Bold"
-            TextColor="#ff8c42"/>
-
-                        <Grid Padding="0,0,0,8">
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="160" />
-                                <ColumnDefinition Width="120" />
-                            </Grid.ColumnDefinitions>
-
-                            <Label
-                Grid.Column="0"
-                Text="Document"
-                FontAttributes="Bold"
-                TextColor="#19b5ea"/>
-
-                            <Label
-                Grid.Column="1"
-                Text="Country"
-                FontAttributes="Bold"
-                TextColor="#19b5ea"
-                HorizontalOptions="Fill"
-                HorizontalTextAlignment="End"/>
-
-                            <Label
-                Grid.Column="2"
-                Text="Expiry"
-                FontAttributes="Bold"
-                TextColor="#19b5ea"
-                HorizontalOptions="Fill"
-                HorizontalTextAlignment="End"/>
-
-                        </Grid>
-
-                        <BoxView
-            HeightRequest="1"
-            BackgroundColor="#224b75"
-            Opacity="0.45"
-            Margin="0,0,0,6"/>
-
-                        <VerticalStackLayout
-            x:Name="CertificatesPreviewContainer"
-            Spacing="4"/>
-
-                    </VerticalStackLayout>
-
-                </Border>
                 <!-- EXPERIENCE -->
 
                 <Border
-    BackgroundColor="#102844"
-    Stroke="#173b63"
-    StrokeShape="RoundRectangle 10"
-    Padding="8">
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="8">
 
                     <VerticalStackLayout Spacing="6">
 
                         <Label
-            Text="⚙ EXPERIENCE"
-            FontSize="16"
-            FontAttributes="Bold"
-            TextColor="#ff8c42"/>
+                            Text="⚙ EXPERIENCE"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            TextColor="#ff8c42"/>
 
                         <!-- TABLE HEADER -->
 
                         <Grid Padding="0,0,0,6">
 
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="2.2*" />
+                                <ColumnDefinition Width="170" />
+                                <ColumnDefinition Width="130" />
                                 <ColumnDefinition Width="170" />
                                 <ColumnDefinition Width="90" />
                                 <ColumnDefinition Width="120" />
                             </Grid.ColumnDefinitions>
 
                             <Label
-                Grid.Column="0"
-                Text="Vessel"
-                FontAttributes="Bold"
-                TextColor="#19b5ea"/>
+                                Grid.Column="0"
+                                Text="Vessel"
+                                FontAttributes="Bold"
+                                TextColor="#19b5ea"/>
 
                             <Label
-                Grid.Column="1"
-                Text="Rank"
-                FontAttributes="Bold"
-                TextColor="#19b5ea"/>
+                                Grid.Column="1"
+                                Text="Flag"
+                                FontAttributes="Bold"
+                                TextColor="#19b5ea"/>
 
                             <Label
-                Grid.Column="2"
-                Text="Type of Vessel"
-                FontAttributes="Bold"
-                TextColor="#19b5ea"/>
+                                Grid.Column="2"
+                                Text="Rank"
+                                FontAttributes="Bold"
+                                TextColor="#19b5ea"/>
 
                             <Label
-                Grid.Column="3"
-                Text="DWT"
-                FontAttributes="Bold"
-                TextColor="#19b5ea"
-                HorizontalOptions="End"/>
+                                Grid.Column="3"
+                                Text="Type of Vessel"
+                                FontAttributes="Bold"
+                                TextColor="#19b5ea"/>
 
                             <Label
-                Grid.Column="4"
-                Text="Period"
-                FontAttributes="Bold"
-                TextColor="#19b5ea"
-                HorizontalOptions="End"/>
+                                Grid.Column="4"
+                                Text="DWT"
+                                FontAttributes="Bold"
+                                TextColor="#19b5ea"
+                                HorizontalOptions="End"/>
+
+                            <Label
+                                Grid.Column="5"
+                                Text="Period"
+                                FontAttributes="Bold"
+                                TextColor="#19b5ea"
+                                HorizontalOptions="End"/>
 
                         </Grid>
 
                         <BoxView
-            HeightRequest="1"
-            BackgroundColor="#224b75"
-            Opacity="0.8"
-            Margin="0,0,0,6"/>
+                            HeightRequest="1"
+                            BackgroundColor="#224b75"
+                            Opacity="0.8"
+                            Margin="0,0,0,6"/>
 
                         <VerticalStackLayout
-            x:Name="ExperiencePreviewContainer"
-            Spacing="4"/>
+                            x:Name="ExperiencePreviewContainer"
+                            Spacing="4"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- COC TABLE -->
+
+                <Border
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="8">
+
+                    <VerticalStackLayout Spacing="6">
+
+                        <Label
+                            Text="📘 COC"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            TextColor="#ff8c42"/>
+
+                        <!-- TABLE HEADER -->
+
+                        <Grid Padding="0,0,0,8">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="160" />
+                                <ColumnDefinition Width="120" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                                Grid.Column="0"
+                                Text="Document"
+                                FontAttributes="Bold"
+                                TextColor="#19b5ea"/>
+
+                            <Label
+                                Grid.Column="1"
+                                Text="Number"
+                                FontAttributes="Bold"
+                                TextColor="#19b5ea"
+                                HorizontalOptions="Fill"
+                                HorizontalTextAlignment="End"/>
+
+                            <Label
+                                Grid.Column="2"
+                                Text="Expiry"
+                                FontAttributes="Bold"
+                                TextColor="#19b5ea"
+                                HorizontalOptions="Fill"
+                                HorizontalTextAlignment="End"/>
+
+                        </Grid>
+
+                        <BoxView
+                            HeightRequest="1"
+                            BackgroundColor="#224b75"
+                            Opacity="0.45"
+                            Margin="0,0,0,6"/>
+
+                        <VerticalStackLayout
+                            x:Name="CocPreviewContainer"
+                            Spacing="4"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- CERTIFICATES -->
+
+                <Border
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="8">
+
+                    <VerticalStackLayout Spacing="6">
+
+                        <Label
+                            Text="📜 CERTIFICATES"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            TextColor="#ff8c42"/>
+
+                        <Grid Padding="0,0,0,8">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="160" />
+                                <ColumnDefinition Width="120" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                                Grid.Column="0"
+                                Text="Document"
+                                FontAttributes="Bold"
+                                TextColor="#19b5ea"/>
+
+                            <Label
+                                Grid.Column="1"
+                                Text="Country"
+                                FontAttributes="Bold"
+                                TextColor="#19b5ea"
+                                HorizontalOptions="Fill"
+                                HorizontalTextAlignment="End"/>
+
+                            <Label
+                                Grid.Column="2"
+                                Text="Expiry"
+                                FontAttributes="Bold"
+                                TextColor="#19b5ea"
+                                HorizontalOptions="Fill"
+                                HorizontalTextAlignment="End"/>
+
+                        </Grid>
+
+                        <BoxView
+                            HeightRequest="1"
+                            BackgroundColor="#224b75"
+                            Opacity="0.45"
+                            Margin="0,0,0,6"/>
+
+                        <VerticalStackLayout
+                            x:Name="CertificatesPreviewContainer"
+                            Spacing="4"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- VISA -->
+
+                <Border
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="8">
+
+                    <VerticalStackLayout Spacing="6">
+
+                        <Grid ColumnDefinitions="*,Auto">
+
+                            <Label
+                                Text="🛂 VISA"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                TextColor="#ff8c42"
+                                VerticalOptions="Center"/>
+
+                            <Button
+                                Grid.Column="1"
+                                Text="Edit"
+                                WidthRequest="55"
+                                HeightRequest="28"
+                                CornerRadius="6"
+                                FontSize="12"
+                                BackgroundColor="#19b5ea"
+                                TextColor="White"
+                                Clicked="OnEditVisaClicked"/>
+
+                        </Grid>
+
+                        <!-- TABLE HEADER -->
+
+                        <Grid ColumnDefinitions="*,*,Auto">
+
+                            <Label
+                                Text="Type"
+                                FontAttributes="Bold"
+                                TextColor="#8ea9c7"/>
+
+                            <Label
+                                Grid.Column="1"
+                                Text="Country"
+                                FontAttributes="Bold"
+                                TextColor="#8ea9c7"/>
+
+                            <Label
+                                Grid.Column="2"
+                                Text="Expiry"
+                                FontAttributes="Bold"
+                                TextColor="#8ea9c7"/>
+
+                        </Grid>
+
+                        <BoxView
+                            HeightRequest="1"
+                            BackgroundColor="#224b75"
+                            Opacity="0.45"
+                            Margin="0,0,0,6"/>
+
+                        <VerticalStackLayout
+                            x:Name="VisaPreviewContainer"
+                            Spacing="4"/>
 
                     </VerticalStackLayout>
 
                 </Border>
 
             </VerticalStackLayout>
+
             <!-- ===================================== -->
             <!-- RIGHT COLUMN -->
             <!-- ===================================== -->
 
             <VerticalStackLayout
-    Grid.Column="1"
-    Spacing="10">
+                Grid.Column="1"
+                Spacing="10">
 
                 <!-- CONTACTS -->
 
                 <Border
-        BackgroundColor="#102844"
-        Stroke="#173b63"
-        StrokeShape="RoundRectangle 10"
-        Padding="8">
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="8">
 
                     <VerticalStackLayout Spacing="8">
 
                         <Grid ColumnDefinitions="*,Auto">
 
                             <Label
-                    Text="📞 CONTACTS"
-                    FontSize="16"
-                    FontAttributes="Bold"
-                    TextColor="#ff8c42"/>
+                                Text="📞 CONTACTS"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                TextColor="#ff8c42"/>
 
                             <Button
-                    Grid.Column="1"
-                    Text="Edit"
-                    WidthRequest="55"
-                    HeightRequest="28"
-                    CornerRadius="6"
-                    FontSize="12"
-                    BackgroundColor="#19b5ea"
-                    TextColor="White"
-                    Clicked="OnEditContactsClicked"/>
+                                Grid.Column="1"
+                                Text="Edit"
+                                WidthRequest="55"
+                                HeightRequest="28"
+                                CornerRadius="6"
+                                FontSize="12"
+                                BackgroundColor="#19b5ea"
+                                TextColor="White"
+                                Clicked="OnEditContactsClicked"/>
 
                         </Grid>
 
                         <VerticalStackLayout
-                x:Name="ContactsPreviewContainer"
-                Spacing="6"/>
+                            x:Name="ContactsPreviewContainer"
+                            Spacing="6"/>
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+                <!-- EDUCATION -->
+
+                <Border
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="8">
+
+                    <VerticalStackLayout Spacing="8">
+
+                        <Grid ColumnDefinitions="*,Auto">
+
+                            <Label
+                                Text="🎓 EDUCATION"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                TextColor="#ff8c42"/>
+
+                            <Button
+                                Grid.Column="1"
+                                Text="Edit"
+                                HeightRequest="28"
+                                WidthRequest="60"
+                                CornerRadius="6"
+                                FontSize="12"
+                                BackgroundColor="#19b5ea"
+                                TextColor="White"
+                                Clicked="OnEditEducationClicked"/>
+
+                        </Grid>
+
+                        <VerticalStackLayout
+                            x:Name="EducationPreviewContainer"
+                            Spacing="6"/>
 
                     </VerticalStackLayout>
 
@@ -510,146 +593,83 @@
                 <!-- SKILLS & LANGUAGES -->
 
                 <Border
-                BackgroundColor="#102844"
-                Stroke="#173b63"
-                StrokeShape="RoundRectangle 10"
-                Padding="8">
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="8">
 
                     <VerticalStackLayout Spacing="8">
 
                         <Grid ColumnDefinitions="*,Auto">
 
                             <Label
-                Text="🌍 SKILLS &amp; LANGUAGES"
-                FontSize="16"
-                FontAttributes="Bold"
-                TextColor="#ff8c42"/>
+                                Text="🌍 SKILLS &amp; LANGUAGES"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                TextColor="#ff8c42"/>
 
                             <Button
-                Grid.Column="1"
-                Text="Edit"
-                WidthRequest="55"
-                HeightRequest="28"
-                CornerRadius="6"
-                FontSize="12"
-                BackgroundColor="#19b5ea"
-                TextColor="White"
-                Clicked="OnEditSkillsClicked"/>
+                                Grid.Column="1"
+                                Text="Edit"
+                                WidthRequest="55"
+                                HeightRequest="28"
+                                CornerRadius="6"
+                                FontSize="12"
+                                BackgroundColor="#19b5ea"
+                                TextColor="White"
+                                Clicked="OnEditSkillsClicked"/>
 
                         </Grid>
 
                         <VerticalStackLayout
-                        x:Name="SkillsPreviewContainer"
-                        Spacing="6"/>
+                            x:Name="SkillsPreviewContainer"
+                            Spacing="6"/>
 
                     </VerticalStackLayout>
 
                 </Border>
-                <!-- VISA -->
 
-                <Border
-                BackgroundColor="#102844"
-                Stroke="#173b63"
-                StrokeShape="RoundRectangle 10"
-                Padding="8">
-
-                    <VerticalStackLayout Spacing="6">
-
-                        <Grid ColumnDefinitions="*,Auto">
-
-                            <Label
-                            Text="🛂 VISA"
-                            FontSize="16"
-                            FontAttributes="Bold"
-                            TextColor="#ff8c42"
-                            VerticalOptions="Center"/>
-
-                            <Button
-                            Grid.Column="1"
-                            Text="Edit"
-                            WidthRequest="55"
-                            HeightRequest="28"
-                            CornerRadius="6"
-                            FontSize="12"
-                            BackgroundColor="#19b5ea"
-                            TextColor="White"
-                            Clicked="OnEditVisaClicked"/>
-
-
-                        </Grid>
-
-        <!-- Заголовок таблицы -->
-
-                        <Grid ColumnDefinitions="*,*,Auto">
-
-                            <Label
-                Text="Type"
-                FontAttributes="Bold"
-                TextColor="#8ea9c7"/>
-
-                            <Label
-                Grid.Column="1"
-                Text="Country"
-                FontAttributes="Bold"
-                TextColor="#8ea9c7"/>
-
-                            <Label
-                Grid.Column="2"
-                Text="Expiry"
-                FontAttributes="Bold"
-                TextColor="#8ea9c7"/>
-
-                        </Grid>
-
-                        <!-- Сюда будут подгружаться визы -->
-
-                        <VerticalStackLayout
-            x:Name="VisaPreviewContainer"
-            Spacing="4"/>
-
-                    </VerticalStackLayout>
-
-                </Border>
                 <!-- BIOMETRIC -->
 
                 <Border
-    BackgroundColor="#102844"
-    Stroke="#173b63"
-    StrokeShape="RoundRectangle 10"
-    Padding="8">
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="8">
 
                     <VerticalStackLayout Spacing="8">
 
                         <Grid ColumnDefinitions="*,Auto">
 
                             <Label
-                Text="🧬 BIOMETRIC"
-                FontSize="16"
-                FontAttributes="Bold"
-                TextColor="#ff8c42"/>
+                                Text="🧬 BIOMETRIC"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                TextColor="#ff8c42"/>
 
                             <Button
-                Grid.Column="1"
-                Text="Edit"
-                WidthRequest="55"
-                HeightRequest="28"
-                CornerRadius="6"
-                FontSize="12"
-                BackgroundColor="#19b5ea"
-                TextColor="White"
-                Clicked="OnEditBiometricClicked"/>
+                                Grid.Column="1"
+                                Text="Edit"
+                                WidthRequest="55"
+                                HeightRequest="28"
+                                CornerRadius="6"
+                                FontSize="12"
+                                BackgroundColor="#19b5ea"
+                                TextColor="White"
+                                Clicked="OnEditBiometricClicked"/>
 
                         </Grid>
 
                         <VerticalStackLayout
-            x:Name="BiometricPreviewContainer"
-            Spacing="6"/>
+                            x:Name="BiometricPreviewContainer"
+                            Spacing="6"/>
 
                     </VerticalStackLayout>
 
                 </Border>
-                
+
                 <!-- NEXT OF KIN -->
+
                 <Border
                     BackgroundColor="#102844"
                     Stroke="#173b63"

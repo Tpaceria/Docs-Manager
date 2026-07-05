@@ -89,50 +89,76 @@ public partial class PersonalPage
     // 5 Columns (Experience)
     // =====================================
 
-    private Grid CreateFiveColumnRow(
+    private Grid CreateExperienceRow(
         string vessel,
+        string imo,
+        string flag,
         string rank,
         string vesselType,
         string dwt,
-        string period,
-        Color? periodColor = null)
+        string period)
     {
         var row = new Grid
         {
             ColumnDefinitions =
-            {
-                new ColumnDefinition(GridLength.Star), // Vessel
-                new ColumnDefinition(150),             // Rank
-                new ColumnDefinition(170),             // Type of Vessel
-                new ColumnDefinition(90),              // DWT
-                new ColumnDefinition(120)              // Period
-            },
+        {
+            new ColumnDefinition(GridLength.Star),
+            new ColumnDefinition(170),
+            new ColumnDefinition(130),
+            new ColumnDefinition(170),
+            new ColumnDefinition(90),
+            new ColumnDefinition(120)
+        },
 
             Padding = new Thickness(0, 4)
         };
 
-        row.Add(new Label
+        // Vessel + IMO
+        var vesselStack = new VerticalStackLayout
+        {
+            Spacing = 0
+        };
+
+        vesselStack.Add(new Label
         {
             Text = vessel,
             TextColor = Colors.White,
             FontSize = 14,
             LineBreakMode = LineBreakMode.TailTruncation
-        }, 0, 0);
+        });
+
+        if (!string.IsNullOrWhiteSpace(imo))
+        {
+            vesselStack.Add(new Label
+            {
+                Text = $"IMO: {imo}",
+                FontSize = 11,
+                TextColor = Color.FromArgb("#8ea9c7")
+            });
+        }
+
+        row.Add(vesselStack, 0, 0);
 
         row.Add(new Label
         {
-            Text = rank,
+            Text = flag,
             TextColor = Colors.White,
             FontSize = 14
         }, 1, 0);
 
         row.Add(new Label
         {
+            Text = rank,
+            TextColor = Colors.White,
+            FontSize = 14
+        }, 2, 0);
+
+        row.Add(new Label
+        {
             Text = vesselType,
             TextColor = Colors.White,
-            FontSize = 14,
-            LineBreakMode = LineBreakMode.TailTruncation
-        }, 2, 0);
+            FontSize = 14
+        }, 3, 0);
 
         row.Add(new Label
         {
@@ -141,16 +167,16 @@ public partial class PersonalPage
             FontSize = 14,
             HorizontalOptions = LayoutOptions.Fill,
             HorizontalTextAlignment = TextAlignment.End
-        }, 3, 0);
+        }, 4, 0);
 
         row.Add(new Label
         {
             Text = period,
-            TextColor = periodColor ?? Color.FromArgb("#00d4ff"),
+            TextColor = Color.FromArgb("#00d4ff"),
             FontSize = 14,
             HorizontalOptions = LayoutOptions.Fill,
             HorizontalTextAlignment = TextAlignment.End
-        }, 4, 0);
+        }, 5, 0);
 
         return row;
     }

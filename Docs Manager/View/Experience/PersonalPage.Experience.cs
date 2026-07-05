@@ -17,15 +17,16 @@ public partial class PersonalPage
             foreach (var experience in experiences)
             {
                 rows.Add(
-                    CreateFiveColumnRow(
+                    CreateExperienceRow(
                         experience.VesselName ?? "",
+                        experience.IMO ?? "",
+                        experience.Flag ?? "—",
                         experience.Position,
-                        experience.VesselType ?? "",
+                        experience.VesselType ?? "—",
                         experience.DWT == 0
                             ? "—"
                             : experience.DWT.ToString("N0"),
-                        $"{experience.SignOnDate:dd.MM.yyyy} - {experience.SignOffDate:dd.MM.yyyy}"));
-
+                        $"{experience.SignOnDate:dd.MM.yyyy} -\n{experience.SignOffDate:dd.MM.yyyy}"));
             }
 
             BuildTable(
