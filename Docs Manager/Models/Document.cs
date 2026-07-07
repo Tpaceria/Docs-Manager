@@ -1,31 +1,41 @@
 ﻿using SQLite;
-using System;
 
-namespace Docs_Manager.Models
+namespace Docs_Manager.Models;
+
+[Table("Documents")]
+public class Document
 {
-    [SQLite.Table("Documents")]
-    public class Document
-    {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
+    [PrimaryKey, AutoIncrement]
+    public int Id { get; set; }
 
-        [SQLite.MaxLength(200)]
-        public string? Title { get; set; }
+    // Passport, Visa, Seaman Book, Residence Permit...
+    public string? Type { get; set; }
 
-        public string? Type { get; set; }
+    // Ordinary Passport, D-1, CDC и т.п.
+    public string? Title { get; set; }
 
-        public string? Number { get; set; }
+    public string? Number { get; set; }
 
-        public DateTime IssueDate { get; set; }
+    public string? Country { get; set; }
 
-        public DateTime ExpiryDate { get; set; }
+    public DateTime IssueDate { get; set; }
 
-        public string? FilePath { get; set; }
+    public DateTime ExpiryDate { get; set; }
 
-        [Ignore]
-        public bool IsExpired => ExpiryDate < DateTime.Today;
+    public bool Lifetime { get; set; }
 
-        [Ignore]
-        public int DaysLeft => (ExpiryDate - DateTime.Today).Days;
-    }
+    public string? Notes { get; set; }
+
+    public string? FilePath { get; set; }
+
+    [Ignore]
+    public bool IsExpired =>
+        !Lifetime &&
+        ExpiryDate < DateTime.Today;
+
+    [Ignore]
+    public int DaysLeft =>
+        Lifetime
+            ? int.MaxValue
+            : (ExpiryDate - DateTime.Today).Days;
 }

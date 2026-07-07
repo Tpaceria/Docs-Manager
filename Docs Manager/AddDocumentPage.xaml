@@ -12,9 +12,53 @@
             <!-- Header -->
             <Label Text="Add Document" FontSize="18" FontAttributes="Bold" TextColor="#00d4ff" Margin="0,0,0,10"/>
 
+            <!-- Document Type -->
+            <VerticalStackLayout Spacing="5">
+
+                <Label
+        Text="Document Type"
+        FontSize="12"
+        TextColor="#7a8999"
+        FontAttributes="Bold"/>
+
+                <Border
+        StrokeShape="RoundRectangle 6"
+        Stroke="#1a3a52"
+        StrokeThickness="1"
+        BackgroundColor="#1a3a52">
+
+                    <Picker
+            x:Name="DocumentTypePicker"
+            Title="Select document type"
+            BackgroundColor="Transparent"
+            TextColor="#ffffff"
+            TitleColor="#7a8999">
+
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+
+                                <x:String>Passport</x:String>
+                                <x:String>Seaman Book</x:String>
+                                <x:String>Visa</x:String>
+                                <x:String>Residence Permit</x:String>
+                                <x:String>National ID</x:String>
+                                <x:String>Medical Certificate</x:String>
+                                <x:String>Vaccination</x:String>
+                                <x:String>Contract</x:String>
+                                <x:String>Other</x:String>
+
+                            </x:Array>
+                        </Picker.ItemsSource>
+
+                    </Picker>
+
+                </Border>
+
+            </VerticalStackLayout>
             <!-- Document Name -->
             <VerticalStackLayout Spacing="5">
-                <Label Text="Document Name" FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
+                <Label Text="Document Title"
+                       FontSize="12" TextColor="#7a8999" FontAttributes="Bold"/>
                 <Border StrokeShape="RoundRectangle 6" Stroke="#1a3a52" StrokeThickness="1" BackgroundColor="#1a3a52">
                     <Entry x:Name="DocumentEntry" 
                            Placeholder="Enter document name"

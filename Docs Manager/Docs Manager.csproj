@@ -88,7 +88,7 @@
 		<Compile Update="View\Page\DocumentsPage.xaml.cs">
 			<DependentUpon>DocumentsPage.xaml</DependentUpon>
 		</Compile>
-		<Compile Update="View\Page\ExperiencePage.xaml.cs">
+		<Compile Update="View\Experience\ExperiencePage.xaml.cs">
 			<DependentUpon>ExperiencePage.xaml</DependentUpon>
 		</Compile>
 		<Compile Update="View\Page\MedicinePage.xaml.cs">
@@ -103,7 +103,7 @@
 		<Compile Update="View\Page\CocEndorsementPage.xaml.cs">
 			<DependentUpon>CocEndorsementPage.xaml</DependentUpon>
 		</Compile>
-		<Compile Update="View\Page\EditCertificatePage.xaml.cs">
+		<Compile Update="View\Certificates\EditCertificatePage.xaml.cs">
 			<DependentUpon>EditCertificatePage.xaml</DependentUpon>
 		</Compile>
 		<Compile Update="View\Page\FilesPage.xaml.cs">
@@ -130,7 +130,7 @@
 		<MauiXaml Update="View\PersonalPage\Biometric\AddBiometricPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="AddCertificatePage.xaml">
+		<MauiXaml Update="View\Certificates\AddCertificatePage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="View\PersonalPage\Contacts\AddContactPage.xaml">
@@ -175,7 +175,7 @@
 		<MauiXaml Update="View\Page\CvPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="View\Page\EditCertificatePage.xaml">
+		<MauiXaml Update="View\Certificates\EditCertificatePage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="View\Page\FilesPage.xaml">
@@ -184,7 +184,7 @@
 		<MauiXaml Update="View\Page\DocumentsPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="View\Page\ExperiencePage.xaml">
+		<MauiXaml Update="View\Experience\ExperiencePage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="View\Page\MedicinePage.xaml">
