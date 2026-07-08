@@ -180,4 +180,49 @@ public partial class PersonalPage
 
         return row;
     }
+
+    private Grid CreateThreeColumnHeader(
+    string first,
+    string second,
+    string third)
+    {
+        var header = new Grid
+        {
+            ColumnDefinitions =
+        {
+            new ColumnDefinition(GridLength.Star),
+            new ColumnDefinition(160),
+            new ColumnDefinition(120)
+        },
+
+            Padding = new Thickness(0, 0, 0, 8)
+        };
+
+        header.Add(new Label
+        {
+            Text = first,
+            FontAttributes = FontAttributes.Bold,
+            TextColor = Color.FromArgb("#19b5ea")
+        }, 0, 0);
+
+        header.Add(new Label
+        {
+            Text = second,
+            FontAttributes = FontAttributes.Bold,
+            TextColor = Color.FromArgb("#19b5ea"),
+            HorizontalOptions = LayoutOptions.Fill,
+            HorizontalTextAlignment = TextAlignment.End
+        }, 1, 0);
+
+        header.Add(new Label
+        {
+            Text = third,
+            FontAttributes = FontAttributes.Bold,
+            TextColor = Color.FromArgb("#19b5ea"),
+            HorizontalOptions = LayoutOptions.Fill,
+            HorizontalTextAlignment = TextAlignment.End
+        }, 2, 0);
+
+        return header;
+    }
 }

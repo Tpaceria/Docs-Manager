@@ -8,10 +8,12 @@ public class Document
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
 
-    // Passport, Visa, Seaman Book, Residence Permit...
+    // Passport, Seaman Book, Residence Permit,
+    // National ID, Visa
     public string? Type { get; set; }
 
-    // Ordinary Passport, D-1, CDC и т.п.
+    // Ordinary Passport, USA C1/D,
+    // Bulgarian Residence Permit...
     public string? Title { get; set; }
 
     public string? Number { get; set; }
@@ -24,6 +26,10 @@ public class Document
 
     public bool Lifetime { get; set; }
 
+    // Issuing authority
+    public string? IssuedBy { get; set; }
+
+    // Free notes
     public string? Notes { get; set; }
 
     public string? FilePath { get; set; }
@@ -38,4 +44,12 @@ public class Document
         Lifetime
             ? int.MaxValue
             : (ExpiryDate - DateTime.Today).Days;
+
+    [Ignore]
+    public string Status =>
+        Lifetime
+            ? "Lifetime"
+            : IsExpired
+                ? "Expired"
+                : $"{DaysLeft} days";
 }

@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Docs_Manager.View.DocumentsPage"
-             BackgroundColor="#071426"
-             Padding="0">
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Docs_Manager.View.DocumentsPage"
+    BackgroundColor="#071426"
+    Padding="0">
 
     <Grid RowDefinitions="Auto,Auto,Auto,*">
 
         <!-- HEADER -->
+
         <Border Grid.Row="0"
                 BackgroundColor="#0d1b2d"
                 StrokeThickness="0"
@@ -17,277 +19,334 @@
 
                 <VerticalStackLayout Spacing="2">
 
-                    <Label Text="Documents Dashboard"
-                           FontSize="26"
-                           FontAttributes="Bold"
-                           TextColor="White"/>
+                    <Label
+                        Text="Documents Dashboard"
+                        FontSize="26"
+                        FontAttributes="Bold"
+                        TextColor="White"/>
 
-                    <Label Text="Manage seafarer documents and files"
-                           FontSize="13"
-                           TextColor="#7f9bb8"/>
+                    <Label
+                        Text="Manage seafarer documents and files"
+                        FontSize="13"
+                        TextColor="#7f9bb8"/>
 
                 </VerticalStackLayout>
 
-                <Button Grid.Column="1"
-                        Text="➕ Add Document"
-                        HeightRequest="50"
-                        WidthRequest="210"
-                        BackgroundColor="#00bfff"
-                        TextColor="White"
-                        FontAttributes="Bold"
-                        FontSize="15"
-                        CornerRadius="14"
-                        Clicked="OnAddCertificateClicked"/>
+                <Button
+                    Grid.Column="1"
+                    Text="➕ Add Document"
+                    HeightRequest="50"
+                    WidthRequest="210"
+                    BackgroundColor="#00bfff"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    FontSize="15"
+                    CornerRadius="14"
+                    Clicked="OnAddDocumentClicked"/>
 
             </Grid>
+
         </Border>
 
         <!-- STATS -->
-        <Grid Grid.Row="1"
-              ColumnDefinitions="*,*,*,*"
-              ColumnSpacing="14"
-              Padding="20,16,20,8">
 
-            <Border BackgroundColor="#102544"
-                    Stroke="#17365d"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 16"
-                    Padding="18">
+        <Grid
+            Grid.Row="1"
+            ColumnDefinitions="*,*,*,*"
+            ColumnSpacing="14"
+            Padding="20,16,20,8">
+
+            <Border
+                BackgroundColor="#102544"
+                Stroke="#17365d"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 16"
+                Padding="18">
 
                 <VerticalStackLayout Spacing="4">
 
-                    <Label Text="TOTAL"
-                           FontSize="11"
-                           TextColor="#7f9bb8"/>
+                    <Label
+                        Text="TOTAL"
+                        FontSize="11"
+                        TextColor="#7f9bb8"/>
 
-                    <Label Text="{Binding Certificates.Count}"
-                           FontSize="28"
-                           FontAttributes="Bold"
-                           TextColor="White"/>
+                    <Label
+                        Text="{Binding Documents.Count}"
+                        FontSize="28"
+                        FontAttributes="Bold"
+                        TextColor="White"/>
 
                 </VerticalStackLayout>
+
             </Border>
 
-            <Border Grid.Column="1"
-                    BackgroundColor="#102544"
-                    Stroke="#17365d"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 16"
-                    Padding="18">
+            <Border
+                Grid.Column="1"
+                BackgroundColor="#102544"
+                Stroke="#17365d"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 16"
+                Padding="18">
 
                 <VerticalStackLayout Spacing="4">
 
-                    <Label Text="FILES"
-                           FontSize="11"
-                           TextColor="#7f9bb8"/>
+                    <Label
+                        Text="FILES"
+                        FontSize="11"
+                        TextColor="#7f9bb8"/>
 
-                    <Label Text="DOC"
-                           FontSize="28"
-                           FontAttributes="Bold"
-                           TextColor="#28d17c"/>
+                    <Label
+                        Text="DOC"
+                        FontSize="28"
+                        FontAttributes="Bold"
+                        TextColor="#28d17c"/>
 
                 </VerticalStackLayout>
+
             </Border>
 
-            <Border Grid.Column="2"
-                    BackgroundColor="#102544"
-                    Stroke="#17365d"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 16"
-                    Padding="18">
+            <Border
+                Grid.Column="2"
+                BackgroundColor="#102544"
+                Stroke="#17365d"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 16"
+                Padding="18">
 
                 <VerticalStackLayout Spacing="4">
 
-                    <Label Text="ACTIVE"
-                           FontSize="11"
-                           TextColor="#7f9bb8"/>
+                    <Label
+                        Text="ACTIVE"
+                        FontSize="11"
+                        TextColor="#7f9bb8"/>
 
-                    <Label Text="OK"
-                           FontSize="28"
-                           FontAttributes="Bold"
-                           TextColor="#00bfff"/>
+                    <Label
+                        Text="OK"
+                        FontSize="28"
+                        FontAttributes="Bold"
+                        TextColor="#00bfff"/>
 
                 </VerticalStackLayout>
+
             </Border>
 
-            <Border Grid.Column="3"
-                    BackgroundColor="#102544"
-                    Stroke="#17365d"
-                    StrokeThickness="1"
-                    StrokeShape="RoundRectangle 16"
-                    Padding="18">
+            <Border
+                Grid.Column="3"
+                BackgroundColor="#102544"
+                Stroke="#17365d"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 16"
+                Padding="18">
 
                 <VerticalStackLayout Spacing="4">
 
-                    <Label Text="ARCHIVE"
-                           FontSize="11"
-                           TextColor="#7f9bb8"/>
+                    <Label
+                        Text="ARCHIVE"
+                        FontSize="11"
+                        TextColor="#7f9bb8"/>
 
-                    <Label Text="SAFE"
-                           FontSize="28"
-                           FontAttributes="Bold"
-                           TextColor="#ffb020"/>
+                    <Label
+                        Text="SAFE"
+                        FontSize="28"
+                        FontAttributes="Bold"
+                        TextColor="#ffb020"/>
 
                 </VerticalStackLayout>
+
             </Border>
 
         </Grid>
 
         <!-- SEARCH -->
-        <Border Grid.Row="2"
-                Margin="20,0,20,14"
-                BackgroundColor="#102544"
-                Stroke="#17365d"
-                StrokeThickness="1"
-                StrokeShape="RoundRectangle 14"
-                Padding="12,4">
+
+        <Border
+            Grid.Row="2"
+            Margin="20,0,20,14"
+            BackgroundColor="#102544"
+            Stroke="#17365d"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 14"
+            Padding="12,4">
 
             <Grid ColumnDefinitions="Auto,*">
 
-                <Label Text="🔍"
-                       VerticalOptions="Center"
-                       FontSize="16"
-                       Margin="4,0,10,0"/>
+                <Label
+                    Text="🔍"
+                    VerticalOptions="Center"
+                    FontSize="16"
+                    Margin="4,0,10,0"/>
 
-                <SearchBar x:Name="SearchBar"
-                           Grid.Column="1"
-                           Placeholder="Search documents..."
-                           PlaceholderColor="#7f9bb8"
-                           TextColor="White"
-                           BackgroundColor="Transparent"/>
+                <SearchBar
+                    x:Name="SearchBar"
+                    Grid.Column="1"
+                    Placeholder="Search documents..."
+                    PlaceholderColor="#7f9bb8"
+                    TextColor="White"
+                    BackgroundColor="Transparent"/>
 
             </Grid>
+
         </Border>
 
-        <!-- LIST -->
-        <CollectionView Grid.Row="3"
-                        x:Name="CertificateCollectionView"
-                        ItemsSource="{Binding Certificates}"
-                        SelectionMode="None"
-                        Margin="18,0,18,18"
-                        EmptyView="No documents">
+        <!-- DOCUMENTS -->
+
+        <CollectionView
+            x:Name="DocumentsCollectionView"
+            Grid.Row="3"
+            ItemsSource="{Binding Documents}"
+            SelectionMode="None"
+            Margin="18,0,18,18"
+            EmptyView="No documents">
 
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical"
-                                   ItemSpacing="12"/>
+
+                <LinearItemsLayout
+                    Orientation="Vertical"
+                    ItemSpacing="12"/>
+
             </CollectionView.ItemsLayout>
 
             <CollectionView.ItemTemplate>
+
                 <DataTemplate>
 
-                    <Border BackgroundColor="#102544"
-                            Stroke="#17365d"
-                            StrokeThickness="1"
-                            StrokeShape="RoundRectangle 18"
-                            Padding="18">
+                    <Border
+        BackgroundColor="#102544"
+        Stroke="#17365d"
+        StrokeThickness="1"
+        StrokeShape="RoundRectangle 18"
+        Padding="18">
 
-                        <Grid RowDefinitions="Auto,Auto"
-                              ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="4">
 
-                            <!-- LEFT -->
-                            <VerticalStackLayout Spacing="10">
+                            <!-- TITLE -->
 
-                                <!-- TITLE -->
-                                <Label Text="{Binding Document}"
-                                       FontSize="20"
-                                       FontAttributes="Bold"
-                                       TextColor="White"/>
+                            <Label
+                Text="{Binding Title}"
+                FontSize="20"
+                FontAttributes="Bold"
+                TextColor="White"/>
 
-                                <!-- META -->
-                                <HorizontalStackLayout Spacing="20">
+                            <!-- INFO -->
 
-                                    <Label Text="{Binding Number}"
-                                           FontSize="13"
-                                           TextColor="#8fb3d9"/>
 
-                                    <Label Text="{Binding Country}"
-                                           FontSize="13"
-                                           TextColor="#8fb3d9"/>
+                            <Grid
+    ColumnDefinitions="2*,1.5*,1.8*,1.8*,Auto"
+    ColumnSpacing="18">
+                                <!-- Country -->
 
-                                    <Label Text="{Binding IssueDate, StringFormat='Issued: {0:dd MMM yyyy}'}"
-                                           FontSize="13"
-                                           TextColor="#8fb3d9"/>
+                                <Label
+                    Grid.Column="0"
+                    Text="{Binding Country}"
+                    FontSize="13"
+                    TextColor="#8fb3d9"
+                    VerticalOptions="Center"/>
+
+                                <!-- Number -->
+
+                                <HorizontalStackLayout
+                    Grid.Column="1"
+                    Spacing="3"
+                    VerticalOptions="Center">
+
+                                    <Label
+                        Text="No."
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        TextColor="#8fb3d9"/>
+
+                                    <Label
+                        Text="{Binding Number}"
+                        FontSize="13"
+                        TextColor="White"/>
 
                                 </HorizontalStackLayout>
 
-                                <!-- EXPIRY -->
-                                <HorizontalStackLayout Spacing="10">
+                                <!-- Issue -->
 
-                                    <Label Text="{Binding ExpiryDate, StringFormat='Expiry: {0:dd MMM yyyy}'}"
-                                           FontSize="14"
-                                           TextColor="White"/>
+                                <HorizontalStackLayout
+                    Grid.Column="2"
+                    Spacing="4"
+                    VerticalOptions="Center">
 
-                                    <Label Text="{Binding DaysRemainingDisplay}"
-                                           FontSize="14"
-                                           FontAttributes="Bold"
-                                           TextColor="{Binding StatusColor}"/>
+                                    <Label
+                        Text="Issued"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        TextColor="#8fb3d9"/>
+
+                                    <Label
+                        Text="{Binding IssueDate,StringFormat='{0:dd.MM.yyyy}'}"
+                        FontSize="13"
+                        TextColor="White"/>
 
                                 </HorizontalStackLayout>
 
-                            </VerticalStackLayout>
+                                <!-- Expiry -->
 
-                            <!-- STATUS -->
-                            <Border Grid.Column="1"
-                                    BackgroundColor="{Binding StatusColor}"
-                                    Padding="14,6"
-                                    HeightRequest="36"
-                                    StrokeThickness="0"
-                                    HorizontalOptions="End"
-                                    VerticalOptions="Start"
-                                    StrokeShape="RoundRectangle 20">
+                                <HorizontalStackLayout
+                    Grid.Column="3"
+                    Spacing="4"
+                    VerticalOptions="Center">
 
-                                <Label Text="{Binding StatusDisplay}"
-                                       FontSize="12"
-                                       FontAttributes="Bold"
-                                       TextColor="White"/>
+                                    <Label
+                        Text="Expiry"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        TextColor="#8fb3d9"/>
 
-                            </Border>
+                                    <Label
+                        Text="{Binding ExpiryDate,StringFormat='{0:dd.MM.yyyy}'}"
+                        FontSize="13"
+                        TextColor="White"/>
 
-                            <!-- ACTIONS -->
-                            <FlexLayout Grid.Row="1"
-                                        Grid.ColumnSpan="2"
-                                        Direction="Row"
-                                        JustifyContent="End"
-                                        Margin="0,18,0,0">
+                                </HorizontalStackLayout>
 
-                                <!-- VIEW -->
-                                <Button Text="👁"
-                                        WidthRequest="46"
-                                        HeightRequest="46"
-                                        FontSize="16"
-                                        BackgroundColor="#00bfff"
-                                        TextColor="White"
-                                        CornerRadius="14"
-                                        Margin="0,0,10,0"
-                                        Clicked="OnViewCertificateClicked"
-                                        CommandParameter="{Binding .}"/>
+                                <!-- Buttons -->
 
-                                <!-- EDIT -->
-                                <Button Text="✏️"
-                                        WidthRequest="46"
-                                        HeightRequest="46"
-                                        FontSize="16"
-                                        BackgroundColor="#ffb020"
-                                        TextColor="Black"
-                                        CornerRadius="14"
-                                        Margin="0,0,10,0"
-                                        Clicked="OnEditCertificateClicked"
-                                        CommandParameter="{Binding .}"/>
+                                <HorizontalStackLayout
+                    Grid.Column="4"
+                    Spacing="8"
+                    HorizontalOptions="End">
 
-                                <!-- DELETE -->
-                                <Button Text="🗑"
-                                        WidthRequest="46"
-                                        HeightRequest="46"
-                                        FontSize="16"
-                                        BackgroundColor="#ff4d6d"
-                                        TextColor="White"
-                                        CornerRadius="14"
-                                        Clicked="OnDeleteCertificateClicked"
-                                        CommandParameter="{Binding .}"/>
+                                    <Button
+                        Text="👁"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        CornerRadius="12"
+                        BackgroundColor="#00bfff"
+                        TextColor="White"
+                        FontSize="14"
+                        Clicked="OnViewDocumentClicked"
+                        CommandParameter="{Binding .}"/>
 
-                            </FlexLayout>
+                                    <Button
+                        Text="✏"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        CornerRadius="12"
+                        BackgroundColor="#ffb020"
+                        TextColor="Black"
+                        FontSize="14"
+                        Clicked="OnEditDocumentClicked"
+                        CommandParameter="{Binding .}"/>
 
-                        </Grid>
+                                    <Button
+                        Text="🗑"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        CornerRadius="12"
+                        BackgroundColor="#ff4d6d"
+                        TextColor="White"
+                        FontSize="14"
+                        Clicked="OnDeleteDocumentClicked"
+                        CommandParameter="{Binding .}"/>
+
+                                </HorizontalStackLayout>
+
+                            </Grid>
+
+                        </VerticalStackLayout>
 
                     </Border>
 

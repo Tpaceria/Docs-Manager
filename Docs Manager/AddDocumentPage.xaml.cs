@@ -5,11 +5,11 @@ namespace Docs_Manager.View;
 
 public partial class AddDocumentPage : ContentView
 {
-    readonly DatabaseService _database;
+    private readonly DatabaseService _database;
 
-    Certificate _certificate;
+    private Document? _document;
 
-    string _selectedFilePath;
+    private string? _selectedFilePath;
 
     private readonly DocumentsPage _parentPage;
 
@@ -27,54 +27,53 @@ public partial class AddDocumentPage : ContentView
         _database = ServiceHelper.GetService<DatabaseService>()
             ?? throw new InvalidOperationException("DatabaseService not found");
 
-        if (_certificate == null)
-        {
-            IssueDateControl.SelectedDate = DateTime.Today;
-
-            ExpiryDateControl.SelectedDate = DateTime.Today.AddYears(5);
-        }
+        IssueDateControl.SelectedDate = DateTime.Today;
+        ExpiryDateControl.SelectedDate = DateTime.Today.AddYears(5);
     }
 
     public AddDocumentPage(
-        Certificate certificate,
+        Document document,
         DocumentsPage parentPage,
         MainPage mainPage)
         : this(parentPage, mainPage)
     {
-        _certificate = certificate;
+        _document = document;
 
         FillForm();
     }
 
     private void FillForm()
     {
-        if (_certificate == null)
+        if (_document == null)
             return;
 
-        DocumentEntry.Text = _certificate.Document;
+        DocumentTypePicker.SelectedItem = _document.Type;
 
-        CountryEntry.Text = _certificate.Country ?? "";
+        DocumentEntry.Text = _document.Title;
 
-        NumberEntry.Text = _certificate.Number;
+        CountryEntry.Text = _document.Country ?? "";
 
-        IssueDateControl.SelectedDate =
-            Convert.ToDateTime(_certificate.IssueDate);
+        NumberEntry.Text = _document.Number ?? "";
 
-        ExpiryDateControl.SelectedDate =
-            Convert.ToDateTime(_certificate.ExpiryDate);
+        IssueDateControl.SelectedDate = _document.IssueDate;
 
-        LifetimeSwitch.IsToggled =
-            _certificate.IsLifetime;
+        LifetimeSwitch.IsToggled = _document.Lifetime;
 
-        _selectedFilePath =
-            _certificate.FilePath;
+        if (!_document.Lifetime)
+            ExpiryDateControl.SelectedDate = _document.ExpiryDate;
+        else
+            ExpiryDateControl.SelectedDate = DateTime.Today;
 
-        if (!string.IsNullOrEmpty(_selectedFilePath))
+        ExpiryStack.IsVisible = !_document.Lifetime;
+
+        _selectedFilePath = _document.FilePath;
+
+        if (!string.IsNullOrWhiteSpace(_selectedFilePath) &&
+            File.Exists(_selectedFilePath))
         {
             FileInfoBorder.IsVisible = true;
 
-            FileNameLabel.Text =
-                Path.GetFileName(_selectedFilePath);
+            FileNameLabel.Text = Path.GetFileName(_selectedFilePath);
 
             FileSizeLabel.Text =
                 $"Size: {FormatFileSize(new FileInfo(_selectedFilePath).Length)}";
@@ -84,45 +83,41 @@ public partial class AddDocumentPage : ContentView
             PickFileButton.BackgroundColor =
                 Color.FromArgb("#28A745");
         }
-
-        ExpiryStack.IsVisible =
-            !_certificate.IsLifetime;
     }
 
-    void OnLifetimeToggled(object sender, ToggledEventArgs e)
+    private void OnLifetimeToggled(object sender, ToggledEventArgs e)
     {
         ExpiryStack.IsVisible = !e.Value;
     }
 
-    async void OnPickFileClicked(object sender, EventArgs e)
+    private async void OnPickFileClicked(object sender, EventArgs e)
     {
         try
         {
-            var result = await FilePicker.PickAsync(new PickOptions
-            {
-                PickerTitle = "Select File"
-            });
+            var result = await FilePicker.Default.PickAsync(
+                new PickOptions
+                {
+                    PickerTitle = "Select File"
+                });
 
-            if (result != null)
-            {
-                _selectedFilePath = result.FullPath;
+            if (result == null)
+                return;
 
-                var fileInfo = new FileInfo(_selectedFilePath);
+            _selectedFilePath = result.FullPath;
 
-                long fileSize = fileInfo.Length;
+            var info = new FileInfo(_selectedFilePath);
 
-                FileInfoBorder.IsVisible = true;
+            FileInfoBorder.IsVisible = true;
 
-                FileNameLabel.Text = result.FileName;
+            FileNameLabel.Text = result.FileName;
 
-                FileSizeLabel.Text =
-                    $"Size: {FormatFileSize(fileSize)}";
+            FileSizeLabel.Text =
+                $"Size: {FormatFileSize(info.Length)}";
 
-                PickFileButton.Text = "✅ File Selected";
+            PickFileButton.Text = "✅ File Selected";
 
-                PickFileButton.BackgroundColor =
-                    Color.FromArgb("#28A745");
-            }
+            PickFileButton.BackgroundColor =
+                Color.FromArgb("#28A745");
         }
         catch (Exception ex)
         {
@@ -133,56 +128,56 @@ public partial class AddDocumentPage : ContentView
         }
     }
 
-    async void OnSaveClicked(object sender, EventArgs e)
+    private async void OnSaveClicked(object sender, EventArgs e)
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(DocumentEntry.Text))
+            if (DocumentTypePicker.SelectedIndex == -1)
             {
                 await Application.Current.MainPage.DisplayAlert(
                     "Error",
-                    "Enter document name",
+                    "Please select document type.",
                     "OK");
 
                 return;
             }
 
-            var certificate = new Certificate
+            if (string.IsNullOrWhiteSpace(DocumentEntry.Text))
             {
-                Id = _certificate?.Id ?? 0,
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    "Please enter document title.",
+                    "OK");
 
-                Document = DocumentEntry.Text,
+                return;
+            }
 
-                Country = CountryEntry.Text ?? "",
+            var document = new Document
+            {
+                Id = _document?.Id ?? 0,
 
-                Number = NumberEntry.Text ?? "",
+                Type = DocumentTypePicker.SelectedItem?.ToString(),
 
-                IssueDate =
-                    IssueDateControl.SelectedDate,
+                Title = DocumentEntry.Text?.Trim(),
 
-                ExpiryDate =
-                    LifetimeSwitch.IsToggled
-                        ? DateTime.MaxValue
-                        : Convert.ToDateTime(ExpiryDateControl.SelectedDate),
+                Country = CountryEntry.Text?.Trim(),
 
-                IsLifetime =
-                    LifetimeSwitch.IsToggled,
+                Number = NumberEntry.Text?.Trim(),
 
-                FilePath = _selectedFilePath,
+                IssueDate = IssueDateControl.SelectedDate,
 
-                Category = "DOCUMENTS"
+                ExpiryDate = LifetimeSwitch.IsToggled
+                    ? DateTime.MaxValue
+                    : ExpiryDateControl.SelectedDate,
+
+                Lifetime = LifetimeSwitch.IsToggled,
+
+                FilePath = _selectedFilePath
             };
 
-            await _database.SaveCertificateAsync(certificate);
+            await _database.SaveDocumentAsync(document);
 
-            if (_certificate == null)
-            {
-                _parentPage.AddCertificate(certificate);
-            }
-            else
-            {
-                _parentPage.RefreshList();
-            }
+            _parentPage.RefreshList();
 
             _mainPage.SetPage(new DocumentsPage(_mainPage));
         }
@@ -195,12 +190,12 @@ public partial class AddDocumentPage : ContentView
         }
     }
 
-    void OnCancelClicked(object sender, EventArgs e)
+    private void OnCancelClicked(object sender, EventArgs e)
     {
         _mainPage.SetPage(new DocumentsPage(_mainPage));
     }
 
-    static string FormatFileSize(long bytes)
+    private static string FormatFileSize(long bytes)
     {
         string[] sizes = { "B", "KB", "MB", "GB" };
 
@@ -208,14 +203,44 @@ public partial class AddDocumentPage : ContentView
 
         int order = 0;
 
-        while (len >= 1024 &&
-               order < sizes.Length - 1)
+        while (len >= 1024 && order < sizes.Length - 1)
         {
             order++;
-
-            len = len / 1024;
+            len /= 1024;
         }
 
         return $"{len:0.##} {sizes[order]}";
+    }
+
+    private void OnDocumentTypeChanged(object sender, EventArgs e)
+    {
+        if (_document != null)
+            return;
+
+        if (DocumentTypePicker.SelectedItem == null)
+            return;
+
+        switch (DocumentTypePicker.SelectedItem.ToString())
+        {
+            case "Passport":
+                DocumentEntry.Text = "Travel Passport";
+                break;
+
+            case "Seaman Book":
+                DocumentEntry.Text = "Seaman Book";
+                break;
+
+            case "Residence Permit":
+                DocumentEntry.Text = "Residence Permit";
+                break;
+
+            case "National ID":
+                DocumentEntry.Text = "National ID Card";
+                break;
+
+            case "Visa":
+                DocumentEntry.Text = "Visa";
+                break;
+        }
     }
 }

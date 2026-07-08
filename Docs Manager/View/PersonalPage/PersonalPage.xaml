@@ -431,79 +431,51 @@
 
                     </VerticalStackLayout>
 
-                </Border>
+                        </Border>
 
-                <!-- VISA -->
+                <!-- DOCUMENTS -->
 
                 <Border
-                    BackgroundColor="#102844"
-                    Stroke="#173b63"
-                    StrokeShape="RoundRectangle 10"
-                    Padding="8">
+                     BackgroundColor="#102844"
+                     Stroke="#173b63"
+                     StrokeShape="RoundRectangle 10"
+                     Padding="8">
 
                     <VerticalStackLayout Spacing="6">
 
+                        <!-- Header -->
                         <Grid ColumnDefinitions="*,Auto">
 
                             <Label
-                                Text="🛂 VISA"
-                                FontSize="16"
-                                FontAttributes="Bold"
-                                TextColor="#ff8c42"
-                                VerticalOptions="Center"/>
+            Text="📄 DOCUMENTS"
+            FontSize="16"
+            FontAttributes="Bold"
+            TextColor="#ff8c42"
+            VerticalOptions="Center"/>
 
-                            <Button
-                                Grid.Column="1"
-                                Text="Edit"
-                                WidthRequest="55"
-                                HeightRequest="28"
-                                CornerRadius="6"
-                                FontSize="12"
-                                BackgroundColor="#19b5ea"
-                                TextColor="White"
-                                Clicked="OnEditVisaClicked"/>
-
+                           
                         </Grid>
 
-                        <!-- TABLE HEADER -->
-
-                        <Grid ColumnDefinitions="*,*,Auto">
-
-                            <Label
-                                Text="Type"
-                                FontAttributes="Bold"
-                                TextColor="#8ea9c7"/>
-
-                            <Label
-                                Grid.Column="1"
-                                Text="Country"
-                                FontAttributes="Bold"
-                                TextColor="#8ea9c7"/>
-
-                            <Label
-                                Grid.Column="2"
-                                Text="Expiry"
-                                FontAttributes="Bold"
-                                TextColor="#8ea9c7"/>
-
-                        </Grid>
+                        <!-- Table Header -->
+                        <VerticalStackLayout
+        x:Name="DocumentsHeaderContainer"
+        Spacing="0"/>
 
                         <BoxView
-                            HeightRequest="1"
-                            BackgroundColor="#224b75"
-                            Opacity="0.45"
-                            Margin="0,0,0,6"/>
+        HeightRequest="1"
+        BackgroundColor="#224b75"
+        Opacity="0.45"
+        Margin="0,0,0,6"/>
 
+                        <!-- Rows -->
                         <VerticalStackLayout
-                            x:Name="VisaPreviewContainer"
-                            Spacing="4"/>
+        x:Name="DocumentsPreviewContainer"
+        Spacing="4"/>
 
                     </VerticalStackLayout>
-
                 </Border>
-
+                
             </VerticalStackLayout>
-
             <!-- ===================================== -->
             <!-- RIGHT COLUMN -->
             <!-- ===================================== -->

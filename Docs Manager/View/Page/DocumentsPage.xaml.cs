@@ -6,11 +6,11 @@ namespace Docs_Manager.View;
 
 public partial class DocumentsPage : ContentView
 {
-    private DatabaseService _database;
+    private readonly DatabaseService _database;
 
-    private ObservableCollection<Certificate> _allCertificates = new();
+    private readonly ObservableCollection<Document> _allDocuments = new();
 
-    public ObservableCollection<Certificate> Certificates { get; set; } = new();
+    public ObservableCollection<Document> Documents { get; set; } = new();
 
     private MainPage _mainPage;
 
@@ -21,66 +21,67 @@ public partial class DocumentsPage : ContentView
         _database = ServiceHelper.GetService<DatabaseService>()
             ?? throw new InvalidOperationException("DatabaseService not found");
 
-        CertificateCollectionView.ItemsSource = Certificates;
+        DocumentsCollectionView.ItemsSource = Documents;
 
-        _ = LoadCertificates();
+        _ = LoadDocuments();
     }
 
-    public DocumentsPage(MainPage mainPage) : this()
+    public DocumentsPage(MainPage mainPage)
+        : this()
     {
         _mainPage = mainPage;
     }
 
-    private async Task LoadCertificates()
+    private async Task LoadDocuments()
     {
-        _allCertificates.Clear();
-        Certificates.Clear();
+        _allDocuments.Clear();
+        Documents.Clear();
 
-        var list = await _database.GetCertificatesAsync();
+        var list = await _database.GetDocumentsAsync();
 
-        foreach (var cert in list.Where(c => c.Category == "DOCUMENTS"))
+        foreach (var document in list)
         {
-            _allCertificates.Add(cert);
+            _allDocuments.Add(document);
         }
 
-        foreach (var cert in _allCertificates)
+        foreach (var document in _allDocuments)
         {
-            Certificates.Add(cert);
+            Documents.Add(document);
         }
     }
 
-    private void OnAddCertificateClicked(object sender, EventArgs e)
+    private void OnAddDocumentClicked(object sender, EventArgs e)
     {
         var page = new AddDocumentPage(this, _mainPage);
 
         _mainPage.SetPage(page);
     }
 
-    private void OnEditCertificateClicked(object sender, EventArgs e)
+    private void OnEditDocumentClicked(object sender, EventArgs e)
     {
         if (sender is Button button &&
-            button.CommandParameter is Certificate cert)
+            button.CommandParameter is Document document)
         {
-            var page = new AddDocumentPage(cert, this, _mainPage);
+            var page = new AddDocumentPage(document, this, _mainPage);
 
             _mainPage.SetPage(page);
         }
     }
 
-    private async void OnViewCertificateClicked(object sender, EventArgs e)
+    private async void OnViewDocumentClicked(object sender, EventArgs e)
     {
         if (sender is Button button &&
-            button.CommandParameter is Certificate cert)
+            button.CommandParameter is Document document)
         {
-            if (string.IsNullOrWhiteSpace(cert.FilePath) ||
-                !File.Exists(cert.FilePath))
+            if (string.IsNullOrWhiteSpace(document.FilePath) ||
+                !File.Exists(document.FilePath))
             {
                 bool attachNow =
                     await Application.Current.MainPage.DisplayAlert(
-                        "Файл не найден",
-                        "У записи нет прикрепленного файла.\nПрикрепить сейчас?",
-                        "Прикрепить",
-                        "Отмена");
+                        "File not found",
+                        "No file is attached to this document.\nAttach one now?",
+                        "Attach",
+                        "Cancel");
 
                 if (!attachNow)
                     return;
@@ -89,56 +90,58 @@ public partial class DocumentsPage : ContentView
 
                 if (result != null)
                 {
-                    cert.FilePath = result.FullPath;
+                    document.FilePath = result.FullPath;
 
-                    await _database.SaveCertificateAsync(cert);
+                    await _database.SaveDocumentAsync(document);
 
-                    await Launcher.OpenAsync(new OpenFileRequest
-                    {
-                        File = new ReadOnlyFile(cert.FilePath)
-                    });
+                    await Launcher.OpenAsync(
+                        new OpenFileRequest
+                        {
+                            File = new ReadOnlyFile(document.FilePath)
+                        });
                 }
 
                 return;
             }
 
-            await Launcher.OpenAsync(new OpenFileRequest
-            {
-                File = new ReadOnlyFile(cert.FilePath)
-            });
+            await Launcher.OpenAsync(
+                new OpenFileRequest
+                {
+                    File = new ReadOnlyFile(document.FilePath)
+                });
         }
     }
 
-    private async void OnDeleteCertificateClicked(object sender, EventArgs e)
+    private async void OnDeleteDocumentClicked(object sender, EventArgs e)
     {
         if (sender is Button button &&
-            button.CommandParameter is Certificate cert)
+            button.CommandParameter is Document document)
         {
             bool confirm =
                 await Application.Current.MainPage.DisplayAlert(
                     "Delete",
-                    $"Delete \"{cert.Document}\"?",
+                    $"Delete \"{document.Title}\"?",
                     "Yes",
                     "Cancel");
 
             if (!confirm)
                 return;
 
-            await _database.DeleteCertificateAsync(cert);
+            await _database.DeleteDocumentAsync(document);
 
-            await LoadCertificates();
+            await LoadDocuments();
         }
     }
 
-    public async void AddCertificate(Certificate cert)
+    public async void AddDocument(Document document)
     {
-        await _database.SaveCertificateAsync(cert);
+        await _database.SaveDocumentAsync(document);
 
-        await LoadCertificates();
+        await LoadDocuments();
     }
 
     public async void RefreshList()
     {
-        await LoadCertificates();
+        await LoadDocuments();
     }
 }

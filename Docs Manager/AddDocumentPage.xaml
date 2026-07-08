@@ -32,20 +32,17 @@
             Title="Select document type"
             BackgroundColor="Transparent"
             TextColor="#ffffff"
-            TitleColor="#7a8999">
+            TitleColor="#7a8999"
+            SelectedIndexChanged="OnDocumentTypeChanged">
 
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
 
                                 <x:String>Passport</x:String>
                                 <x:String>Seaman Book</x:String>
-                                <x:String>Visa</x:String>
                                 <x:String>Residence Permit</x:String>
                                 <x:String>National ID</x:String>
-                                <x:String>Medical Certificate</x:String>
-                                <x:String>Vaccination</x:String>
-                                <x:String>Contract</x:String>
-                                <x:String>Other</x:String>
+                                <x:String>Visa</x:String>
 
                             </x:Array>
                         </Picker.ItemsSource>

@@ -41,9 +41,20 @@ public partial class PersonalPage : ContentView
         await LoadCertificatesPreview();
         await LoadExperiencePreview();
 
-        await LoadVisaPreview();
+        await LoadDocumentsPreview();
+
         await LoadSkillsPreview();
         await LoadBiometricPreview();
         await LoadNextOfKinPreview();
+    }
+
+    private async void OnEditDocumentsClicked(object sender, EventArgs e)
+    {
+        var mainPage = Application.Current.MainPage as MainPage;
+
+        if (mainPage != null)
+        {
+            mainPage.SetPage(new DocumentsPage(mainPage));
+        }
     }
 }
