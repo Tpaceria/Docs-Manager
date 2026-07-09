@@ -56,6 +56,8 @@ public class Certificate
     private const int ExpiringSoonThresholdDays = 30;
 
     [Ignore]
+
+
    
     public string StatusDisplay
     {
@@ -109,4 +111,17 @@ public class Certificate
             return $"{days} day{(days == 1 ? "" : "s")} remaining";
         }
     }
+
+    [Ignore]
+    public string ExpiryDisplay =>
+    IsLifetime
+        ? "Lifetime"
+        : ExpiryDate.ToString("dd.MM.yyyy");
+
+    [Ignore]
+    public string CountryDisplay =>
+    string.IsNullOrWhiteSpace(Country)
+        ? ""
+        : char.ToUpper(Country[0]) + Country.Substring(1).ToLower();
+
 }

@@ -179,123 +179,145 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
 
-                    <Border BackgroundColor="#102544"
-                            Stroke="#17365d"
-                            StrokeThickness="1"
-                            StrokeShape="RoundRectangle 18"
-                            Padding="18">
+                    <Border
+        BackgroundColor="#102544"
+        Stroke="#17365d"
+        StrokeThickness="1"
+        StrokeShape="RoundRectangle 18"
+        Padding="18">
 
-                        <Grid RowDefinitions="Auto,Auto"
-                              ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="4">
 
-                            <!-- LEFT -->
-                            <VerticalStackLayout Spacing="10">
+                            <!-- TITLE -->
 
-                                <!-- TITLE -->
-                                <Label Text="{Binding Document}"
-                                       FontSize="20"
-                                       FontAttributes="Bold"
-                                       TextColor="White"/>
+                            <Label
+                Text="{Binding Document}"
+                FontSize="20"
+                FontAttributes="Bold"
+                TextColor="White"/>
 
-                                <!-- META -->
-                                <HorizontalStackLayout Spacing="20">
+                            <!-- INFO -->
 
-                                    <Label Text="{Binding Number}"
-                                           FontSize="13"
-                                           TextColor="#8fb3d9"/>
+                            <Grid
+                ColumnDefinitions="2*,1.5*,1.8*,1.8*,Auto"
+                ColumnSpacing="18">
 
-                                    <Label Text="{Binding Country}"
-                                           FontSize="13"
-                                           TextColor="#8fb3d9"/>
+                                <!-- Country -->
 
-                                    <Label Text="{Binding IssueDate, StringFormat='Issued: {0:dd MMM yyyy}'}"
-                                           FontSize="13"
-                                           TextColor="#8fb3d9"/>
+                                <Label
+                    Grid.Column="0"
+                    Text="{Binding CountryDisplay}"
+                    FontSize="13"
+                    TextColor="#8fb3d9"
+                    VerticalOptions="Center"/>
+
+                                <!-- Number -->
+
+                                <HorizontalStackLayout
+                    Grid.Column="1"
+                    Spacing="3">
+
+                                    <Label
+                        WidthRequest="35"
+                        Text="No."
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        TextColor="#8fb3d9"/>
+
+                                    <Label
+                        Text="{Binding Number}"
+                        FontSize="13"
+                        TextColor="White"/>
 
                                 </HorizontalStackLayout>
 
-                                <!-- EXPIRY -->
-                                <HorizontalStackLayout Spacing="10">
+                                <!-- Issue -->
 
-                                    <Label Text="{Binding ExpiryDate, StringFormat='Expiry: {0:dd MMM yyyy}'}"
-                                           FontSize="14"
-                                           TextColor="White"/>
+                                <HorizontalStackLayout
+                    Grid.Column="2"
+                    Spacing="4">
 
-                                    <Label Text="{Binding DaysRemainingDisplay}"
-                                           FontSize="14"
-                                           FontAttributes="Bold"
-                                           TextColor="{Binding StatusColor}"/>
+                                    <Label
+                        WidthRequest="48"
+                        Text="Issued"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        TextColor="#8fb3d9"/>
+
+                                    <Label
+                        Text="{Binding IssueDate,StringFormat='{0:dd.MM.yyyy}'}"
+                        FontSize="13"
+                        TextColor="White"/>
 
                                 </HorizontalStackLayout>
 
-                            </VerticalStackLayout>
+                                <!-- Expiry -->
 
-                            <!-- STATUS -->
-                            <Border Grid.Column="1"
-                                    BackgroundColor="{Binding StatusColor}"
-                                    Padding="14,6"
-                                    HeightRequest="36"
-                                    StrokeThickness="0"
-                                    HorizontalOptions="End"
-                                    VerticalOptions="Start"
-                                    StrokeShape="RoundRectangle 20">
+                                <HorizontalStackLayout
+                    Grid.Column="3"
+                    Spacing="4">
 
-                                <Label Text="{Binding StatusDisplay}"
-                                       FontSize="12"
-                                       FontAttributes="Bold"
-                                       TextColor="White"/>
+                                    <Label
+                        WidthRequest="48"
+                        Text="Expiry"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        TextColor="#8fb3d9"/>
 
-                            </Border>
+                                    <Label
+                        Text="{Binding ExpiryDisplay}"
+                        FontSize="13"
+                        TextColor="White"/>
 
-                            <!-- ACTIONS -->
-                            <FlexLayout Grid.Row="1"
-                                        Grid.ColumnSpan="2"
-                                        Direction="Row"
-                                        JustifyContent="End"
-                                        Margin="0,18,0,0">
+                                </HorizontalStackLayout>
 
-                                <!-- VIEW -->
-                                <Button Text="👁"
-                                        WidthRequest="46"
-                                        HeightRequest="46"
-                                        FontSize="16"
-                                        BackgroundColor="#00bfff"
-                                        TextColor="White"
-                                        CornerRadius="14"
-                                        Margin="0,0,10,0"
-                                        Clicked="OnViewCertificateClicked"
-                                        CommandParameter="{Binding .}"/>
+                                <!-- Buttons -->
 
-                                <!-- EDIT -->
-                                <Button Text="✏️"
-                                        WidthRequest="46"
-                                        HeightRequest="46"
-                                        FontSize="16"
-                                        BackgroundColor="#ffb020"
-                                        TextColor="Black"
-                                        CornerRadius="14"
-                                        Margin="0,0,10,0"
-                                        Clicked="OnEditCertificateClicked"
-                                        CommandParameter="{Binding .}"/>
+                                <HorizontalStackLayout
+                    Grid.Column="4"
+                    Spacing="8"
+                    HorizontalOptions="End">
 
-                                <!-- DELETE -->
-                                <Button Text="🗑"
-                                        WidthRequest="46"
-                                        HeightRequest="46"
-                                        FontSize="16"
-                                        BackgroundColor="#ff4d6d"
-                                        TextColor="White"
-                                        CornerRadius="14"
-                                        Clicked="OnDeleteCertificateClicked"
-                                        CommandParameter="{Binding .}"/>
+                                    <Button
+                        Text="👁"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        CornerRadius="12"
+                        BackgroundColor="#00bfff"
+                        TextColor="White"
+                        Clicked="OnViewCertificateClicked"
+                        CommandParameter="{Binding .}"/>
 
-                            </FlexLayout>
+                                    <Button
+                        Text="✏"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        CornerRadius="12"
+                        BackgroundColor="#ffb020"
+                        TextColor="Black"
+                        Clicked="OnEditCertificateClicked"
+                        CommandParameter="{Binding .}"/>
 
-                        </Grid>
+                                    <Button
+                        Text="🗑"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        CornerRadius="12"
+                        BackgroundColor="#ff4d6d"
+                        TextColor="White"
+                        Clicked="OnDeleteCertificateClicked"
+                        CommandParameter="{Binding .}"/>
+
+                                </HorizontalStackLayout>
+
+                            </Grid>
+
+                        </VerticalStackLayout>
 
                     </Border>
 
                 </DataTemplate>
+                
             </CollectionView.ItemTemplate>
 
         </CollectionView>

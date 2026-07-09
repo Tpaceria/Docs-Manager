@@ -191,146 +191,139 @@
         StrokeShape="RoundRectangle 18"
         Padding="18">
 
-                            <Grid
-            RowDefinitions="Auto,Auto"
-            ColumnDefinitions="*">
+                            <VerticalStackLayout Spacing="4">
 
-                                <!-- LEFT -->
+                                <!-- TITLE -->
 
-                                <VerticalStackLayout Spacing="10">
+                                <Label
+                Text="{Binding Document}"
+                FontSize="20"
+                FontAttributes="Bold"
+                TextColor="White"/>
 
-                                    <!-- TITLE -->
+                                <!-- INFO -->
+
+                                <Grid
+                ColumnDefinitions="2*,1.5*,1.8*,1.8*,Auto"
+                ColumnSpacing="18">
+
+                                    <!-- Country -->
 
                                     <Label
-                    Text="{Binding Document}"
-                    FontSize="20"
-                    FontAttributes="Bold"
-                    TextColor="White"/>
+                    Grid.Column="0"
+                    Text="{Binding CountryDisplay}"
+                    FontSize="13"
+                    TextColor="#8fb3d9"
+                    VerticalOptions="Center"/>
 
-                                    <!-- INFO -->
+                                    <!-- Number -->
 
-                                    <Grid
-                    ColumnDefinitions="Auto,Auto,Auto,Auto"
-                    ColumnSpacing="22">
-
-                                        <!-- Country -->
+                                    <HorizontalStackLayout
+                    Grid.Column="1"
+                    Spacing="3"
+                    VerticalOptions="Center">
 
                                         <Label
-                        Grid.Column="0"
-                        Text="{Binding Country}"
+                        WidthRequest="35"
+                        Text="No."
+                        FontAttributes="Bold"
                         FontSize="13"
-                        TextColor="#8fb3d9"
-                        VerticalOptions="Center"/>
+                        TextColor="#8fb3d9"/>
 
-                                        <!-- Number -->
+                                        <Label
+                        Text="{Binding Number}"
+                        FontSize="13"
+                        TextColor="White"/>
 
-                                        <HorizontalStackLayout
-                        Grid.Column="1"
-                        Spacing="3">
+                                    </HorizontalStackLayout>
 
-                                            <Label
-                            Text="No."
-                            FontAttributes="Bold"
-                            FontSize="13"
-                            TextColor="#8fb3d9"/>
+                                    <!-- Issue -->
 
-                                            <Label
-                            Text="{Binding Number}"
-                            FontSize="13"
-                            TextColor="White"/>
+                                    <HorizontalStackLayout
+                    Grid.Column="2"
+                    Spacing="4"
+                    VerticalOptions="Center">
 
-                                        </HorizontalStackLayout>
+                                        <Label
+                        WidthRequest="48"
+                        Text="Issued"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        TextColor="#8fb3d9"/>
 
-                                        <!-- Issued -->
+                                        <Label
+                        Text="{Binding IssueDate,StringFormat='{0:dd.MM.yyyy}'}"
+                        FontSize="13"
+                        TextColor="White"/>
 
-                                        <HorizontalStackLayout
-                        Grid.Column="2"
-                        Spacing="4">
+                                    </HorizontalStackLayout>
 
-                                            <Label
-                            Text="Issued"
-                            FontAttributes="Bold"
-                            FontSize="13"
-                            TextColor="#8fb3d9"/>
+                                    <!-- Expiry -->
 
-                                            <Label
-                            Text="{Binding IssueDate,StringFormat='{0:dd.MM.yyyy}'}"
-                            FontSize="13"
-                            TextColor="White"/>
+                                    <HorizontalStackLayout
+                    Grid.Column="3"
+                    Spacing="4"
+                    VerticalOptions="Center">
 
-                                        </HorizontalStackLayout>
+                                        <Label
+                        WidthRequest="48"
+                        Text="Expiry"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        TextColor="#8fb3d9"/>
 
-                                        <!-- Expiry -->
+                                        <Label
+                        Text="{Binding ExpiryDisplay}"
+                        FontSize="13"
+                        TextColor="White"/>
 
-                                        <HorizontalStackLayout
-                        Grid.Column="3"
-                        Spacing="4">
+                                    </HorizontalStackLayout>
 
-                                            <Label
-                            Text="Expiry"
-                            FontAttributes="Bold"
-                            FontSize="13"
-                            TextColor="#8fb3d9"/>
+                                    <!-- Buttons -->
 
-                                            <Label
-                            Text="{Binding ExpiryDate,StringFormat='{0:dd.MM.yyyy}'}"
-                            FontSize="13"
-                            TextColor="White"/>
+                                    <HorizontalStackLayout
+                    Grid.Column="4"
+                    Spacing="8"
+                    HorizontalOptions="End">
 
-                                        </HorizontalStackLayout>
+                                        <Button
+                        Text="👁"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        CornerRadius="12"
+                        BackgroundColor="#00bfff"
+                        TextColor="White"
+                        FontSize="14"
+                        Clicked="OnViewCertificateClicked"
+                        CommandParameter="{Binding .}"/>
 
-                                    </Grid>
+                                        <Button
+                        Text="✏"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        CornerRadius="12"
+                        BackgroundColor="#ffb020"
+                        TextColor="Black"
+                        FontSize="14"
+                        Clicked="OnEditClicked"
+                        CommandParameter="{Binding .}"/>
 
-                                </VerticalStackLayout>
+                                        <Button
+                        Text="🗑"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        CornerRadius="12"
+                        BackgroundColor="#ff4d6d"
+                        TextColor="White"
+                        FontSize="14"
+                        Clicked="OnDeleteCertificateClicked"
+                        CommandParameter="{Binding .}"/>
 
-                                <!-- STATUS -->
+                                    </HorizontalStackLayout>
 
+                                </Grid>
 
-                                <!-- ACTIONS -->
-
-                                <HorizontalStackLayout
-                Grid.Row="1"
-                Grid.ColumnSpan="2"
-                HorizontalOptions="End"
-                Spacing="8"
-                Margin="0,18,0,0">
-
-                                    <Button
-                    Text="👁"
-                    WidthRequest="40"
-                    HeightRequest="40"
-                    FontSize="14"
-                    BackgroundColor="#00bfff"
-                    TextColor="White"
-                    CornerRadius="12"
-                    Clicked="OnViewCertificateClicked"
-                    CommandParameter="{Binding .}"/>
-
-                                    <Button
-                    Text="✏"
-                    WidthRequest="40"
-                    HeightRequest="40"
-                    FontSize="14"
-                    BackgroundColor="#ffb020"
-                    TextColor="Black"
-                    CornerRadius="12"
-                    Clicked="OnEditClicked"
-                    CommandParameter="{Binding .}"/>
-
-                                    <Button
-                    Text="🗑"
-                    WidthRequest="40"
-                    HeightRequest="40"
-                    FontSize="14"
-                    BackgroundColor="#ff4d6d"
-                    TextColor="White"
-                    CornerRadius="12"
-                    Clicked="OnDeleteCertificateClicked"
-                    CommandParameter="{Binding .}"/>
-
-                                </HorizontalStackLayout>
-
-                            </Grid>
+                            </VerticalStackLayout>
 
                         </Border>
 
