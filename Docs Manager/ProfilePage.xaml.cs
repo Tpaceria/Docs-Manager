@@ -10,18 +10,8 @@ public partial class ProfilePage : ContentPage
     public ProfilePage()
     {
         InitializeComponent();
-
-        FullNameLabel.Text = "TEST NAME";
-        RankLabel.Text = "TEST RANK";
-        NationalityLabel.Text = "TEST COUNTRY";
-
-        TotalDocsLabel.Text = "99";
-        ActiveDocsLabel.Text = "88";
-        ExpiringDocsLabel.Text = "77";
-        ExpiredDocsLabel.Text = "66";
-
-        CrewStatusLabel.Text = "TEST STATUS";
     }
+
     private DatabaseService GetDatabase()
     {
         _database ??= ServiceHelper.GetService<DatabaseService>();
@@ -33,6 +23,7 @@ public partial class ProfilePage : ContentPage
         await LoadProfileData();
         await LoadStatistics();
     }
+
     // =====================================================
     // PROFILE
     // =====================================================
@@ -43,14 +34,6 @@ public partial class ProfilePage : ContentPage
         {
             var profile =
                 await GetDatabase().GetUserProfileAsync();
-
-            // DEBUG
-            await DisplayAlert(
-                "DEBUG PROFILE",
-                profile == null
-                    ? "PROFILE NULL"
-                    : $"Loaded: {profile.FirstName} {profile.LastName}",
-                "OK");
 
             if (profile == null)
                 return;
@@ -101,12 +84,6 @@ public partial class ProfilePage : ContentPage
         {
             var certificates =
                 await GetDatabase().GetCertificatesAsync();
-
-            // DEBUG
-            await DisplayAlert(
-                "DEBUG CERTIFICATES",
-                $"Certificates found: {certificates.Count}",
-                "OK");
 
             int total =
                 certificates.Count;
@@ -161,4 +138,3 @@ public partial class ProfilePage : ContentPage
         }
     }
 }
-
