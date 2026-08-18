@@ -95,7 +95,7 @@ public partial class AddMedicinePage : ContentView
     {
         try
         {
-            var result = await FilePicker.PickAsync(
+            var result = await FilePicker.Default.PickAsync(
                 new PickOptions
                 {
                     PickerTitle = "Select File"
