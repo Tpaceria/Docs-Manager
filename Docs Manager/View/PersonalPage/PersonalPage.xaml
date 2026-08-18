@@ -59,6 +59,17 @@
                             </Frame>
 
                             <Button
+                                x:Name="EditButton"
+                                Text="✏️ EDIT"
+                                HeightRequest="28"
+                                CornerRadius="6"
+                                FontSize="11"
+                                BackgroundColor="#19b5ea"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                Clicked="OnEditMainProfileClicked"/>
+
+                            <Button
                                 x:Name="PickPhotoButton"
                                 Text="Choose Photo"
                                 HeightRequest="28"
@@ -66,6 +77,7 @@
                                 FontSize="11"
                                 BackgroundColor="#19b5ea"
                                 TextColor="White"
+                                IsVisible="False"
                                 Clicked="OnPickPhotoClicked"/>
 
                             <Button
@@ -77,6 +89,7 @@
                                 BackgroundColor="#28a745"
                                 TextColor="White"
                                 FontAttributes="Bold"
+                                IsVisible="False"
                                 Clicked="OnSaveClicked"/>
 
                         </VerticalStackLayout>
@@ -103,7 +116,8 @@
                                 <Entry
                                     x:Name="FirstNameEntry"
                                     HeightRequest="30"
-                                    FontSize="16"/>
+                                    FontSize="16"
+                                    IsEnabled="False"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout
@@ -119,7 +133,8 @@
                                 <Entry
                                     x:Name="NationalityEntry"
                                     HeightRequest="30"
-                                    FontSize="16"/>
+                                    FontSize="16"
+                                    IsEnabled="False"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout
@@ -135,7 +150,8 @@
                                 <Entry
                                     x:Name="MiddleNameEntry"
                                     HeightRequest="30"
-                                    FontSize="16"/>
+                                    FontSize="16"
+                                    IsEnabled="False"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout
@@ -151,7 +167,8 @@
                                 <Entry
                                     x:Name="PlaceOfBirthEntry"
                                     HeightRequest="30"
-                                    FontSize="16"/>
+                                    FontSize="16"
+                                    IsEnabled="False"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout
@@ -167,7 +184,8 @@
                                 <Entry
                                     x:Name="LastNameEntry"
                                     HeightRequest="30"
-                                    FontSize="16"/>
+                                    FontSize="16"
+                                    IsEnabled="False"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout
@@ -183,7 +201,8 @@
                                 <Entry
                                     x:Name="CitizenshipEntry"
                                     HeightRequest="30"
-                                    FontSize="16"/>
+                                    FontSize="16"
+                                    IsEnabled="False"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout
@@ -199,7 +218,8 @@
                                 <DatePicker
                                     x:Name="BirthDatePicker"
                                     HeightRequest="30"
-                                    FontSize="16"/>
+                                    FontSize="16"
+                                    IsEnabled="False"/>
                             </VerticalStackLayout>
 
                             <VerticalStackLayout
@@ -215,7 +235,8 @@
                                 <Picker
                                     x:Name="GenderPicker"
                                     HeightRequest="30"
-                                    FontSize="16"/>
+                                    FontSize="16"
+                                    IsEnabled="False"/>
                             </VerticalStackLayout>
 
                         </Grid>
@@ -447,11 +468,11 @@
                         <Grid ColumnDefinitions="*,Auto">
 
                             <Label
-            Text="📄 DOCUMENTS"
-            FontSize="16"
-            FontAttributes="Bold"
-            TextColor="#ff8c42"
-            VerticalOptions="Center"/>
+                Text="📄 DOCUMENTS"
+                FontSize="16"
+                FontAttributes="Bold"
+                TextColor="#ff8c42"
+                VerticalOptions="Center"/>
 
                            
                         </Grid>
@@ -503,6 +524,7 @@
                                 TextColor="#ff8c42"/>
 
                             <Button
+                                x:Name="EditContactsButton"
                                 Grid.Column="1"
                                 Text="Edit"
                                 WidthRequest="55"
@@ -511,6 +533,7 @@
                                 FontSize="12"
                                 BackgroundColor="#19b5ea"
                                 TextColor="White"
+                                IsVisible="False"
                                 Clicked="OnEditContactsClicked"/>
 
                         </Grid>
@@ -542,6 +565,7 @@
                                 TextColor="#ff8c42"/>
 
                             <Button
+                                x:Name="EditEducationButton"
                                 Grid.Column="1"
                                 Text="Edit"
                                 HeightRequest="28"
@@ -550,6 +574,7 @@
                                 FontSize="12"
                                 BackgroundColor="#19b5ea"
                                 TextColor="White"
+                                IsVisible="False"
                                 Clicked="OnEditEducationClicked"/>
 
                         </Grid>
@@ -581,6 +606,7 @@
                                 TextColor="#ff8c42"/>
 
                             <Button
+                                x:Name="EditSkillsButton"
                                 Grid.Column="1"
                                 Text="Edit"
                                 WidthRequest="55"
@@ -589,6 +615,7 @@
                                 FontSize="12"
                                 BackgroundColor="#19b5ea"
                                 TextColor="White"
+                                IsVisible="False"
                                 Clicked="OnEditSkillsClicked"/>
 
                         </Grid>
@@ -620,6 +647,7 @@
                                 TextColor="#ff8c42"/>
 
                             <Button
+                                x:Name="EditBiometricButton"
                                 Grid.Column="1"
                                 Text="Edit"
                                 WidthRequest="55"
@@ -628,6 +656,7 @@
                                 FontSize="12"
                                 BackgroundColor="#19b5ea"
                                 TextColor="White"
+                                IsVisible="False"
                                 Clicked="OnEditBiometricClicked"/>
 
                         </Grid>
@@ -659,6 +688,7 @@
                                 TextColor="#ff8c42"/>
 
                             <Button
+                                x:Name="EditNextOfKinButton"
                                 Grid.Column="1"
                                 Text="Edit"
                                 WidthRequest="55"
@@ -667,6 +697,7 @@
                                 FontSize="12"
                                 BackgroundColor="#19b5ea"
                                 TextColor="White"
+                                IsVisible="False"
                                 Clicked="OnEditNextOfKinClicked"/>
 
                         </Grid>
