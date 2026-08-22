@@ -70,9 +70,8 @@ public partial class PersonalPage : ContentView
     {
         _isEditMode = true;
 
-        // Change button text and color
-        EditButton.Text = "✏️ EDITING...";
-        EditButton.BackgroundColor = Color.FromArgb("#ff7a2f");
+        // Hide EDIT button
+        EditButton.IsVisible = false;
 
         // Show photo and save buttons
         PickPhotoButton.IsVisible = true;
@@ -100,9 +99,8 @@ public partial class PersonalPage : ContentView
     {
         _isEditMode = false;
 
-        // Change button back to Edit
-        EditButton.Text = "✏️ EDIT";
-        EditButton.BackgroundColor = Color.FromArgb("#19b5ea");
+        // Show EDIT button
+        EditButton.IsVisible = true;
 
         // Hide photo and save buttons
         PickPhotoButton.IsVisible = false;
