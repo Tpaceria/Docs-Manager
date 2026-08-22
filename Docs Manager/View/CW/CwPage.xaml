@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Docs_Manager.View.CwPage"
+             BackgroundColor="#071a2f">
+
+    <ScrollView>
+
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <!-- HEADER -->
+            <VerticalStackLayout Spacing="5">
+                <Label Text="🛢️ CW"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="#00d4ff"/>
+                <Label Text="Crew Management"
+                       FontSize="14"
+                       TextColor="#7a8999"/>
+            </VerticalStackLayout>
+
+            <!-- INFO -->
+            <Border BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="15">
+                <Label Text="CW section for crew information and management"
+                       FontSize="14"
+                       TextColor="#ffffff"
+                       LineBreakMode="WordWrap"/>
+            </Border>
+
+            <!-- PLACEHOLDER -->
+            <VerticalStackLayout Spacing="10"
+                                Padding="20"
+                                BackgroundColor="#0f1f2e"
+                                Margin="0,20,0,0">
+                <Label Text="Coming Soon"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       TextColor="#ff8c42"
+                       HorizontalOptions="Center"/>
+                <Label Text="CW features will be added here"
+                       FontSize="12"
+                       TextColor="#7a8999"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+
+</ContentView>
