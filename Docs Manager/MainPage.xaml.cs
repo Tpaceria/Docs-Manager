@@ -57,26 +57,22 @@ public partial class MainPage : ContentPage
 
     private void ShowCw()
     {
-        // TODO: Create CwPage
-        DisplayAlert("CW", "CW Page - Coming soon", "OK");
+        SetPage(new CwPage(this));
     }
 
     private void ShowSend()
     {
-        // TODO: Create SendPage with checklist for email/print/other actions
-        DisplayAlert("Отправить", "Send documents - Coming soon\n\nChecklist:\n- Email\n- Print\n- Other actions", "OK");
+        SetPage(new SendPage(this));
     }
 
     private void ShowFiles()
     {
-        // TODO: Create FilesPage for managing attached files with folder distribution
-        DisplayAlert("Файлы", "File management - Coming soon\n\nFeatures:\n- Organize files\n- Create folders\n- Rename with standard format", "OK");
+        SetPage(new FilesPage(this));
     }
 
     private void ShowNotes()
     {
-        // TODO: Create NotesPage for notes/comments
-        DisplayAlert("Заметки", "Notes - Coming soon", "OK");
+        SetPage(new NotesPage(this));
     }
 
     private void OnPersonalClicked(object sender, EventArgs e)
