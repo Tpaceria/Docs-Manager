@@ -62,17 +62,17 @@ public partial class MainPage : ContentPage
 
     private void ShowSend()
     {
-        SetPage(new SendPage(this));
+        SetPage(new SendDocumentsPage(this));
     }
 
     private void ShowFiles()
     {
-        SetPage(new FilesPage(this));
+        SetPage(new FileManagerPage(this));
     }
 
     private void ShowNotes()
     {
-        SetPage(new NotesPage(this));
+        SetPage(new NotesAndCommentsPage(this));
     }
 
     private void OnPersonalClicked(object sender, EventArgs e)
