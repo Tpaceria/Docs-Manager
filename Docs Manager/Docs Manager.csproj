@@ -109,9 +109,6 @@
 		<Compile Update="View\Page\CvPage.xaml.cs">
 			<DependentUpon>CvPage.xaml</DependentUpon>
 		</Compile>
-		<Compile Update="View\Page\NotesPage.xaml.cs">
-			<DependentUpon>NotesPage.xaml</DependentUpon>
-		</Compile>
 		<Compile Update="View\Page\SendPage.xaml.cs">
 			<DependentUpon>SendPage.xaml</DependentUpon>
 		</Compile>
