@@ -4,61 +4,160 @@
              x:Class="Docs_Manager.View.FileManagerPage"
              BackgroundColor="#071a2f">
 
-    <ScrollView>
+    <Grid RowDefinitions="Auto,*" RowSpacing="0">
 
-        <VerticalStackLayout Padding="20" Spacing="15">
-
-            <!-- HEADER -->
+        <!-- HEADER -->
+        <VerticalStackLayout Grid.Row="0" Padding="20" Spacing="15">
             <VerticalStackLayout Spacing="5">
                 <Label Text="📁 Файлы"
                        FontSize="24"
                        FontAttributes="Bold"
                        TextColor="#00d4ff"/>
-                <Label Text="Manage and organize your files"
+                <Label Text="Управление и организация файлов"
                        FontSize="14"
                        TextColor="#7a8999"/>
             </VerticalStackLayout>
 
-            <!-- INFO -->
+            <!-- CATEGORY PICKER -->
             <Border BackgroundColor="#102844"
                     Stroke="#173b63"
                     StrokeShape="RoundRectangle 10"
-                    Padding="15">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Функции:"
-                           FontSize="12"
-                           FontAttributes="Bold"
-                           TextColor="#00d4ff"/>
-                    <Label Text="• Распределение файлов по папкам"
-                           FontSize="12"
-                           TextColor="#ffffff"/>
-                    <Label Text="• Переименование в едином формате"
-                           FontSize="12"
-                           TextColor="#ffffff"/>
-                    <Label Text="• Управление прикрепленными файлами"
-                           FontSize="12"
-                           TextColor="#ffffff"/>
-                </VerticalStackLayout>
+                    Padding="10">
+                <Picker x:Name="CategoryPicker"
+                        Title="Выберите категорию"
+                        BackgroundColor="#102844"
+                        TextColor="#ffffff"
+                        SelectedIndexChanged="OnCategoryChanged"
+                        ItemsSource="{Binding Categories}"/>
             </Border>
 
-            <!-- PLACEHOLDER -->
-            <VerticalStackLayout Spacing="10"
-                                Padding="20"
-                                BackgroundColor="#0f1f2e"
-                                Margin="0,20,0,0">
-                <Label Text="Coming Soon"
-                       FontSize="16"
-                       FontAttributes="Bold"
-                       TextColor="#ff8c42"
-                       HorizontalOptions="Center"/>
-                <Label Text="File management features will be added here"
-                       FontSize="12"
-                       TextColor="#7a8999"
-                       HorizontalOptions="Center"/>
-            </VerticalStackLayout>
-
+            <!-- ADD FILE BUTTON -->
+            <Button Text="+ Добавить файл"
+                    BackgroundColor="#19b5ea"
+                    TextColor="White"
+                    HeightRequest="45"
+                    FontAttributes="Bold"
+                    Clicked="OnAddFileClicked"/>
         </VerticalStackLayout>
 
-    </ScrollView>
+        <!-- FILES LIST -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20" Spacing="10">
+
+                <!-- FILES CONTAINER -->
+                <CollectionView x:Name="FilesCollectionView"
+                                ItemsSource="{Binding Files}"
+                                SelectionMode="Single"
+                                VerticalOptions="FillAndExpand">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="#102844"
+                                    Stroke="#173b63"
+                                    StrokeShape="RoundRectangle 10"
+                                    Padding="15"
+                                    Margin="0,0,0,10">
+                                <Grid ColumnDefinitions="Auto,*,Auto" 
+                                      ColumnSpacing="15"
+                                      RowSpacing="8">
+
+                                    <!-- FILE ICON -->
+                                    <Label Grid.Row="0" Grid.RowSpan="3" Grid.Column="0"
+                                           Text="📄"
+                                           FontSize="32"
+                                           VerticalOptions="Center"/>
+
+                                    <!-- FILE INFO -->
+                                    <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                        <!-- Original Name -->
+                                        <Label Text="{Binding OriginalFileName}"
+                                               FontSize="14"
+                                               FontAttributes="Bold"
+                                               TextColor="#ffffff"
+                                               LineBreakMode="TailTruncation"/>
+
+                                        <!-- Formatted Name -->
+                                        <Label Text="{Binding FormattedFileName, StringFormat='Формат: {0}'}"
+                                               FontSize="12"
+                                               TextColor="#00d4ff"/>
+
+                                        <!-- Size and Date -->
+                                        <StackLayout Orientation="Horizontal" Spacing="10">
+                                            <Label Text="{Binding FileSize, StringFormat='📊 {0} KB'}"
+                                                   FontSize="11"
+                                                   TextColor="#7a8999"/>
+                                            <Label Text="{Binding DateAdded, StringFormat='📅 {0:dd.MM.yyyy}'}"
+                                                   FontSize="11"
+                                                   TextColor="#7a8999"/>
+                                        </StackLayout>
+
+                                        <!-- Category -->
+                                        <Label Text="{Binding Category, StringFormat='📂 {0}'}"
+                                               FontSize="11"
+                                               TextColor="#19b5ea"/>
+                                    </VerticalStackLayout>
+
+                                    <!-- ACTION BUTTONS -->
+                                    <VerticalStackLayout Grid.Column="2" Spacing="8">
+                                        <Button Text="👁"
+                                                BackgroundColor="#1a5f7a"
+                                                TextColor="White"
+                                                FontSize="16"
+                                                HeightRequest="35"
+                                                WidthRequest="35"
+                                                CornerRadius="17"
+                                                Padding="0"
+                                                CommandParameter="{Binding .}"
+                                                Clicked="OnViewFileClicked"/>
+
+                                        <Button Text="✏️"
+                                                BackgroundColor="#226b7a"
+                                                TextColor="White"
+                                                FontSize="16"
+                                                HeightRequest="35"
+                                                WidthRequest="35"
+                                                CornerRadius="17"
+                                                Padding="0"
+                                                CommandParameter="{Binding .}"
+                                                Clicked="OnEditFileClicked"/>
+
+                                        <Button Text="🗑️"
+                                                BackgroundColor="#7a1a1a"
+                                                TextColor="White"
+                                                FontSize="16"
+                                                HeightRequest="35"
+                                                WidthRequest="35"
+                                                CornerRadius="17"
+                                                Padding="0"
+                                                CommandParameter="{Binding .}"
+                                                Clicked="OnDeleteFileClicked"/>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- EMPTY STATE -->
+                <VerticalStackLayout x:Name="EmptyStateLayout"
+                                    Spacing="10"
+                                    Padding="20"
+                                    BackgroundColor="#0f1f2e"
+                                    Margin="0,20,0,0"
+                                    IsVisible="True">
+                    <Label Text="📁 Нет файлов"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#ff8c42"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Добавьте первый файл, нажав кнопку выше"
+                           FontSize="12"
+                           TextColor="#7a8999"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+    </Grid>
 
 </ContentView>
