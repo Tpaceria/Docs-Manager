@@ -106,9 +106,6 @@
 		<Compile Update="View\Certificates\EditCertificatePage.xaml.cs">
 			<DependentUpon>EditCertificatePage.xaml</DependentUpon>
 		</Compile>
-		<Compile Update="View\Page\FilesPage.xaml.cs">
-			<DependentUpon>FilesPage.xaml</DependentUpon>
-		</Compile>
 		<Compile Update="View\Page\CvPage.xaml.cs">
 			<DependentUpon>CvPage.xaml</DependentUpon>
 		</Compile>
@@ -176,9 +173,6 @@
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="View\Certificates\EditCertificatePage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="View\Page\FilesPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="View\Page\DocumentsPage.xaml">
