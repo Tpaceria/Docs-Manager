@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Docs_Manager.View.SendPage"
+             BackgroundColor="#071a2f">
+
+    <ScrollView>
+
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <!-- HEADER -->
+            <VerticalStackLayout Spacing="5">
+                <Label Text="📨 Отправить"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="#00d4ff"/>
+                <Label Text="Send documents via email or print"
+                       FontSize="14"
+                       TextColor="#7a8999"/>
+            </VerticalStackLayout>
+
+            <!-- CHECKLIST SECTION -->
+            <Border BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="15">
+                <VerticalStackLayout Spacing="10">
+
+                    <Label Text="Выберите способ отправки:"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#00d4ff"/>
+
+                    <!-- EMAIL CHECKBOX -->
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" Padding="10">
+                        <CheckBox x:Name="EmailCheckBox"
+                                  Grid.Column="0"
+                                  VerticalOptions="Center"/>
+                        <Label Grid.Column="1"
+                               Text="📧 Email"
+                               FontSize="14"
+                               TextColor="#ffffff"
+                               VerticalOptions="Center"/>
+                    </Grid>
+
+                    <!-- PRINT CHECKBOX -->
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" Padding="10">
+                        <CheckBox x:Name="PrintCheckBox"
+                                  Grid.Column="0"
+                                  VerticalOptions="Center"/>
+                        <Label Grid.Column="1"
+                               Text="🖨️ Print"
+                               FontSize="14"
+                               TextColor="#ffffff"
+                               VerticalOptions="Center"/>
+                    </Grid>
+
+                    <!-- CLOUD BACKUP CHECKBOX -->
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" Padding="10">
+                        <CheckBox x:Name="CloudCheckBox"
+                                  Grid.Column="0"
+                                  VerticalOptions="Center"/>
+                        <Label Grid.Column="1"
+                               Text="☁️ Cloud Backup"
+                               FontSize="14"
+                               TextColor="#ffffff"
+                               VerticalOptions="Center"/>
+                    </Grid>
+
+                    <!-- USB EXPORT CHECKBOX -->
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" Padding="10">
+                        <CheckBox x:Name="UsbCheckBox"
+                                  Grid.Column="0"
+                                  VerticalOptions="Center"/>
+                        <Label Grid.Column="1"
+                               Text="💾 USB Export"
+                               FontSize="14"
+                               TextColor="#ffffff"
+                               VerticalOptions="Center"/>
+                    </Grid>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- EMAIL SECTION -->
+            <Border x:Name="EmailSection"
+                    BackgroundColor="#102844"
+                    Stroke="#173b63"
+                    StrokeShape="RoundRectangle 10"
+                    Padding="15"
+                    IsVisible="False">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Email адрес:"
+                           FontSize="12"
+                           TextColor="#5a7a99"/>
+                    <Entry x:Name="EmailEntry"
+                           Placeholder="your@email.com"
+                           HeightRequest="40"
+                           FontSize="14"/>
+                    <Label Text="Тема письма:"
+                           FontSize="12"
+                           TextColor="#5a7a99"
+                           Margin="0,10,0,0"/>
+                    <Entry x:Name="SubjectEntry"
+                           Placeholder="Documents"
+                           HeightRequest="40"
+                           FontSize="14"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- ACTION BUTTONS -->
+            <VerticalStackLayout Spacing="10" Margin="0,10,0,0">
+                <Button Text="✓ Отправить"
+                        BackgroundColor="#28a745"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        HeightRequest="45"
+                        Clicked="OnSendClicked"/>
+                <Button Text="✕ Отмена"
+                        BackgroundColor="#6c757d"
+                        TextColor="White"
+                        HeightRequest="45"
+                        Clicked="OnCancelClicked"/>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+
+    </ScrollView>
+
+</ContentView>
