@@ -1,4 +1,4 @@
-﻿using Docs_Manager.Models;
+using Docs_Manager.Models;
 
 namespace Docs_Manager.View;
 
@@ -121,8 +121,8 @@ public partial class PersonalPage
             profile.LastName =
                 LastNameEntry.Text ?? "";
 
-            BirthDatePicker.Date =
-            profile.BirthDate;
+            profile.BirthDate =
+                BirthDatePicker.Date ?? DateTime.Today;
 
             profile.Gender =
                 GenderPicker.SelectedItem?
@@ -146,6 +146,23 @@ public partial class PersonalPage
                     "Saved",
                     "Profile saved successfully",
                     "OK");
+
+            // Reload profile data
+            await LoadProfileAsync();
+
+            // Reload all preview sections
+            await LoadContactsPreview();
+            await LoadEducationPreview();
+            await LoadCocPreview();
+            await LoadCertificatesPreview();
+            await LoadExperiencePreview();
+            await LoadDocumentsPreview();
+            await LoadSkillsPreview();
+            await LoadBiometricPreview();
+            await LoadNextOfKinPreview();
+
+            // Exit edit mode after saving
+            ExitEditMode();
         }
         catch (Exception ex)
         {
