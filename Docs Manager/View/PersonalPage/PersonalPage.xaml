@@ -691,7 +691,7 @@
                                 x:Name="EditNextOfKinButton"
                                 Grid.Column="1"
                                 Text="Edit"
-                                WidthRequest="55"
+                                WidthRequest="56"
                                 HeightRequest="28"
                                 CornerRadius="6"
                                 FontSize="12"
