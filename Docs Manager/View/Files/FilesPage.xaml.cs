@@ -1,10 +1,10 @@
 namespace Docs_Manager.View;
 
-public partial class CwPage : ContentView
+public partial class FilesPage : ContentView
 {
     private MainPage? _mainPage;
 
-    public CwPage(MainPage mainPage)
+    public FilesPage(MainPage mainPage)
     {
         InitializeComponent();
         _mainPage = mainPage;

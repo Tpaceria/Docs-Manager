@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Docs_Manager.View.CwPage"
+             x:Class="Docs_Manager.View.FilesPage"
              BackgroundColor="#071a2f">
 
     <ScrollView>
@@ -10,11 +10,11 @@
 
             <!-- HEADER -->
             <VerticalStackLayout Spacing="5">
-                <Label Text="🛢️ CW"
+                <Label Text="📁 Файлы"
                        FontSize="24"
                        FontAttributes="Bold"
                        TextColor="#00d4ff"/>
-                <Label Text="Crew Management"
+                <Label Text="Manage and organize your files"
                        FontSize="14"
                        TextColor="#7a8999"/>
             </VerticalStackLayout>
@@ -24,10 +24,21 @@
                     Stroke="#173b63"
                     StrokeShape="RoundRectangle 10"
                     Padding="15">
-                <Label Text="CW section for crew information and management"
-                       FontSize="14"
-                       TextColor="#ffffff"
-                       LineBreakMode="WordWrap"/>
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Функции:"
+                           FontSize="12"
+                           FontAttributes="Bold"
+                           TextColor="#00d4ff"/>
+                    <Label Text="• Распределение файлов по папкам"
+                           FontSize="12"
+                           TextColor="#ffffff"/>
+                    <Label Text="• Переименование в едином формате"
+                           FontSize="12"
+                           TextColor="#ffffff"/>
+                    <Label Text="• Управление прикрепленными файлами"
+                           FontSize="12"
+                           TextColor="#ffffff"/>
+                </VerticalStackLayout>
             </Border>
 
             <!-- PLACEHOLDER -->
@@ -40,7 +51,7 @@
                        FontAttributes="Bold"
                        TextColor="#ff8c42"
                        HorizontalOptions="Center"/>
-                <Label Text="CW features will be added here"
+                <Label Text="File management features will be added here"
                        FontSize="12"
                        TextColor="#7a8999"
                        HorizontalOptions="Center"/>
