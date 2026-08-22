@@ -101,141 +101,229 @@
                             ColumnDefinitions="*,*"
                             RowDefinitions="Auto,Auto,Auto,Auto"
                             ColumnSpacing="20"
-                            RowSpacing="1">
+                            RowSpacing="8">
 
+                            <!-- FIRST NAME -->
                             <VerticalStackLayout
                                 Grid.Row="0"
                                 Grid.Column="0"
-                                Spacing="2">
+                                Spacing="4">
 
                                 <Label
                                     Text="First Name"
                                     FontSize="12"
-                                    TextColor="White"/>
+                                    TextColor="#5a7a99"/>
 
+                                <!-- View Mode -->
+                                <Label
+                                    x:Name="FirstNameLabel"
+                                    FontSize="15"
+                                    FontAttributes="Bold"
+                                    TextColor="#ffffff"
+                                    IsVisible="True"/>
+
+                                <!-- Edit Mode -->
                                 <Entry
                                     x:Name="FirstNameEntry"
                                     HeightRequest="30"
                                     FontSize="16"
+                                    IsVisible="False"
                                     IsEnabled="False"/>
                             </VerticalStackLayout>
 
+                            <!-- NATIONALITY -->
                             <VerticalStackLayout
                                 Grid.Row="0"
                                 Grid.Column="1"
-                                Spacing="2">
+                                Spacing="4">
 
                                 <Label
                                     Text="Nationality"
                                     FontSize="12"
-                                    TextColor="White"/>
+                                    TextColor="#5a7a99"/>
 
+                                <!-- View Mode -->
+                                <Label
+                                    x:Name="NationalityLabel"
+                                    FontSize="15"
+                                    FontAttributes="Bold"
+                                    TextColor="#ffffff"
+                                    IsVisible="True"/>
+
+                                <!-- Edit Mode -->
                                 <Entry
                                     x:Name="NationalityEntry"
                                     HeightRequest="30"
                                     FontSize="16"
+                                    IsVisible="False"
                                     IsEnabled="False"/>
                             </VerticalStackLayout>
 
+                            <!-- MIDDLE NAME -->
                             <VerticalStackLayout
                                 Grid.Row="1"
                                 Grid.Column="0"
-                                Spacing="2">
+                                Spacing="4">
 
                                 <Label
                                     Text="Middle Name"
                                     FontSize="12"
-                                    TextColor="White"/>
+                                    TextColor="#5a7a99"/>
 
+                                <!-- View Mode -->
+                                <Label
+                                    x:Name="MiddleNameLabel"
+                                    FontSize="15"
+                                    FontAttributes="Bold"
+                                    TextColor="#ffffff"
+                                    IsVisible="True"/>
+
+                                <!-- Edit Mode -->
                                 <Entry
                                     x:Name="MiddleNameEntry"
                                     HeightRequest="30"
                                     FontSize="16"
+                                    IsVisible="False"
                                     IsEnabled="False"/>
                             </VerticalStackLayout>
 
+                            <!-- PLACE OF BIRTH -->
                             <VerticalStackLayout
                                 Grid.Row="1"
                                 Grid.Column="1"
-                                Spacing="2">
+                                Spacing="4">
 
                                 <Label
                                     Text="Place of Birth"
                                     FontSize="12"
-                                    TextColor="White"/>
+                                    TextColor="#5a7a99"/>
 
+                                <!-- View Mode -->
+                                <Label
+                                    x:Name="PlaceOfBirthLabel"
+                                    FontSize="15"
+                                    FontAttributes="Bold"
+                                    TextColor="#ffffff"
+                                    IsVisible="True"/>
+
+                                <!-- Edit Mode -->
                                 <Entry
                                     x:Name="PlaceOfBirthEntry"
                                     HeightRequest="30"
                                     FontSize="16"
+                                    IsVisible="False"
                                     IsEnabled="False"/>
                             </VerticalStackLayout>
 
+                            <!-- LAST NAME -->
                             <VerticalStackLayout
                                 Grid.Row="2"
                                 Grid.Column="0"
-                                Spacing="2">
+                                Spacing="4">
 
                                 <Label
                                     Text="Last Name"
                                     FontSize="12"
-                                    TextColor="White"/>
+                                    TextColor="#5a7a99"/>
 
+                                <!-- View Mode -->
+                                <Label
+                                    x:Name="LastNameLabel"
+                                    FontSize="15"
+                                    FontAttributes="Bold"
+                                    TextColor="#ffffff"
+                                    IsVisible="True"/>
+
+                                <!-- Edit Mode -->
                                 <Entry
                                     x:Name="LastNameEntry"
                                     HeightRequest="30"
                                     FontSize="16"
+                                    IsVisible="False"
                                     IsEnabled="False"/>
                             </VerticalStackLayout>
 
+                            <!-- CITIZENSHIP -->
                             <VerticalStackLayout
                                 Grid.Row="2"
                                 Grid.Column="1"
-                                Spacing="2">
+                                Spacing="4">
 
                                 <Label
                                     Text="Citizenship"
                                     FontSize="12"
-                                    TextColor="White"/>
+                                    TextColor="#5a7a99"/>
 
+                                <!-- View Mode -->
+                                <Label
+                                    x:Name="CitizenshipLabel"
+                                    FontSize="15"
+                                    FontAttributes="Bold"
+                                    TextColor="#ffffff"
+                                    IsVisible="True"/>
+
+                                <!-- Edit Mode -->
                                 <Entry
                                     x:Name="CitizenshipEntry"
                                     HeightRequest="30"
                                     FontSize="16"
+                                    IsVisible="False"
                                     IsEnabled="False"/>
                             </VerticalStackLayout>
 
+                            <!-- DATE OF BIRTH -->
                             <VerticalStackLayout
                                 Grid.Row="3"
                                 Grid.Column="0"
-                                Spacing="2">
+                                Spacing="4">
 
                                 <Label
                                     Text="Date of Birth"
                                     FontSize="12"
-                                    TextColor="White"/>
+                                    TextColor="#5a7a99"/>
 
+                                <!-- View Mode -->
+                                <Label
+                                    x:Name="BirthDateLabel"
+                                    FontSize="15"
+                                    FontAttributes="Bold"
+                                    TextColor="#ffffff"
+                                    IsVisible="True"/>
+
+                                <!-- Edit Mode -->
                                 <DatePicker
                                     x:Name="BirthDatePicker"
                                     HeightRequest="30"
                                     FontSize="16"
+                                    IsVisible="False"
                                     IsEnabled="False"/>
                             </VerticalStackLayout>
 
+                            <!-- GENDER -->
                             <VerticalStackLayout
                                 Grid.Row="3"
                                 Grid.Column="1"
-                                Spacing="2">
+                                Spacing="4">
 
                                 <Label
                                     Text="Gender"
                                     FontSize="12"
-                                    TextColor="White"/>
+                                    TextColor="#5a7a99"/>
 
+                                <!-- View Mode -->
+                                <Label
+                                    x:Name="GenderLabel"
+                                    FontSize="15"
+                                    FontAttributes="Bold"
+                                    TextColor="#ffffff"
+                                    IsVisible="True"/>
+
+                                <!-- Edit Mode -->
                                 <Picker
                                     x:Name="GenderPicker"
                                     HeightRequest="30"
                                     FontSize="16"
+                                    IsVisible="False"
                                     IsEnabled="False"/>
                             </VerticalStackLayout>
 
