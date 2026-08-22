@@ -15,6 +15,32 @@ public partial class PersonalPage
             if (profile == null)
                 return;
 
+            // Fill Labels (for view mode)
+            FirstNameLabel.Text =
+                profile.FirstName ?? "";
+
+            MiddleNameLabel.Text =
+                profile.MiddleName ?? "";
+
+            LastNameLabel.Text =
+                profile.LastName ?? "";
+
+            NationalityLabel.Text =
+                profile.Nationality ?? "";
+
+            CitizenshipLabel.Text =
+                profile.Citizenship ?? "";
+
+            PlaceOfBirthLabel.Text =
+                profile.PlaceOfBirth ?? "";
+
+            BirthDateLabel.Text =
+                profile.BirthDate.ToString("dd.MM.yyyy");
+
+            GenderLabel.Text =
+                profile.Gender ?? "";
+
+            // Fill Entries (for edit mode)
             FirstNameEntry.Text =
                 profile.FirstName;
 
@@ -24,14 +50,20 @@ public partial class PersonalPage
             LastNameEntry.Text =
                 profile.LastName;
 
+            NationalityEntry.Text =
+                profile.Nationality;
+
+            CitizenshipEntry.Text =
+                profile.Citizenship;
+
+            PlaceOfBirthEntry.Text =
+                profile.PlaceOfBirth;
+
             BirthDatePicker.Date =
                 profile.BirthDate;
 
             GenderPicker.SelectedItem =
                 profile.Gender;
-
-            CitizenshipEntry.Text =
-                profile.Citizenship;
 
             if (!string.IsNullOrEmpty(
                 profile.PhotoPath)
@@ -120,6 +152,12 @@ public partial class PersonalPage
 
             profile.LastName =
                 LastNameEntry.Text ?? "";
+
+            profile.Nationality =
+                NationalityEntry.Text ?? "";
+
+            profile.PlaceOfBirth =
+                PlaceOfBirthEntry.Text ?? "";
 
             profile.BirthDate =
                 BirthDatePicker.Date ?? DateTime.Today;
