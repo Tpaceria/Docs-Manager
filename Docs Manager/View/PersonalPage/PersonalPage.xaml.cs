@@ -56,7 +56,7 @@ public partial class PersonalPage : ContentView
     {
         if (_isEditMode)
         {
-            // Save mode - hide edit elements
+            // Save mode - exit edit
             ExitEditMode();
         }
         else
@@ -77,15 +77,38 @@ public partial class PersonalPage : ContentView
         PickPhotoButton.IsVisible = true;
         SaveButton.IsVisible = true;
 
-        // Enable all input fields
+        // Hide Labels and show Entries
+        FirstNameLabel.IsVisible = false;
+        FirstNameEntry.IsVisible = true;
         FirstNameEntry.IsEnabled = true;
+
+        MiddleNameLabel.IsVisible = false;
+        MiddleNameEntry.IsVisible = true;
         MiddleNameEntry.IsEnabled = true;
+
+        LastNameLabel.IsVisible = false;
+        LastNameEntry.IsVisible = true;
         LastNameEntry.IsEnabled = true;
+
+        NationalityLabel.IsVisible = false;
+        NationalityEntry.IsVisible = true;
         NationalityEntry.IsEnabled = true;
+
+        CitizenshipLabel.IsVisible = false;
+        CitizenshipEntry.IsVisible = true;
         CitizenshipEntry.IsEnabled = true;
-        BirthDatePicker.IsEnabled = true;
-        GenderPicker.IsEnabled = true;
+
+        PlaceOfBirthLabel.IsVisible = false;
+        PlaceOfBirthEntry.IsVisible = true;
         PlaceOfBirthEntry.IsEnabled = true;
+
+        BirthDateLabel.IsVisible = false;
+        BirthDatePicker.IsVisible = true;
+        BirthDatePicker.IsEnabled = true;
+
+        GenderLabel.IsVisible = false;
+        GenderPicker.IsVisible = true;
+        GenderPicker.IsEnabled = true;
 
         // Show all Edit buttons in right column
         EditContactsButton.IsVisible = true;
@@ -106,15 +129,38 @@ public partial class PersonalPage : ContentView
         PickPhotoButton.IsVisible = false;
         SaveButton.IsVisible = false;
 
-        // Disable all input fields
+        // Show Labels and hide Entries
+        FirstNameLabel.IsVisible = true;
+        FirstNameEntry.IsVisible = false;
         FirstNameEntry.IsEnabled = false;
+
+        MiddleNameLabel.IsVisible = true;
+        MiddleNameEntry.IsVisible = false;
         MiddleNameEntry.IsEnabled = false;
+
+        LastNameLabel.IsVisible = true;
+        LastNameEntry.IsVisible = false;
         LastNameEntry.IsEnabled = false;
+
+        NationalityLabel.IsVisible = true;
+        NationalityEntry.IsVisible = false;
         NationalityEntry.IsEnabled = false;
+
+        CitizenshipLabel.IsVisible = true;
+        CitizenshipEntry.IsVisible = false;
         CitizenshipEntry.IsEnabled = false;
-        BirthDatePicker.IsEnabled = false;
-        GenderPicker.IsEnabled = false;
+
+        PlaceOfBirthLabel.IsVisible = true;
+        PlaceOfBirthEntry.IsVisible = false;
         PlaceOfBirthEntry.IsEnabled = false;
+
+        BirthDateLabel.IsVisible = true;
+        BirthDatePicker.IsVisible = false;
+        BirthDatePicker.IsEnabled = false;
+
+        GenderLabel.IsVisible = true;
+        GenderPicker.IsVisible = false;
+        GenderPicker.IsEnabled = false;
 
         // Hide all Edit buttons in right column
         EditContactsButton.IsVisible = false;
