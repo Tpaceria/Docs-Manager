@@ -60,6 +60,18 @@ public partial class ExperiencePage : ContentView
         }
     }
 
+    private async void OnViewClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button &&
+            button.CommandParameter is Experience exp)
+        {
+            await Application.Current.MainPage.DisplayAlert(
+                "Experience",
+                exp.VesselName,
+                "OK");
+        }
+    }
+
     private async void OnDeleteClicked(object sender, EventArgs e)
     {
         if (sender is Button button &&
@@ -80,6 +92,7 @@ public partial class ExperiencePage : ContentView
             await LoadExperiences();
         }
     }
+
 
     public async void RefreshList()
     {

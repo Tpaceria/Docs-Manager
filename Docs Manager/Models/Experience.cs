@@ -48,7 +48,7 @@ public class Experience
     public string? IMO { get; set; }
 
     // Вычисляемые свойства для отображения
-    public string Duration
+public string Duration
     {
         get
         {
@@ -57,4 +57,9 @@ public class Experience
             return months > 0 ? $"{months} мес." : "< 1 мес.";
         }
     }
+
+    [Ignore]
+    public string Period =>
+        $"{SignOnDate:dd.MM.yyyy} - {SignOffDate:dd.MM.yyyy}";
+    
 }

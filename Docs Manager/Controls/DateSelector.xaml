@@ -8,20 +8,53 @@
     <HorizontalStackLayout
         Spacing="8">
 
-        <Picker
-            x:Name="DayPicker"
-            WidthRequest="70"
-            Title="DD" />
+        <Border
+            StrokeShape="RoundRectangle 6"
+            Stroke="#1a3a52"
+            StrokeThickness="1"
+            BackgroundColor="#1a3a52">
 
-        <Picker
-            x:Name="MonthPicker"
-            WidthRequest="70"
-            Title="MM" />
+            <Picker
+                x:Name="DayPicker"
+                WidthRequest="70"
+                Title="DD"
+                BackgroundColor="Transparent"
+                TextColor="#ffffff"
+                TitleColor="#7a8999" />
 
-        <Picker
-            x:Name="YearPicker"
-            WidthRequest="100"
-            Title="YYYY" />
+        </Border>
+
+        <Border
+            StrokeShape="RoundRectangle 6"
+            Stroke="#1a3a52"
+            StrokeThickness="1"
+            BackgroundColor="#1a3a52">
+
+            <Picker
+                x:Name="MonthPicker"
+                WidthRequest="70"
+                Title="MM"
+                BackgroundColor="Transparent"
+                TextColor="#ffffff"
+                TitleColor="#7a8999" />
+
+        </Border>
+
+        <Border
+            StrokeShape="RoundRectangle 6"
+            Stroke="#1a3a52"
+            StrokeThickness="1"
+            BackgroundColor="#1a3a52">
+
+            <Picker
+                x:Name="YearPicker"
+                WidthRequest="100"
+                Title="YYYY"
+                BackgroundColor="Transparent"
+                TextColor="#ffffff"
+                TitleColor="#7a8999" />
+
+        </Border>
 
     </HorizontalStackLayout>
 

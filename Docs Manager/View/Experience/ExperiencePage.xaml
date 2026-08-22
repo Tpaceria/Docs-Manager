@@ -177,109 +177,175 @@
             </CollectionView.ItemsLayout>
 
             <CollectionView.ItemTemplate>
+
                 <DataTemplate>
 
-                    <Border BackgroundColor="#102544"
-                            Stroke="#17365d"
-                            StrokeThickness="1"
-                            StrokeShape="RoundRectangle 18"
-                            Padding="18">
+                    <Border
+        BackgroundColor="#102544"
+        Stroke="#17365d"
+        StrokeThickness="1"
+        StrokeShape="RoundRectangle 18"
+        Padding="18">
 
-                        <Grid RowDefinitions="Auto,Auto"
-                              ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="8">
 
-                            <!-- LEFT -->
-                            <VerticalStackLayout Spacing="10">
+                            <!-- Vessel -->
 
-                                <!-- TITLE -->
-                                <Label Text="{Binding VesselName}"
-                                       FontSize="20"
-                                       FontAttributes="Bold"
-                                       TextColor="White"/>
+                            <Label
+                Text="{Binding VesselName}"
+                FontSize="20"
+                FontAttributes="Bold"
+                TextColor="White"/>
 
-                                <!-- DATES -->
-                                <HorizontalStackLayout Spacing="20">
+                            <!-- Line 2 -->
 
-                                    <Label Text="{Binding SignOnDate, StringFormat='Sign On: {0:dd MMM yyyy}'}"
-                                           FontSize="13"
-                                           TextColor="#8fb3d9"/>
+                            <Grid
+                ColumnDefinitions="1.4*,1*,1.8*,0.7*"
+                ColumnSpacing="18">
 
-                                    <Label Text="{Binding SignOffDate, StringFormat='Sign Off: {0:dd MMM yyyy}'}"
-                                           FontSize="13"
-                                           TextColor="#8fb3d9"/>
+                                <HorizontalStackLayout Grid.Column="0">
 
-                                </HorizontalStackLayout>
+                                    <Label
+        Text="IMO "
+        FontAttributes="Bold"
+        TextColor="#8fb3d9"/>
 
-                                <!-- SERVICE -->
-                                <HorizontalStackLayout Spacing="10">
-
-                                    <Label Text="Sea Service"
-                                           FontSize="14"
-                                           TextColor="White"/>
-
-                                    <Label Text="{Binding SeaServiceDisplay}"
-                                           FontSize="14"
-                                           FontAttributes="Bold"
-                                           TextColor="#28d17c"/>
+                                    <Label
+        Text="{Binding IMO}"
+        TextColor="White"/>
 
                                 </HorizontalStackLayout>
 
-                            </VerticalStackLayout>
+                                
+                                <HorizontalStackLayout Grid.Column="1">
 
-                            <!-- STATUS -->
-                            <Border Grid.Column="1"
-                                    BackgroundColor="#28d17c"
-                                    Padding="14,6"
-                                    HeightRequest="36"
-                                    StrokeThickness="0"
-                                    HorizontalOptions="End"
-                                    VerticalOptions="Start"
-                                    StrokeShape="RoundRectangle 20">
+                                    <Label
+                        Text="Flag "
+                        FontAttributes="Bold"
+                        TextColor="#8fb3d9"/>
 
-                                <Label Text="COMPLETED"
-                                       FontSize="12"
-                                       FontAttributes="Bold"
-                                       TextColor="White"/>
+                                    <Label
+                        Text="{Binding Flag}"
+                        TextColor="White"/>
 
-                            </Border>
+                                </HorizontalStackLayout>
 
-                            <!-- ACTIONS -->
-                            <FlexLayout Grid.Row="1"
-                                        Grid.ColumnSpan="2"
-                                        Direction="Row"
-                                        JustifyContent="End"
-                                        Margin="0,18,0,0">
+                                <HorizontalStackLayout Grid.Column="2">
 
-                                <!-- EDIT -->
-                                <Button Text="✏️"
-                                        WidthRequest="46"
-                                        HeightRequest="46"
-                                        FontSize="16"
-                                        BackgroundColor="#ffb020"
-                                        TextColor="Black"
-                                        CornerRadius="14"
-                                        Margin="0,0,10,0"
-                                        Clicked="OnEditClicked"
-                                        CommandParameter="{Binding .}"/>
+                                    <Label
+                        Text="Type "
+                        FontAttributes="Bold"
+                        TextColor="#8fb3d9"/>
 
-                                <!-- DELETE -->
-                                <Button Text="🗑"
-                                        WidthRequest="46"
-                                        HeightRequest="46"
-                                        FontSize="16"
-                                        BackgroundColor="#ff4d6d"
-                                        TextColor="White"
-                                        CornerRadius="14"
-                                        Clicked="OnDeleteClicked"
-                                        CommandParameter="{Binding .}"/>
+                                    <Label
+                        Text="{Binding VesselType}"
+                        TextColor="White"/>
 
-                            </FlexLayout>
+                                </HorizontalStackLayout>
 
-                        </Grid>
+                                <HorizontalStackLayout Grid.Column="3"
+                       HorizontalOptions="End">
+
+                                    <Label
+        Text="DWT "
+        FontAttributes="Bold"
+        TextColor="#8fb3d9"/>
+
+                                    <Label
+        Text="{Binding DWT}"
+        TextColor="White"/>
+
+                                </HorizontalStackLayout>
+
+
+                                <HorizontalStackLayout
+                    Grid.Column="3"
+                    HorizontalOptions="End">
+
+                                    <Label
+                        Text="DWT "
+                        FontAttributes="Bold"
+                        TextColor="#8fb3d9"/>
+
+                                    <Label
+                        Text="{Binding Dwt}"
+                        TextColor="White"/>
+
+                                </HorizontalStackLayout>
+
+                            </Grid>
+
+                            <!-- Line 3 -->
+
+                            <Grid
+    ColumnDefinitions="*,Auto,Auto"
+    ColumnSpacing="20">
+
+                                <HorizontalStackLayout>
+
+                                    <Label
+            Text="Rank "
+            FontAttributes="Bold"
+            TextColor="#8fb3d9"/>
+
+                                    <Label
+            Text="{Binding Position}"
+            TextColor="White"/>
+
+                                </HorizontalStackLayout>
+
+                                <Label
+        Grid.Column="1"
+        Text="{Binding Period}"
+        TextColor="White"
+        VerticalOptions="Center"/>
+
+                                <HorizontalStackLayout
+        Grid.Column="2"
+        Spacing="8">
+
+                                    <Button
+            Text="👁"
+            WidthRequest="40"
+            HeightRequest="40"
+            CornerRadius="12"
+            BackgroundColor="#00bfff"
+            TextColor="White"
+            FontSize="14"
+            Clicked="OnViewClicked"
+            CommandParameter="{Binding .}"/>
+
+                                    <Button
+            Text="✏"
+            WidthRequest="40"
+            HeightRequest="40"
+            CornerRadius="12"
+            BackgroundColor="#ffb020"
+            TextColor="Black"
+            FontSize="14"
+            Clicked="OnEditClicked"
+            CommandParameter="{Binding .}"/>
+
+                                    <Button
+            Text="🗑"
+            WidthRequest="40"
+            HeightRequest="40"
+            CornerRadius="12"
+            BackgroundColor="#ff4d6d"
+            TextColor="White"
+            FontSize="14"
+            Clicked="OnDeleteClicked"
+            CommandParameter="{Binding .}"/>
+
+                                </HorizontalStackLayout>
+
+                            </Grid>
+                        </VerticalStackLayout>
 
                     </Border>
 
                 </DataTemplate>
+                
             </CollectionView.ItemTemplate>
 
         </CollectionView>
