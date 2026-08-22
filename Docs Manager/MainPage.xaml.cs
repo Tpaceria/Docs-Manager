@@ -55,6 +55,30 @@ public partial class MainPage : ContentPage
         SetPage(new ExperiencePage(this));
     }
 
+    private void ShowCw()
+    {
+        // TODO: Create CwPage
+        DisplayAlert("CW", "CW Page - Coming soon", "OK");
+    }
+
+    private void ShowSend()
+    {
+        // TODO: Create SendPage with checklist for email/print/other actions
+        DisplayAlert("Отправить", "Send documents - Coming soon\n\nChecklist:\n- Email\n- Print\n- Other actions", "OK");
+    }
+
+    private void ShowFiles()
+    {
+        // TODO: Create FilesPage for managing attached files with folder distribution
+        DisplayAlert("Файлы", "File management - Coming soon\n\nFeatures:\n- Organize files\n- Create folders\n- Rename with standard format", "OK");
+    }
+
+    private void ShowNotes()
+    {
+        // TODO: Create NotesPage for notes/comments
+        DisplayAlert("Заметки", "Notes - Coming soon", "OK");
+    }
+
     private void OnPersonalClicked(object sender, EventArgs e)
     {
         ShowPersonal();
@@ -88,5 +112,25 @@ public partial class MainPage : ContentPage
     private void OnExperienceClicked(object sender, EventArgs e)
     {
         ShowExperience();
+    }
+
+    private void OnCwClicked(object sender, EventArgs e)
+    {
+        ShowCw();
+    }
+
+    private void OnSendClicked(object sender, EventArgs e)
+    {
+        ShowSend();
+    }
+
+    private void OnFilesClicked(object sender, EventArgs e)
+    {
+        ShowFiles();
+    }
+
+    private void OnNotesClicked(object sender, EventArgs e)
+    {
+        ShowNotes();
     }
 }
