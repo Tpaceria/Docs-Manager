@@ -62,6 +62,24 @@
                             Text="⚓ Experience"
                             Clicked="OnExperienceClicked"/>
 
+                    <!-- NEW MENU ITEMS -->
+                    
+                    <Button x:Name="CwBtn"
+                            Text="🛢️ CW"
+                            Clicked="OnCwClicked"/>
+
+                    <Button x:Name="SendBtn"
+                            Text="📨 Отправить"
+                            Clicked="OnSendClicked"/>
+
+                    <Button x:Name="FilesBtn"
+                            Text="📁 Файлы"
+                            Clicked="OnFilesClicked"/>
+
+                    <Button x:Name="NotesBtn"
+                            Text="📝 Заметки"
+                            Clicked="OnNotesClicked"/>
+
                 </VerticalStackLayout>
 
             </ScrollView>
