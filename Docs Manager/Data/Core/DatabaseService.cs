@@ -1,4 +1,4 @@
-﻿using SQLite;
+using SQLite;
 using Docs_Manager.Models;
 
 namespace Docs_Manager.Data;
@@ -27,5 +27,6 @@ public partial class DatabaseService
         _database.CreateTableAsync<VisaModel>().Wait();
         _database.CreateTableAsync<SkillsModel>().Wait();
         _database.CreateTableAsync<BiometricModel>().Wait();
+        _database.CreateTableAsync<FileRecord>().Wait();
     }
 }
