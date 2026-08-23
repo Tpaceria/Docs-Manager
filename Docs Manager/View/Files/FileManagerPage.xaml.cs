@@ -49,7 +49,7 @@ public partial class FileManagerPage : ContentView
             Files.Clear();
 
             var files = await _database!.GetAllFilesAsync();
-            
+
             foreach (var file in files)
             {
                 _allFiles.Add(file);
