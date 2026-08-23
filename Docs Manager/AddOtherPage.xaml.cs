@@ -114,7 +114,7 @@ public partial class AddOtherPage : ContentView
         }
         catch (Exception ex)
         {
-            await Application.Current.MainPage.DisplayAlert(
+            await Application.Current!.MainPage!.DisplayAlert(
                 "Error",
                 ex.Message,
                 "OK");
@@ -129,7 +129,7 @@ public partial class AddOtherPage : ContentView
         {
             if (string.IsNullOrWhiteSpace(DocumentEntry.Text))
             {
-                await Application.Current.MainPage.DisplayAlert(
+                await Application.Current!.MainPage!.DisplayAlert(
                     "Error",
                     "Enter document name",
                     "OK");
@@ -163,6 +163,22 @@ public partial class AddOtherPage : ContentView
                 };
 
                 _parentPage.AddCertificate(cert);
+
+                // Регистрация файла в FileManager
+                if (!string.IsNullOrWhiteSpace(_selectedFilePath))
+                {
+                    try
+                    {
+                        await _database.RegisterAttachedFileAsync(
+                            _selectedFilePath,
+                            "OTHER",
+                            cert.Document);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Warning: Could not register file in FileManager: {ex.Message}");
+                    }
+                }
             }
             else
             {
@@ -178,18 +194,32 @@ public partial class AddOtherPage : ContentView
                 _certificate.IssueDate =
                     IssueDateControl.SelectedDate;
 
-                _certificate.ExpiryDate =
-                    LifetimeSwitch.IsToggled
-                        ? DateTime.MaxValue
-                        : Convert.ToDateTime(ExpiryDateControl.SelectedDate);
+                _certificate.ExpiryDate = LifetimeSwitch.IsToggled
+                    ? DateTime.MaxValue
+                    : Convert.ToDateTime(ExpiryDateControl.SelectedDate);
 
                 _certificate.IsLifetime =
                     LifetimeSwitch.IsToggled;
 
-                _certificate.FilePath =
-                    _selectedFilePath;
+                _certificate.FilePath = _selectedFilePath;
 
                 _parentPage.AddCertificate(_certificate);
+
+                // Регистрация файла в FileManager
+                if (!string.IsNullOrWhiteSpace(_selectedFilePath))
+                {
+                    try
+                    {
+                        await _database.RegisterAttachedFileAsync(
+                            _selectedFilePath,
+                            "OTHER",
+                            _certificate.Document);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Warning: Could not register file in FileManager: {ex.Message}");
+                    }
+                }
             }
 
             _mainPage.SetPage(
@@ -197,7 +227,7 @@ public partial class AddOtherPage : ContentView
         }
         catch (Exception ex)
         {
-            await Application.Current.MainPage.DisplayAlert(
+            await Application.Current!.MainPage!.DisplayAlert(
                 "Error",
                 ex.Message,
                 "OK");

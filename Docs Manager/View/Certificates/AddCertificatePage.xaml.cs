@@ -1,3 +1,4 @@
+using Docs_Manager.Data;
 using Docs_Manager.Models;
 
 namespace Docs_Manager.View;
@@ -12,6 +13,8 @@ public partial class AddCertificatePage : ContentView
 
     private Certificate _certificate;
 
+    private readonly DatabaseService _database;
+
     public AddCertificatePage(
         CertificatePage parentPage,
         MainPage mainPage)
@@ -20,6 +23,9 @@ public partial class AddCertificatePage : ContentView
 
         _parentPage = parentPage;
         _mainPage = mainPage;
+
+        _database = ServiceHelper.GetService<DatabaseService>()
+            ?? throw new InvalidOperationException("DatabaseService not found");
 
         if (_certificate == null)
         {
@@ -103,14 +109,14 @@ public partial class AddCertificatePage : ContentView
             !e.Value;
     }
 
-    private void OnSaveClicked(
+    private async void OnSaveClicked(
         object sender,
         EventArgs e)
     {
         if (string.IsNullOrWhiteSpace(
             DocumentEntry.Text))
         {
-            Application.Current.MainPage.DisplayAlert(
+            Application.Current!.MainPage!.DisplayAlert(
                 "Error",
                 "Document name is required",
                 "OK");
@@ -144,10 +150,28 @@ public partial class AddCertificatePage : ContentView
                         LifetimeSwitch.IsToggled,
 
                     FilePath =
-                        _selectedFilePath
+                        _selectedFilePath,
+
+                    Category = "CERTIFICATES"
                 };
 
             _parentPage.AddCertificate(cert);
+
+            // Регистрация файла в FileManager
+            if (!string.IsNullOrWhiteSpace(_selectedFilePath))
+            {
+                try
+                {
+                    await _database.RegisterAttachedFileAsync(
+                        _selectedFilePath,
+                        "CERTIFICATES",
+                        cert.Document);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Warning: Could not register file in FileManager: {ex.Message}");
+                }
+            }
         }
         else
         {
@@ -176,6 +200,22 @@ public partial class AddCertificatePage : ContentView
 
             _parentPage.AddCertificate(
                 _certificate);
+
+            // Регистрация файла в FileManager если он прикреплён
+            if (!string.IsNullOrWhiteSpace(_selectedFilePath))
+            {
+                try
+                {
+                    await _database.RegisterAttachedFileAsync(
+                        _selectedFilePath,
+                        "CERTIFICATES",
+                        _certificate.Document);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Warning: Could not register file in FileManager: {ex.Message}");
+                }
+            }
         }
 
         _mainPage.SetPage(
