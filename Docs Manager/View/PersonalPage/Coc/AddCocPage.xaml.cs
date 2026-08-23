@@ -97,7 +97,7 @@ public partial class AddCocPage : ContentView
     {
         try
         {
-            var result = await FilePicker.PickAsync(new PickOptions
+            var result = await FilePicker.Default.PickAsync(new PickOptions
             {
                 PickerTitle = "Select File"
             });
@@ -125,7 +125,7 @@ public partial class AddCocPage : ContentView
         }
         catch (Exception ex)
         {
-            await Application.Current.MainPage.DisplayAlert(
+            await Application.Current!.MainPage!.DisplayAlert(
                 "Error",
                 ex.Message,
                 "OK");
@@ -138,7 +138,7 @@ public partial class AddCocPage : ContentView
         {
             if (string.IsNullOrWhiteSpace(DocumentEntry.Text))
             {
-                await Application.Current.MainPage.DisplayAlert(
+                await Application.Current!.MainPage!.DisplayAlert(
                     "Error",
                     "Enter document name",
                     "OK");
@@ -158,8 +158,8 @@ public partial class AddCocPage : ContentView
 
                 IssueDate = IssueDateControl.SelectedDate,
                 ExpiryDate = LifetimeSwitch.IsToggled
-    ? DateTime.MaxValue
-    : Convert.ToDateTime(ExpiryDateControl.SelectedDate),
+                    ? DateTime.MaxValue
+                    : Convert.ToDateTime(ExpiryDateControl.SelectedDate),
                 IsLifetime =
                     LifetimeSwitch.IsToggled,
 
@@ -169,6 +169,22 @@ public partial class AddCocPage : ContentView
             };
 
             await _database.SaveCertificateAsync(certificate);
+
+            // Регистрация файла в FileManager если он прикреплён
+            if (!string.IsNullOrWhiteSpace(_selectedFilePath))
+            {
+                try
+                {
+                    await _database.RegisterAttachedFileAsync(
+                        _selectedFilePath,
+                        "COC",
+                        certificate.Document);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Warning: Could not register file in FileManager: {ex.Message}");
+                }
+            }
 
             if (_certificate == null)
             {
@@ -183,7 +199,7 @@ public partial class AddCocPage : ContentView
         }
         catch (Exception ex)
         {
-            await Application.Current.MainPage.DisplayAlert(
+            await Application.Current!.MainPage!.DisplayAlert(
                 "Error",
                 ex.Message,
                 "OK");
