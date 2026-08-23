@@ -121,7 +121,7 @@ public partial class AddDocumentPage : ContentView
         }
         catch (Exception ex)
         {
-            await Application.Current.MainPage.DisplayAlert(
+            await Application.Current!.MainPage!.DisplayAlert(
                 "Error",
                 ex.Message,
                 "OK");
@@ -134,7 +134,7 @@ public partial class AddDocumentPage : ContentView
         {
             if (DocumentTypePicker.SelectedIndex == -1)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                await Application.Current!.MainPage!.DisplayAlert(
                     "Error",
                     "Please select document type.",
                     "OK");
@@ -144,7 +144,7 @@ public partial class AddDocumentPage : ContentView
 
             if (string.IsNullOrWhiteSpace(DocumentEntry.Text))
             {
-                await Application.Current.MainPage.DisplayAlert(
+                await Application.Current!.MainPage!.DisplayAlert(
                     "Error",
                     "Please enter document title.",
                     "OK");
@@ -177,13 +177,29 @@ public partial class AddDocumentPage : ContentView
 
             await _database.SaveDocumentAsync(document);
 
+            // Регистрация файла в FileManager
+            if (!string.IsNullOrWhiteSpace(_selectedFilePath))
+            {
+                try
+                {
+                    await _database.RegisterAttachedFileAsync(
+                        _selectedFilePath,
+                        "Документы",
+                        document.Title);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Warning: Could not register file in FileManager: {ex.Message}");
+                }
+            }
+
             _parentPage.RefreshList();
 
             _mainPage.SetPage(new DocumentsPage(_mainPage));
         }
         catch (Exception ex)
         {
-            await Application.Current.MainPage.DisplayAlert(
+            await Application.Current!.MainPage!.DisplayAlert(
                 "Error",
                 ex.Message,
                 "OK");

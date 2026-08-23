@@ -114,7 +114,7 @@ public partial class AddMedicinePage : ContentView
         }
         catch (Exception ex)
         {
-            await Application.Current.MainPage.DisplayAlert(
+            await Application.Current!.MainPage!.DisplayAlert(
                 "Error",
                 ex.Message,
                 "OK");
@@ -129,7 +129,7 @@ public partial class AddMedicinePage : ContentView
         {
             if (string.IsNullOrWhiteSpace(DocumentEntry.Text))
             {
-                await Application.Current.MainPage.DisplayAlert(
+                await Application.Current!.MainPage!.DisplayAlert(
                     "Error",
                     "Enter document name",
                     "OK");
@@ -163,6 +163,22 @@ public partial class AddMedicinePage : ContentView
                 };
 
                 _parentPage.AddCertificate(cert);
+
+                // Регистрация файла в FileManager
+                if (!string.IsNullOrWhiteSpace(_selectedFilePath))
+                {
+                    try
+                    {
+                        await _database.RegisterAttachedFileAsync(
+                            _selectedFilePath,
+                            "MEDICINE",
+                            cert.Document);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Warning: Could not register file in FileManager: {ex.Message}");
+                    }
+                }
             }
             else
             {
@@ -190,6 +206,22 @@ public partial class AddMedicinePage : ContentView
                     _selectedFilePath;
 
                 _parentPage.AddCertificate(_certificate);
+
+                // Регистрация файла в FileManager
+                if (!string.IsNullOrWhiteSpace(_selectedFilePath))
+                {
+                    try
+                    {
+                        await _database.RegisterAttachedFileAsync(
+                            _selectedFilePath,
+                            "MEDICINE",
+                            _certificate.Document);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Warning: Could not register file in FileManager: {ex.Message}");
+                    }
+                }
             }
 
             _mainPage.SetPage(
@@ -197,7 +229,7 @@ public partial class AddMedicinePage : ContentView
         }
         catch (Exception ex)
         {
-            await Application.Current.MainPage.DisplayAlert(
+            await Application.Current!.MainPage!.DisplayAlert(
                 "Error",
                 ex.Message,
                 "OK");
