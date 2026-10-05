@@ -1,54 +1,59 @@
+using Docs_Manager.Models;
+using Docs_Manager.Services;
+
 namespace Docs_Manager.View;
 
 public partial class SendDocumentsPage : ContentView
 {
-    private MainPage? _mainPage;
+    private readonly MainPage _mainPage;
+    private readonly HashSet<StoredFile> _selected = new();
 
     public SendDocumentsPage(MainPage mainPage)
     {
         InitializeComponent();
         _mainPage = mainPage;
+        _ = LoadFilesAsync();
     }
 
-    private void OnSendClicked(object sender, EventArgs e)
+    private async Task LoadFilesAsync()
     {
-        bool emailSelected = EmailCheckBox.IsChecked;
-        bool printSelected = PrintCheckBox.IsChecked;
-        bool cloudSelected = CloudCheckBox.IsChecked;
-        bool usbSelected = UsbCheckBox.IsChecked;
-
-        if (!emailSelected && !printSelected && !cloudSelected && !usbSelected)
+        try
         {
-            Application.Current.MainPage.DisplayAlert("Error", "Please select at least one delivery method", "OK");
+            var storage = ServiceHelper.GetService<FileStorageService>();
+            var files = (await storage.GetAllFilesAsync())
+                .Where(f => File.Exists(f.FilePath))
+                .ToList();
+
+            FilesView.ItemsSource = files;
+            EmptyLabel.IsVisible = files.Count == 0;
+            FilesView.IsVisible = files.Count > 0;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Load files error: {ex.Message}");
+            EmptyLabel.IsVisible = true;
+        }
+    }
+
+    private void OnFileCheckedChanged(object? sender, CheckedChangedEventArgs e)
+    {
+        if (sender is not CheckBox { BindingContext: StoredFile file })
+            return;
+
+        if (e.Value)
+            _selected.Add(file);
+        else
+            _selected.Remove(file);
+    }
+
+    private async void OnNextClicked(object sender, EventArgs e)
+    {
+        if (_selected.Count == 0)
+        {
+            await Application.Current!.MainPage!.DisplayAlert("Error", "Please select at least one file", "OK");
             return;
         }
 
-        if (emailSelected && string.IsNullOrEmpty(EmailEntry.Text))
-        {
-            Application.Current.MainPage.DisplayAlert("Error", "Please enter email address", "OK");
-            return;
-        }
-
-        var methods = new List<string>();
-        if (emailSelected) methods.Add($"Email: {EmailEntry.Text}");
-        if (printSelected) methods.Add("Print");
-        if (cloudSelected) methods.Add("Cloud Backup");
-        if (usbSelected) methods.Add("USB Export");
-
-        Application.Current.MainPage.DisplayAlert(
-            "Success",
-            $"Documents will be sent via:\n{string.Join("\n", methods)}",
-            "OK");
-    }
-
-    private void OnCancelClicked(object sender, EventArgs e)
-    {
-        EmailCheckBox.IsChecked = false;
-        PrintCheckBox.IsChecked = false;
-        CloudCheckBox.IsChecked = false;
-        UsbCheckBox.IsChecked = false;
-        EmailEntry.Text = string.Empty;
-        SubjectEntry.Text = string.Empty;
-        EmailSection.IsVisible = false;
+        _mainPage.SetPage(new SendMethodPage(_mainPage, _selected.ToList()));
     }
 }

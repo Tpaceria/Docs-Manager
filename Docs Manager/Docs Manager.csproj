@@ -109,9 +109,6 @@
 		<Compile Update="View\Page\CvPage.xaml.cs">
 			<DependentUpon>CvPage.xaml</DependentUpon>
 		</Compile>
-		<Compile Update="View\Page\SendPage.xaml.cs">
-			<DependentUpon>SendPage.xaml</DependentUpon>
-		</Compile>
 		<Compile Update="View\Page\OtherPage.xaml.cs">
 			<DependentUpon>OtherPage.xaml</DependentUpon>
 		</Compile>
@@ -191,9 +188,6 @@
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="View\Page\OtherPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="View\Page\SendPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 	</ItemGroup>

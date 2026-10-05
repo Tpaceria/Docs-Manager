@@ -23,6 +23,8 @@ public static class MauiProgram
 
         // ✅ СЕРВИСЫ - ОБЯЗАТЕЛЬНО ДОБАВИТЬ
         builder.Services.AddSingleton<DatabaseService>();
+        builder.Services.AddSingleton<Services.FileStorageService>();
+        builder.Services.AddSingleton<Services.FileShareService>();
 
         // ✅ СТРАНИЦЫ
         builder.Services.AddTransient<MainPage>();
